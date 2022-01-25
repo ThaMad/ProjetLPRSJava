@@ -107,7 +107,7 @@ public class ProjetLPRSJava {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnconnexion.setBackground(new Color(153, 153, 204));
+		btnconnexion.setBackground(new Color(153, 153, 255));
 		btnconnexion.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
 		btnconnexion.setForeground(Color.WHITE);
 		btnconnexion.setBounds(0, 189, 535, 90);
@@ -120,11 +120,18 @@ public class ProjetLPRSJava {
 		});
 		btninscription.setForeground(Color.WHITE);
 		btninscription.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
-		btninscription.setBackground(new Color(153, 153, 204));
+		btninscription.setBackground(new Color(184, 184, 255));
 		btninscription.setBounds(0, 276, 535, 95);
 		frame.getContentPane().add(btninscription);
 		
-		frame.setBounds(100, 100, 549, 639);
+		JButton btnmdpoubli = new JButton("MOT DE PASSE OUBLIE");
+		btnmdpoubli.setForeground(Color.WHITE);
+		btnmdpoubli.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
+		btnmdpoubli.setBackground(new Color(204, 204, 255));
+		btnmdpoubli.setBounds(0, 365, 535, 95);
+		frame.getContentPane().add(btnmdpoubli);
+		
+		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
