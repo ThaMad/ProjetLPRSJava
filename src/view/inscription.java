@@ -40,4 +40,15 @@ public class inscription {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			inscription window = new inscription();
+			window.frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }

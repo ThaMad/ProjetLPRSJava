@@ -10,12 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.UIManager;
+
+
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class acceuil {
+public class accueil {
 
 	private JFrame frame;
 
@@ -26,7 +28,7 @@ public class acceuil {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					acceuil window = new acceuil();
+					accueil window = new accueil();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +40,7 @@ public class acceuil {
 	/**
 	 * Create the application.
 	 */
-	public acceuil() {
+	public accueil() {
 		initialize();
 	}
 
@@ -105,6 +107,9 @@ public class acceuil {
 		JButton btnconnexion = new JButton("CONNEXION");
 		btnconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				connexion connexion = new connexion();
+				connexion.run();
 			}
 		});
 		btnconnexion.setBackground(new Color(153, 153, 255));
@@ -116,6 +121,9 @@ public class acceuil {
 		JButton btninscription = new JButton("INSCRIPTION");
 		btninscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				inscription inscription = new inscription();
+				inscription.run();
 			}
 		});
 		btninscription.setForeground(Color.WHITE);

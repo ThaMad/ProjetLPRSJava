@@ -40,4 +40,14 @@ public class connexion {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			connexion window = new connexion();
+			window.frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
