@@ -11,9 +11,12 @@ public class user {
 			this.prenom=prenom;
 			this.mdp=mdp;
 			this.mail=mail;
-			this.profil=profil;		
-			
-			
+			this.profil=profil;			
+		}
+		
+		public user(String mail,String mdp) {
+			this.mdp=mdp;
+			this.mail=mail;
 		}
 		
 		// je fais les geteurs et les seteur pour recuperer ou modifier les valeurs de mes attributs
