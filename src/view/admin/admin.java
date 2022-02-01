@@ -1,14 +1,13 @@
-package view;
+package view.admin;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JButton;
 
-public class Admin {
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class admin {
 
 	private JFrame frame;
 
@@ -19,7 +18,7 @@ public class Admin {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Admin window = new Admin();
+					admin window = new admin();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +30,7 @@ public class Admin {
 	/**
 	 * Create the application.
 	 */
-	public Admin() {
+	public admin() {
 		initialize();
 	}
 
@@ -57,4 +56,5 @@ public class Admin {
 		infUser.setBounds(213, 125, 124, 29);
 		frame.getContentPane().add(infUser);
 	}
+
 }
