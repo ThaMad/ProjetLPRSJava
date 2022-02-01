@@ -142,4 +142,14 @@ public class accueil {
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			accueil window = new accueil();
+			window.frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -138,7 +138,14 @@ public class inscription {
 		btnNewButton.setBounds(249, 216, 85, 21);
 		frame.getContentPane().add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Retour");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				accueil accueil = new accueil();
+				accueil.run();
+			}
+		});
 		btnNewButton_1.setBounds(344, 216, 85, 21);
 		frame.getContentPane().add(btnNewButton_1);
 		
