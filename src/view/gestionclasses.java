@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -80,6 +83,17 @@ public class gestionclasses {
 			bienvenue.setFont(new Font("Heiti SC", Font.BOLD, 27));
 			bienvenue.setBounds(129, 18, 284, 43);
 			panel_1.add(bienvenue);
+			
+			String[] classes;
+			try {
+				java.sql.Statement stm = ((Connection) this.cnx).createStatement();
+				ResultSet select = stm.executeQuery("SELECT * FROM classe ");
+				while(select.next()) {
+					
+				}
+			}catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			
 			JButton classename = new JButton("nomclasse");
 			classename.setFont(new Font("Heiti SC", Font.PLAIN, 13));
