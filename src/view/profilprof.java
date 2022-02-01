@@ -88,24 +88,35 @@ public class profilprof {
 	panel_1.add(name);
 	
 	JButton btnplanning = new JButton("PLANNING");
+	btnplanning.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		}
+	});
 	btnplanning.setForeground(new Color(255, 255, 255));
 	btnplanning.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 	btnplanning.setBackground(new Color(255, 99, 71));
-	btnplanning.setBounds(-13, 260, 573, 95);
+	btnplanning.setBounds(-13, 240, 573, 95);
 	frame.getContentPane().add(btnplanning);
 	
 	JButton btngestionclasse = new JButton("GESTION DES CLASSES");
+	btngestionclasse.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			frame.dispose();
+			gestionclasses gestionclasses = new gestionclasses();
+			gestionclasses.run();
+		}
+	});
 	btngestionclasse.setForeground(Color.WHITE);
 	btngestionclasse.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 	btngestionclasse.setBackground(new Color(250, 128, 114));
-	btngestionclasse.setBounds(-13, 345, 573, 95);
+	btngestionclasse.setBounds(-13, 329, 573, 95);
 	frame.getContentPane().add(btngestionclasse);
 	
-	JButton btnplanning_1 = new JButton("PLANNING");
+	JButton btnplanning_1 = new JButton("DEMANDE DE FOURNITURES");
 	btnplanning_1.setForeground(Color.WHITE);
 	btnplanning_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 	btnplanning_1.setBackground(new Color(255, 153, 153));
-	btnplanning_1.setBounds(-13, 433, 573, 111);
+	btnplanning_1.setBounds(-13, 417, 573, 111);
 	frame.getContentPane().add(btnplanning_1);
 	
 	frame.setBounds(100, 100, 549, 550);
