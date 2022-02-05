@@ -5,15 +5,22 @@ public class User {
 		public String nom,prenom,mail,profil, mdp;
 		private static User usr;
 		
-		public static User getInstance(String nom, String prenom, String mail,String mdp,String profil) {
-	        if (usr == null) {
-	            usr = new User(nom,prenom,mail,mdp,profil);
+		public static User getInstanceVide() {
+			if (usr == null) {
+	            usr = new User();
+	        }
+			return usr;
+	    }
+		
+		public static User getInstance( String nom, String prenom,String mail, String mdp, String profil) {
+			if (usr == null) {
+	            usr = new User( nom,prenom, mail, mdp, profil);
 	        }
 	        return usr;
 	    }
 		
-		public static User getInstance2(String mail,String mdp) {
-	        if (usr == null) {
+		public static User getInstance1( String mail, String mdp) {
+			if (usr == null) {
 	            usr = new User(mail, mdp);
 	        }
 	        return usr;
@@ -33,6 +40,15 @@ public class User {
 			this.mail=mail;
 		}
 		
+		public User(String nom, String prenom, String mail) {
+			this.nom=nom;
+			this.prenom=prenom;
+			this.mail=mail;
+		}
+		
+		private User() {
+			// TODO Auto-generated constructor stub
+		}
 		// je fais les geteurs et les seteur pour recuperer ou modifier les valeurs de mes attributs
 		public String getNom() {
 			return this.nom;

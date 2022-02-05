@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import manager.manager_thomas;
+import model.User;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,7 +23,6 @@ import javax.swing.UIManager;
 
 public class profiladministratif {
 
-	private static String mail;
 	private JFrame frame;
 	private Connection connexion;
 
@@ -33,7 +33,7 @@ public class profiladministratif {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					profiladministratif window = new profiladministratif(mail);
+					profiladministratif window = new profiladministratif();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,19 +45,18 @@ public class profiladministratif {
 	/**
 	 * Create the application.
 	 */
-	public profiladministratif(String mail) {
-		this.mail = mail;
-		initialize(mail);
+	public profiladministratif() {
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String mail) {
+	private void initialize() {
 	
 	manager_thomas a = new manager_thomas();
 	connexion =  (Connection) a.bdd();
-
+	User u = User.getInstanceVide();
 	frame = new JFrame();
 	frame.getContentPane().setBackground(Color.WHITE);
 	frame.getContentPane().setLayout(null);
@@ -97,7 +96,7 @@ public class profiladministratif {
 		java.sql.Statement stm= connexion.createStatement();
 	
 		// requete pour recuperer les donnees des films
-		ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+mail+"')");
+		ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+u.mail+"')");
 		
 		if(resultat.next()) {
 			JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
@@ -116,6 +115,9 @@ public class profiladministratif {
 	JButton btnplanning = new JButton("GESTION DE MON PROFIL");
 	btnplanning.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			gestionprofil gestionprofil = new gestionprofil();
+			gestionprofil.run();
+			frame.dispose();
 		}
 	});
 	btnplanning.setForeground(new Color(255, 255, 255));
@@ -145,15 +147,18 @@ public class profiladministratif {
 	btnplanning_1.setBounds(-13, 417, 573, 111);
 	frame.getContentPane().add(btnplanning_1);
 	
-	ImageIcon monImage1 = new ImageIcon("C:\\Users\\MADAWALA_Th\\eclipse-workspace\\ProjetLPRSJava\\src\\demo\\logolprsjava.png"); 
-	Image image1 = monImage1.getImage(); // transform it 
-	Image newimg1 = image1.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-	JButton btnNewButton = new JButton(""+newimg1);
+	ImageIcon icon = new ImageIcon("C:\\wamp64\\www\\ProjetLPRSJava\\src\\img\\deconnexion.png");
+	Image MyIcon = icon.getImage(); // transform it 
+	Image newicon = MyIcon.getScaledInstance(96, 64,  java.awt.Image.SCALE_SMOOTH);
+	icon = new ImageIcon(newicon);
+	JButton btnNewButton = new JButton(icon);
 	btnNewButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
+			accueil accueil = new accueil();
+			accueil.run();
 		}
 	});
-	btnNewButton.setBounds(10, 188, 56, 42);
+	btnNewButton.setBounds(10, 176, 96, 64);
 	frame.getContentPane().add(btnNewButton);
 	
 	frame.setBounds(100, 100, 549, 550);
@@ -163,7 +168,7 @@ public class profiladministratif {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			profiladministratif window = new profiladministratif(mail);
+			profiladministratif window = new profiladministratif();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();

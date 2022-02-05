@@ -13,6 +13,8 @@ import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
 import model.User;
 import view.accueil;
+import view.gestionprofil;
+import view.inscription;
 import view.profiladministratif;
 import view.profilprof;
 
@@ -73,6 +75,14 @@ public class manager_thomas {
 					e.printStackTrace();
 				}
 			int insert =stm.executeUpdate("INSERT INTO user VALUES('"+id+"','"+a.getNom()+"','"+a.getPrenom()+"','"+a.getMail()+"','"+sb.toString()+"','"+a.getProfil()+"','"+0+"')");
+			if(insert == 1) {
+				accueil accueil = new accueil();
+				accueil.run();
+			}
+			else {
+				inscription inscription = new inscription();
+				inscription.run();
+			}
   		  }
   		catch(SQLException e1) {
   			e1.printStackTrace();
@@ -109,8 +119,7 @@ public class manager_thomas {
 				profilprof profilprof = new profilprof();
 			}
 			if(resultat.getString("profil").equals("Administratif")) {
-				String mail = resultat.getString("mail");
-				profiladministratif profiladministratif = new profiladministratif(mail);
+				profiladministratif profiladministratif = new profiladministratif();
 				profiladministratif.run();
 			}
 		}
@@ -124,5 +133,31 @@ public class manager_thomas {
    			System.out.println("vous etes connecte");
    		}
 	}
+	
+	public void modifProfil(User a, String mail) {
+   		this.dbh=  bdd();
+		 try {
+      			java.sql.Statement stm= this.dbh.createStatement();
+				   // je recupere id_film de la classe film en fonction du nom film choisi 
+      			 ResultSet result= stm.executeQuery("SELECT idUser FROM user WHERE mail='"+mail+"'");
+				   int id1 = 0;
+				   if(result.next()) {
+					    id1 = result.getInt("idUser");
+				   }
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+  			
+  		int update =stm.executeUpdate("UPDATE user SET idUser='"+id1+"', nom='"+a.getNom()+"', prenom='"+a.getPrenom()+"', mail='"+a.getMail()+"' WHERE idUser=('"+id1+"')");
+  		if(update == 1) {
+  			gestionprofil gestionprofil = new gestionprofil();
+  			gestionprofil.run();
+  		} else {
+  			profiladministratif profiladministratif = new profiladministratif();
+  			profiladministratif.run();
+  		}
+      		}
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  		}
+	}	
 
 }

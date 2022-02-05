@@ -137,9 +137,10 @@ public class connexion {
           		String mdpUser = mdp.getText();
           		
           		//user a = new user(mailUser,mdpUser);
-          		User u = User.getInstance2(mailUser,mdpUser);
+          		User u = User.getInstance1(mailUser,mdpUser);
         		manager_thomas b = new manager_thomas();
         		b.connexion(u);
+        		frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(69, 329, 164, 45);
