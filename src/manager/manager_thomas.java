@@ -11,8 +11,10 @@ import java.sql.Statement;
 
 import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
-import model.user;
+import model.User;
 import view.accueil;
+import view.profiladministratif;
+import view.profilprof;
 
 public class manager_thomas {
 	
@@ -42,7 +44,7 @@ public class manager_thomas {
 	 	 	 return this.dbh;
 }
 	
-	public void inscription(user a) {
+	public void inscription(User a) {
    		this.dbh=  bdd();
    		StringBuffer sb = null;
 		try {
@@ -78,7 +80,7 @@ public class manager_thomas {
   	}
 	}
 	
-	public void connexion(user a) {
+	public void connexion(User a) {
    		this.dbh=  bdd();
    		String co = null;
    		StringBuffer sb = null;
@@ -100,16 +102,23 @@ public class manager_thomas {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ResultSet resultat= stm.executeQuery("SELECT mail FROM user WHERE mail =('"+a.getMail()+"') AND mdp =('"+sb.toString()+"')");
+		ResultSet resultat= stm.executeQuery("SELECT mail,profil FROM user WHERE mail =('"+a.getMail()+"') AND mdp =('"+sb.toString()+"')");
 		if (resultat.next()) {
 			co = "reussi";
-			accueil accueil = new accueil();
-			accueil.run();
+			if(resultat.getString("profil").equals("Professeur") ){
+				profilprof profilprof = new profilprof();
+			}
+			if(resultat.getString("profil").equals("Administratif")) {
+				String mail = resultat.getString("mail");
+				profiladministratif profiladministratif = new profiladministratif(mail);
+				profiladministratif.run();
+			}
 		}
-  		
 	}
    		catch(SQLException e1) {
   			e1.printStackTrace();
+  			accueil accueil = new accueil();
+			accueil.run();
   		}
    		if(co=="reussi") {
    			System.out.println("vous etes connecte");

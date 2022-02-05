@@ -1,12 +1,26 @@
 package model;
 
-
-public class user {
+public class User {
 // TODO Auto-generated constructor stub
-		protected String nom,prenom,mail,profil, mdp;
+		public String nom,prenom,mail,profil, mdp;
+		private static User usr;
+		
+		public static User getInstance(String nom, String prenom, String mail,String mdp,String profil) {
+	        if (usr == null) {
+	            usr = new User(nom,prenom,mail,mdp,profil);
+	        }
+	        return usr;
+	    }
+		
+		public static User getInstance2(String mail,String mdp) {
+	        if (usr == null) {
+	            usr = new User(mail, mdp);
+	        }
+	        return usr;
+	    }
 		
 		// je cree les constructeurs 
-		public user(String nom, String prenom, String mail,String mdp,String profil) {
+		private User(String nom, String prenom, String mail,String mdp,String profil) {
 			this.nom=nom;
 			this.prenom=prenom;
 			this.mdp=mdp;
@@ -14,7 +28,7 @@ public class user {
 			this.profil=profil;			
 		}
 		
-		public user(String mail,String mdp) {
+		private User(String mail,String mdp) {
 			this.mdp=mdp;
 			this.mail=mail;
 		}
