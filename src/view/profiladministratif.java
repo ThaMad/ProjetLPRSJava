@@ -6,6 +6,11 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import manager.manager_thomas;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +24,7 @@ public class profiladministratif {
 
 	private static String mail;
 	private JFrame frame;
+	private Connection connexion;
 
 	/**
 	 * Launch the application.
@@ -49,6 +55,9 @@ public class profiladministratif {
 	 */
 	private void initialize(String mail) {
 	
+	manager_thomas a = new manager_thomas();
+	connexion =  (Connection) a.bdd();
+
 	frame = new JFrame();
 	frame.getContentPane().setBackground(Color.WHITE);
 	frame.getContentPane().setLayout(null);
@@ -84,12 +93,25 @@ public class profiladministratif {
 	bienvenue.setBounds(129, 0, 284, 43);
 	panel_1.add(bienvenue);
 	
-	JLabel name = new JLabel(""+mail);
-	name.setHorizontalAlignment(SwingConstants.CENTER);
-	name.setForeground(new Color(255, 99, 71));
-	name.setFont(new Font("Heiti TC", Font.BOLD, 23));
-	name.setBounds(6, 46, 536, 43);
-	panel_1.add(name);
+	try {
+		java.sql.Statement stm= connexion.createStatement();
+	
+		// requete pour recuperer les donnees des films
+		ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+mail+"')");
+		
+		if(resultat.next()) {
+			JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
+			name.setHorizontalAlignment(SwingConstants.CENTER);
+			name.setForeground(new Color(255, 99, 71));
+			name.setFont(new Font("Heiti TC", Font.BOLD, 23));
+			name.setBounds(6, 46, 536, 43);
+			panel_1.add(name);
+		}
+		
+	} catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
 	
 	JButton btnplanning = new JButton("GESTION DE MON PROFIL");
 	btnplanning.addActionListener(new ActionListener() {
@@ -123,6 +145,17 @@ public class profiladministratif {
 	btnplanning_1.setBounds(-13, 417, 573, 111);
 	frame.getContentPane().add(btnplanning_1);
 	
+	ImageIcon monImage1 = new ImageIcon("C:\\Users\\MADAWALA_Th\\eclipse-workspace\\ProjetLPRSJava\\src\\demo\\logolprsjava.png"); 
+	Image image1 = monImage1.getImage(); // transform it 
+	Image newimg1 = image1.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+	JButton btnNewButton = new JButton(""+newimg1);
+	btnNewButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	});
+	btnNewButton.setBounds(10, 188, 56, 42);
+	frame.getContentPane().add(btnNewButton);
+	
 	frame.setBounds(100, 100, 549, 550);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -136,5 +169,4 @@ public class profiladministratif {
 			e.printStackTrace();
 		}
 	}
-
 }
