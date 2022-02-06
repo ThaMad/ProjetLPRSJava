@@ -141,6 +141,12 @@ public class profiladministratif {
 	frame.getContentPane().add(btngestionclasse);
 	
 	JButton btnplanning_1 = new JButton("GESTIONS DES STOCKS");
+	btnplanning_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			gestionstock gestionstock = new gestionstock();
+			gestionstock.run();
+		}
+	});
 	btnplanning_1.setForeground(Color.WHITE);
 	btnplanning_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 	btnplanning_1.setBackground(new Color(255, 153, 153));
