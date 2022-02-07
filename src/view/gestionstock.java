@@ -69,11 +69,60 @@ public class gestionstock {
 		manager_thomas a = new manager_thomas();
 		connexion =  (Connection) a.bdd();
 		User u = User.getInstanceVide();
-		frame = new JFrame();		
-		frame.setBounds(100, 100, 549, 550);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
+		ImageIcon monImage = new ImageIcon("C:\\Users\\MADAWALA_Th\\eclipse-workspace\\ProjetLPRSJava\\src\\demo\\logolprsjava.png"); 
+		Image image = monImage.getImage(); // transform it 
+		Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		ImageIcon monImagetrans = new ImageIcon(newimg);  // transform it back
+		JPanel navbar = new JPanel();
+		navbar.setBackground(new Color(51, 153, 204));
+		navbar.setBounds(0, -15, 549, 74);
+		frame.getContentPane().add(navbar);
+		navbar.setLayout(null);
 		
+		JLabel navbarlogo = new JLabel(" Robert Schuman ");
+		navbarlogo.setForeground(UIManager.getColor("inactiveCaptionBorder"));
+		navbarlogo.setFont(new Font("Heiti TC", Font.BOLD, 16));
+		navbarlogo.setBounds(23, 11, 234, 63);
+		navbar.add(navbarlogo);
+		navbarlogo.setIcon(monImagetrans);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setForeground(Color.WHITE);
+		panel_1.setBorder(null);
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(0, 71, 560, 95);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel bienvenue = new JLabel("Bienvenue");
+		bienvenue.setForeground(new Color(255, 127, 80));
+		bienvenue.setHorizontalAlignment(SwingConstants.CENTER);
+		bienvenue.setFont(new Font("Heiti SC", Font.BOLD, 27));
+		bienvenue.setBounds(129, 0, 284, 43);
+		panel_1.add(bienvenue);
+		
+		try {
+			java.sql.Statement stm= connexion.createStatement();
+		
+			// requete pour recuperer les donnees des films
+			ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+u.mail+"')");
+			
+			if(resultat.next()) {
+				JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
+				name.setHorizontalAlignment(SwingConstants.CENTER);
+				name.setForeground(new Color(255, 99, 71));
+				name.setFont(new Font("Heiti TC", Font.BOLD, 23));
+				name.setBounds(6, 46, 536, 43);
+				panel_1.add(name);
+			}
+			
+		} catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
 		try {
 			java.sql.Statement stm= connexion.createStatement();
             Vector data = new Vector();
@@ -113,6 +162,8 @@ public class gestionstock {
 	  			e1.printStackTrace();
 	  			System.out.println("erreur dans l'ajout");	
 	  	}
+		frame.setBounds(100, 100, 549, 550);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void run() {
