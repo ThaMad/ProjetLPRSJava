@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -11,9 +12,13 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -25,7 +30,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.JScrollBar;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -34,7 +38,6 @@ public class gestionstock {
 	private Connection connexion;
 	private JFrame frame;
 	private JTable table;
-	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -71,13 +74,12 @@ public class gestionstock {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		
 		try {
 			java.sql.Statement stm= connexion.createStatement();
             Vector data = new Vector();
             Vector columnsNames = new Vector();
 			// requete pour recuperer les donnees des films
-			ResultSet resultat= stm.executeQuery("SELECT idStock,libelle,nbrStock FROM stock");
+			ResultSet resultat= stm.executeQuery("SELECT * FROM stock");
 		    // Récupérer le titre des colonnes
             ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
            
@@ -93,23 +95,20 @@ public class gestionstock {
                              row.addElement( resultat.getString("libelle"));
                              row.addElement( resultat.getString("nbrStock"));
                      }
-					data.addElement( row );
-                 }
+                     data.addElement( row );
+					 }
                  // Tout fermer
-				 columnsNames.addElement("ID");
+                 columnsNames.addElement("ID");
                  columnsNames.addElement("libelle");
                  columnsNames.addElement("Nombre en stock");
-                 resultat.close();
-                 
 
                 JScrollPane scrollPane = new JScrollPane();
  				scrollPane.setBounds(42, 173, 453, 163);
  				frame.getContentPane().add(scrollPane);
  				table = new JTable(data,columnsNames);
  				scrollPane.setViewportView(table);
+ 					  
 
- 				frame.getContentPane().add(btnNewButton);
- 				table.getColumnModel().getColumn(0).setPreferredWidth(30);
 			} catch(SQLException e1) {
 	  			e1.printStackTrace();
 	  			System.out.println("erreur dans l'ajout");	
