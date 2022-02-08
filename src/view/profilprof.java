@@ -123,4 +123,14 @@ public class profilprof {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			profilprof window = new profilprof();
+			window.frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

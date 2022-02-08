@@ -117,6 +117,7 @@ public class manager_thomas {
 			co = "reussi";
 			if(resultat.getString("profil").equals("Professeur") ){
 				profilprof profilprof = new profilprof();
+				profilprof.run();
 			}
 			if(resultat.getString("profil").equals("Administratif")) {
 				profiladministratif profiladministratif = new profiladministratif();

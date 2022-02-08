@@ -156,6 +156,22 @@ public class gestionstock {
  				frame.getContentPane().add(scrollPane);
  				table = new JTable(data,columnsNames);
  				scrollPane.setViewportView(table);
+ 				
+ 				JButton btnNewButton = new JButton("Action sur stock");
+ 				btnNewButton.addActionListener(new ActionListener() {
+ 					public void actionPerformed(ActionEvent arg0) {
+ 					}
+ 				});
+ 				btnNewButton.setBounds(70, 396, 179, 47);
+ 				frame.getContentPane().add(btnNewButton);
+ 				
+ 				JButton btnNewButton_1 = new JButton("Retour");
+ 				btnNewButton_1.addActionListener(new ActionListener() {
+ 					public void actionPerformed(ActionEvent arg0) {
+ 					}
+ 				});
+ 				btnNewButton_1.setBounds(286, 396, 185, 47);
+ 				frame.getContentPane().add(btnNewButton_1);
  					  
 
 			} catch(SQLException e1) {
