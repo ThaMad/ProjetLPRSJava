@@ -3,6 +3,7 @@ package model;
 public class User {
 // TODO Auto-generated constructor stub
 		public String nom,prenom,mail,profil, mdp;
+		public int idUser;
 		private static User usr;
 		
 		public static User getInstanceVide() {
@@ -12,9 +13,9 @@ public class User {
 			return usr;
 	    }
 		
-		public static User getInstance( String nom, String prenom,String mail, String mdp, String profil) {
+		public static User getInstance( int idUser, String nom, String prenom,String mail, String mdp, String profil) {
 			if (usr == null) {
-	            usr = new User( nom,prenom, mail, mdp, profil);
+	            usr = new User(idUser,nom,prenom, mail, mdp, profil);
 	        }
 	        return usr;
 	    }
@@ -27,7 +28,8 @@ public class User {
 	    }
 		
 		// je cree les constructeurs 
-		private User(String nom, String prenom, String mail,String mdp,String profil) {
+		private User(int idUser, String nom, String prenom, String mail,String mdp,String profil) {
+			this.idUser = idUser;
 			this.nom=nom;
 			this.prenom=prenom;
 			this.mdp=mdp;
@@ -46,10 +48,20 @@ public class User {
 			this.mail=mail;
 		}
 		
+		public User(int idUser, String mail) {
+			this.idUser=idUser;
+			this.mail=mail;
+		}
+		
 		private User() {
 			// TODO Auto-generated constructor stub
 		}
 		// je fais les geteurs et les seteur pour recuperer ou modifier les valeurs de mes attributs
+		
+		public int getIdUser() {
+			return this.idUser;
+		}
+		
 		public String getNom() {
 			return this.nom;
 		}
