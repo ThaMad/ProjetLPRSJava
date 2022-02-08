@@ -11,9 +11,12 @@ import java.sql.Statement;
 
 import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
+import model.Stock;
 import model.User;
 import view.accueil;
+import view.actionStock;
 import view.gestionprofil;
+import view.gestionstock;
 import view.inscription;
 import view.profiladministratif;
 import view.profilprof;
@@ -161,4 +164,52 @@ public class manager_thomas {
   		}
 	}	
 
+	
+	public void addStock(Stock s) {
+   		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			
+  			ResultSet resultat= stm.executeQuery("SELECT idStock FROM stock");
+  			     int id = 0;
+				   while(resultat.next()) {
+  				       id=resultat.getInt("idStock");
+  					   id++;
+  			   }
+			int insert =stm.executeUpdate("INSERT INTO stock VALUES('"+id+"','"+s.getLibelle()+"','"+s.getNbrStock()+"')");
+			if(insert == 1) {
+				gestionstock gestionstock = new gestionstock();
+				gestionstock.run();
+			}
+			else {
+				actionStock actionStock = new actionStock();
+				actionStock.run();
+			}
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
+	public void modifStock(Stock s, int idStock) {
+   		this.dbh=  bdd();
+		 try {
+      			java.sql.Statement stm= this.dbh.createStatement();
+      			
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+  			
+  		int update =stm.executeUpdate("UPDATE stock SET libelle='"+s.getLibelle()+"', nbrStock='"+s.getNbrStock()+"' WHERE idStock=('"+idStock+"')");
+  		if(update == 1) {
+  			gestionstock gestionstock = new gestionstock();
+			gestionstock.run();
+  		} else {
+  			actionStock actionStock = new actionStock();
+			actionStock.run();
+  		}
+      		}
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  		}
+	}
 }

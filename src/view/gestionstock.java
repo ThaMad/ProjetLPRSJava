@@ -160,6 +160,9 @@ public class gestionstock {
  				JButton btnNewButton = new JButton("Action sur stock");
  				btnNewButton.addActionListener(new ActionListener() {
  					public void actionPerformed(ActionEvent arg0) {
+ 						actionStock actionStock = new actionStock();
+ 						actionStock.run();
+ 						frame.dispose();
  					}
  				});
  				btnNewButton.setBounds(70, 396, 179, 47);
@@ -168,6 +171,8 @@ public class gestionstock {
  				JButton btnNewButton_1 = new JButton("Retour");
  				btnNewButton_1.addActionListener(new ActionListener() {
  					public void actionPerformed(ActionEvent arg0) {
+ 						profiladministratif profiladministratif = new profiladministratif();
+						profiladministratif.run();	
  					}
  				});
  				btnNewButton_1.setBounds(286, 396, 185, 47);

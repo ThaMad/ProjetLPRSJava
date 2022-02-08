@@ -159,6 +159,12 @@ public class gestionprofil {
 				frame.getContentPane().add(btnNewButton);
 				
 				JButton btnNewButton_1 = new JButton("RETOUR");
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						profiladministratif profiladministratif = new profiladministratif();
+						profiladministratif.run();					
+				}
+			});
 				btnNewButton_1.setBounds(276, 403, 171, 43);
 				frame.getContentPane().add(btnNewButton_1);
 				
