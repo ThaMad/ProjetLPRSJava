@@ -145,6 +145,7 @@ public class profiladministratif {
 		public void actionPerformed(ActionEvent arg0) {
 			gestionstock gestionstock = new gestionstock();
 			gestionstock.run();
+			frame.dispose();
 		}
 	});
 	btnplanning_1.setForeground(Color.WHITE);
@@ -162,6 +163,7 @@ public class profiladministratif {
 		public void actionPerformed(ActionEvent arg0) {
 			accueil accueil = new accueil();
 			accueil.run();
+			frame.dispose();
 		}
 	});
 	btnNewButton.setBounds(10, 176, 96, 64);

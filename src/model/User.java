@@ -13,9 +13,9 @@ public class User {
 			return usr;
 	    }
 		
-		public static User getInstance( int idUser, String nom, String prenom,String mail, String mdp, String profil) {
+		public static User getInstance(String nom, String prenom,String mail, String mdp, String profil) {
 			if (usr == null) {
-	            usr = new User(idUser,nom,prenom, mail, mdp, profil);
+	            usr = new User(nom,prenom, mail, mdp, profil);
 	        }
 	        return usr;
 	    }
@@ -28,8 +28,7 @@ public class User {
 	    }
 		
 		// je cree les constructeurs 
-		private User(int idUser, String nom, String prenom, String mail,String mdp,String profil) {
-			this.idUser = idUser;
+		private User( String nom, String prenom, String mail,String mdp,String profil) {
 			this.nom=nom;
 			this.prenom=prenom;
 			this.mdp=mdp;

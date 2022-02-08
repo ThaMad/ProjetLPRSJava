@@ -10,15 +10,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import manager.manager_thomas;
+import model.DemandeStockFournisseur;
+import model.User;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class bonDemande {
-
+	private Connection connexion;
 	private JFrame frame;
 	private static String stockChoisi, fourniChoisi;
 	private  static int nbrDemande;
+	private int Idstock = 0;
+	private int Idfourni = 0;
+	private int Iduser = 0;
 
 	/**
 	 * Launch the application.
@@ -50,6 +61,9 @@ public class bonDemande {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(int nbrDemande,String stockChoisi, String fourniChoisi) {
+		manager_thomas a = new manager_thomas();
+		connexion =  a.bdd();
+		User u = User.getInstanceVide();
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -85,11 +99,31 @@ public class bonDemande {
 		JLabel lblNewLabel_2_1 = new JLabel(""+nbrDemande);
 		lblNewLabel_2_1.setBounds(150, 182, 95, 13);
 		frame.getContentPane().add(lblNewLabel_2_1);
-		
+		try {
+			java.sql.Statement stm= connexion.createStatement();
+  			ResultSet resultat= stm.executeQuery("SELECT idUser FROM user where mail = ('"+u.mail+"')");
+  			if(resultat.next()) {
+  				 Iduser = Integer.parseInt(resultat.getString("idUser"));
+			}
+  			ResultSet resultat2= stm.executeQuery("SELECT idFourni FROM fournisseur where nom = ('"+fourniChoisi+"')");
+  			if(resultat2.next()) {
+  				 Idfourni = Integer.parseInt(resultat2.getString("idFourni"));
+			}
+  			ResultSet resultat3= stm.executeQuery("SELECT idStock FROM stock where libelle = ('"+stockChoisi+"')");
+  			if(resultat3.next()) {
+  				 Idstock = Integer.parseInt(resultat3.getString("idStock"));
+			}
+		}
+		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
 		JButton btnNewButton = new JButton("Envoyer");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				DemandeStockFournisseur d = new DemandeStockFournisseur(Idfourni,Iduser,nbrDemande,Idstock);
+				a.sendDemande(d);
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(364, 215, 129, 20);
@@ -98,6 +132,9 @@ public class bonDemande {
 		JButton btnNewButton_1 = new JButton("Annuler");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				actionStock actionStock = new actionStock();
+				actionStock.run();
+				frame.dispose();
 			}
 		});
 		btnNewButton_1.setBounds(516, 215, 129, 20);
