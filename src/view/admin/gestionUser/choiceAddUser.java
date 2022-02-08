@@ -1,18 +1,18 @@
-package view.admin.general;
+package view.admin.gestionUser;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class info {
+public class choiceAddUser {
 
 	private JFrame frame;
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -21,7 +21,7 @@ public class info {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					info window = new info();
+					choiceAddUser window = new choiceAddUser();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,7 +33,7 @@ public class info {
 	/**
 	 * Create the application.
 	 */
-	public info() {
+	public choiceAddUser() {
 		initialize();
 	}
 
@@ -42,34 +42,39 @@ public class info {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 550, 550);
+		frame.setBounds(100, 100, 550, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(70, 91, 410, 323);
-		frame.getContentPane().add(scrollPane);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(183, 171, 183, 27);
+		frame.getContentPane().add(comboBox);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		
-		JLabel lblNewLabel = new JLabel("Informations générales");
+		JLabel lblNewLabel = new JLabel("Choisir l'utilisateur que vous voulez modifier");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
-		lblNewLabel.setBounds(141, 31, 268, 30);
+		lblNewLabel.setBounds(13, 28, 523, 30);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("retour");
-		btnNewButton.setBounds(398, 455, 82, 29);
+		//if(comboBox != "NULL"){}
+		JButton btnNewButton = new JButton("Choisir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addUser addUser = new addUser();
+				addUser.run();
+			}
+		});
+		btnNewButton.setBounds(216, 293, 117, 29);
 		frame.getContentPane().add(btnNewButton);
 	}
 
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			info window = new info();
+			choiceAddUser window = new choiceAddUser();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+

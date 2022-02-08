@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import view.admin.gestionUser.action;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class admin {
 
 	private JFrame frame;
@@ -49,10 +53,21 @@ public class admin {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JButton modUser = new JButton("Gestion des utilisateurs");
+		modUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				action action = new action();
+				action.run();
+			}
+		});
 		modUser.setBounds(178, 84, 193, 29);
 		frame.getContentPane().add(modUser);
 		
 		JButton infUser = new JButton("Vue générale");
+		infUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		infUser.setBounds(213, 125, 124, 29);
 		frame.getContentPane().add(infUser);
 	}
