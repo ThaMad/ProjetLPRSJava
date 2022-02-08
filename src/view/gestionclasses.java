@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,11 +19,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+
+import manager.manager_thomas;
+import model.User;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class gestionclasses {
+	private Connection connexion;
 
 	private JFrame frame;
-
+	private JTable table;
+	DefaultTableModel model;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +60,9 @@ public class gestionclasses {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		manager_thomas a = new manager_thomas();
+		connexion =  (Connection) a.bdd();
+		User me = User.getInstanceVide();
 		frame = new JFrame();
 			frame.getContentPane().setBackground(Color.WHITE);
 			frame.getContentPane().setLayout(null);
@@ -84,23 +98,75 @@ public class gestionclasses {
 			bienvenue.setBounds(129, 18, 284, 43);
 			panel_1.add(bienvenue);
 			
-			String[] classes;
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(35, 408, 479, -205);
+			frame.getContentPane().add(scrollPane);
+			
 			try {
-				java.sql.Statement stm = ((Connection) this.cnx).createStatement();
-				ResultSet select = stm.executeQuery("SELECT * FROM classe ");
-				while(select.next()) {
+				java.sql.Statement stm= connexion.createStatement();
+				ResultSet meid = stm.executeQuery("SELECT idUser FROM user WHERE mail = ('"+me.mail+"')");
+				meid.next();
+				int id = meid.getInt("idUser");
+				
+	            Vector data = new Vector();
+	            Vector columnsNames = new Vector();
+				// requete pour recuperer les classes dans lequelles on enseigne
+				ResultSet resultat= stm.executeQuery("SELECT libelle FROM classe INNER JOIN profclasse ON classe.idClasse = profclasse.Classe WHERE Prof=('"+meid.getInt("idUser")+"')");
+			    // R�cup�rer le titre des colonnes
+	            ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
+	           
+	            // R�cup�rer le nombre de colonne
+	            int columns = md.getColumnCount();
+					 while (resultat.next())
+	                 {
+	                     Object nb = resultat.getRow();
+	                     Vector row = new Vector(columns);
+	                     for (int i = 1; i <= columns; i++)
+	                     {
+	                             row.addElement( resultat.getString("libelle"));
+	                     }
+	                     data.addElement( row );
+						 }
+	                 // Tout fermer
+	                 columnsNames.addElement("libelle");
+
+	                JScrollPane scrollPane1 = new JScrollPane();
+	 				scrollPane1.setBounds(42, 173, 453, 163);
+	 				frame.getContentPane().add(scrollPane1);
+	 				table = new JTable(data,columnsNames);
+	 				scrollPane1.setViewportView(table);
+	 				
+	 				
+	 					  
+
+				} catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+			
+			
+			int x = 0;
+			
+			
+			/* try {
+				java.sql.Statement stm = connexion.createStatement();
+				ResultSet meid = stm.executeQuery("SELECT idUser FROM user WHERE mail = ('"+me.mail+"')");
+				meid.next();
+				int id = meid.getInt("idUser");
+				ResultSet resultclassename = stm.executeQuery("SELECT libelle FROM classe INNER JOIN profclasse ON classe.idClasse = profclasse.Classe WHERE Prof=('"+meid.getInt("idUser")+"')");
+				while(resultclassename.next()) {
+					x = x+120;
+					JButton classename = new JButton(""+resultclassename.getString("libelle"));
+					classename.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+					classename.setForeground(new Color(255, 99, 71));
+					classename.setBounds(x, 230, 117, 29);
+					frame.getContentPane().add(classename);
 					
 				}
 			}catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			
-			JButton classename = new JButton("nomclasse");
-			classename.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-			classename.setForeground(new Color(255, 99, 71));
-			classename.setBounds(6, 230, 117, 29);
-			frame.getContentPane().add(classename);
-			
+			*/
 			
 			
 
@@ -117,5 +183,4 @@ public class gestionclasses {
 		}
 		
 	}
-
 }

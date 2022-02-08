@@ -129,10 +129,10 @@ public class gestionstock {
             Vector columnsNames = new Vector();
 			// requete pour recuperer les donnees des films
 			ResultSet resultat= stm.executeQuery("SELECT * FROM stock");
-		    // Récupérer le titre des colonnes
+		    // Rï¿½cupï¿½rer le titre des colonnes
             ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
            
-            // Récupérer le nombre de colonne
+            // Rï¿½cupï¿½rer le nombre de colonne
             int columns = md.getColumnCount();
 				 while (resultat.next())
                  {
