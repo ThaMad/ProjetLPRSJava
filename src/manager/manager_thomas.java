@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
+import model.DemandeStockFournisseur;
 import model.Stock;
 import model.User;
 import view.accueil;
@@ -201,6 +202,27 @@ public class manager_thomas {
   			
   		int update =stm.executeUpdate("UPDATE stock SET libelle='"+s.getLibelle()+"', nbrStock='"+s.getNbrStock()+"' WHERE idStock=('"+idStock+"')");
   		if(update == 1) {
+  			gestionstock gestionstock = new gestionstock();
+			gestionstock.run();
+  		} else {
+  			actionStock actionStock = new actionStock();
+			actionStock.run();
+  		}
+      		}
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  		}
+	}
+	
+	public void modifStock(DemandeStockFournisseur d) {
+   		this.dbh=  bdd();
+		 try {
+      			java.sql.Statement stm= this.dbh.createStatement();
+      			
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+  			
+    			int insert =stm.executeUpdate("INSERT INTO demande_fournisseur VALUES('"+d.getIdFourni()+"','"+d.getIdUser()+"','"+d.getNbrStock()+"','"+0+"','"+d.getIdStock()+"')");
+  		if(insert == 1) {
   			gestionstock gestionstock = new gestionstock();
 			gestionstock.run();
   		} else {

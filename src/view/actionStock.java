@@ -31,6 +31,8 @@ public class actionStock {
 	private JTextField newNbrStock;
 	private JTextField addLibelle;
 	private JTextField addNbrStock;
+	private JTextField demandeStock;
+
 
 	/**
 	 * Launch the application.
@@ -217,7 +219,7 @@ public class actionStock {
 										}
 										String newLibel = newLibelle.getText();
 						          		int newNbr = Integer.parseInt(newNbrStock.getText());
-						          		
+						          								          		
 						          		Stock stock = new Stock(newLibel,newNbr);
 						          		a.modifStock(stock, idstock);
 						          		frame.dispose();
@@ -260,6 +262,92 @@ public class actionStock {
 		JButton btnNewButton_2_1 = new JButton("Demande fournisseur");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JComboBox<String> fournisseur = new JComboBox();
+				fournisseur.setBounds(11, 250, 178 , 33);
+				frame.getContentPane().add(fournisseur);
+				try {
+					java.sql.Statement stm= connexion.createStatement();
+		  			
+		  			ResultSet resultat= stm.executeQuery("SELECT nom FROM fournisseur");
+		  			while(resultat.next()) {
+		  				fournisseur.addItem(resultat.getString("nom"));
+					}
+				}
+				catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+				JButton choixFourni = new JButton("Choisir");
+				choixFourni.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String fourniChoisi = (String) fournisseur.getSelectedItem();
+						JComboBox<String> stockFourni = new JComboBox();
+						stockFourni.setBounds(11, 285, 178 , 33);
+						frame.getContentPane().add(stockFourni);
+						frame.repaint();
+						try {
+							java.sql.Statement stm= connexion.createStatement();
+				  			
+				  			ResultSet resultatFourni= stm.executeQuery("SELECT libelle FROM stock INNER JOIN stock_fournisseur ON stock_fournisseur.idStock = stock.idStock INNER JOIN fournisseur ON stock_fournisseur.idFourni = fournisseur.idFourni WHERE nom = ('"+fourniChoisi+"')");
+				  			while(resultatFourni.next()) {
+				  				stockFourni.addItem(resultatFourni.getString("libelle"));
+							}
+						}
+						catch(SQLException e1) {
+				  			e1.printStackTrace();
+				  			System.out.println("erreur dans l'ajout");	
+				  	}
+				  			JButton choixStock = new JButton("Choisir");
+				  			choixStock.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent arg0) {
+								String stockChoisi = (String) stockFourni.getSelectedItem();
+				  				JLabel demandeVoulu = new JLabel("Nombre voulu :");
+				  				demandeVoulu.setBounds(11, 330, 111, 20);
+				  				frame.getContentPane().add(demandeVoulu);
+								frame.repaint();
+				  				
+				  				demandeStock = new JTextField();
+				  				demandeStock.setBounds(159, 330, 206, 19);
+				  				frame.getContentPane().add(demandeStock);
+				  				demandeStock.setColumns(10);
+								frame.repaint();
+				  				
+				  				JButton saveDemande = new JButton("Enregistrer");
+				  				saveDemande.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {	
+										
+						          		int nbrDemande = Integer.parseInt(demandeStock.getText());
+						          		bonDemande bonDemande = new bonDemande(nbrDemande, stockChoisi, fourniChoisi);
+						          		bonDemande.run();
+						          		frame.dispose();
+									}
+								});
+				  				saveDemande.setBounds(66, 429, 132, 33);
+				  				frame.getContentPane().add(saveDemande);
+								frame.repaint();
+				  				
+				  				JButton retour = new JButton("Retour");
+				  				retour.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {
+										actionStock actionStock = new actionStock();
+										actionStock.run();
+										frame.dispose();
+									}
+								});
+				  				retour.setBounds(233, 429, 132, 33);
+				  				frame.getContentPane().add(retour);
+								frame.repaint();
+						
+						}
+					});
+					choixStock.setBounds(200, 285, 178 , 33);
+					frame.getContentPane().add(choixStock);
+					frame.repaint();	
+					}
+				});
+				choixFourni.setBounds(200, 250, 178 , 33);
+				frame.getContentPane().add(choixFourni);
+				frame.repaint();
 			}
 		});
 		btnNewButton_2_1.setBounds(398, 197, 178, 33);
