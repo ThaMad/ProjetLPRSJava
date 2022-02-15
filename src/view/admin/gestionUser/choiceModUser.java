@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class choiceAddUser {
+public class choiceModUser {
 
 	private JFrame frame;
 
@@ -21,7 +21,7 @@ public class choiceAddUser {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					choiceAddUser window = new choiceAddUser();
+					choiceModUser window = new choiceModUser();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,7 +33,7 @@ public class choiceAddUser {
 	/**
 	 * Create the application.
 	 */
-	public choiceAddUser() {
+	public choiceModUser() {
 		initialize();
 	}
 
@@ -55,7 +55,6 @@ public class choiceAddUser {
 		lblNewLabel.setBounds(13, 28, 523, 30);
 		frame.getContentPane().add(lblNewLabel);
 		
-		//if(comboBox != "NULL"){}
 		JButton btnNewButton = new JButton("Choisir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -70,7 +69,7 @@ public class choiceAddUser {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			choiceAddUser window = new choiceAddUser();
+			choiceModUser window = new choiceModUser();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();

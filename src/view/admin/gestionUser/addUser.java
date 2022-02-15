@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import manager.manager_ryan;
 import manager.manager_thomas;
 import model.User;
+import view.admin.general.info;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -145,8 +146,18 @@ public class addUser {
           		}
 			}
 		});
-		btnNewButton.setBounds(352, 422, 90, 29);
+		btnNewButton.setBounds(386, 422, 90, 29);
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Retour");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				info info = new info();
+				info.run();
+			}
+		});
+		btnNewButton_1.setBounds(70, 422, 85, 29);
+		frame.getContentPane().add(btnNewButton_1);
 		
 	}
 

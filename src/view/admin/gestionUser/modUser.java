@@ -8,8 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import view.admin.general.info;
+
 import java.awt.Font;
 import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class modUser {
 	
@@ -83,7 +87,7 @@ public class modUser {
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		JButton btnNewButton = new JButton("Ajouter");
-		btnNewButton.setBounds(352, 422, 90, 29);
+		btnNewButton.setBounds(375, 422, 90, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		JRadioButton prof = new JRadioButton("Professeur");
@@ -109,6 +113,16 @@ public class modUser {
 		JLabel lblNewLabel_4 = new JLabel("Activation compte");
 		lblNewLabel_4.setBounds(70, 352, 115, 16);
 		frame.getContentPane().add(lblNewLabel_4);
+		
+		JButton Return = new JButton("Retour");
+		Return.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				info info = new info();
+				info.run();
+			}
+		});
+		Return.setBounds(70, 422, 85, 29);
+		frame.getContentPane().add(Return);
 	
 	}
 

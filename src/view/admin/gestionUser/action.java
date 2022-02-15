@@ -53,8 +53,8 @@ public class action {
 		JButton ajout_user = new JButton("Ajouter un utilisateur");
 		ajout_user.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				choiceAddUser choiceAddUser = new choiceAddUser();
-				choiceAddUser.run();
+				choiceModUser choiceModUser = new choiceModUser();
+				choiceModUser.run();
 			}
 		});
 		ajout_user.setBounds(186, 168, 178, 29);
