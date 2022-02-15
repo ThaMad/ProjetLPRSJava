@@ -2,9 +2,13 @@ package model;
 
 public class Eleve {
 	
-	public String nom, prenom;
-	public int classe;
+	public String nom, prenom, classe;
 	
+	public Eleve(String nom,String prenom, String classe) {
+		this.nom=nom;
+		this.prenom=prenom;
+		this.classe = classe;
+		}
 	
 	public String getNom() {
 		return nom;
@@ -18,10 +22,10 @@ public class Eleve {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-	public int getClasse() {
+	public String getClasse() {
 		return classe;
 	}
-	public void setClasse(int classe) {
+	public void setClasse(String classe) {
 		this.classe = classe;
 	}
 

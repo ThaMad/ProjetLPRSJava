@@ -12,12 +12,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import manager.manager_thomas;
+import model.Eleve;
 import model.User;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -25,6 +29,8 @@ public class gestionEleveAdmin {
 
 	private JFrame frame;
 	private Connection connexion;
+	protected JTextField addNom;
+	protected JTextField addPrenom;
 
 
 	/**
@@ -115,6 +121,65 @@ public class gestionEleveAdmin {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JLabel lblNewLabel = new JLabel("Nom Eleve:");
+				lblNewLabel.setBounds(10, 303, 99, 20);
+				frame.getContentPane().add(lblNewLabel);
+				frame.repaint();
+				
+				addNom = new JTextField();
+				addNom.setBounds(97, 304, 180, 20);
+				frame.getContentPane().add(addNom);
+				addNom.setColumns(10);
+				frame.repaint();
+				
+				JLabel lblNewLabel_1 = new JLabel("Prenom Eleve:");
+				lblNewLabel_1.setBounds(10, 343, 99, 20);
+				frame.getContentPane().add(lblNewLabel_1);
+				frame.repaint();
+				
+				addPrenom = new JTextField();
+				addPrenom.setBounds(100, 343, 180, 20);
+				frame.getContentPane().add(addPrenom);
+				addPrenom.setColumns(10);
+				frame.repaint();
+				
+				JLabel lblNewLabel_2 = new JLabel("Classe affecter:");
+				lblNewLabel_2.setBounds(10, 383, 99, 20);
+				frame.getContentPane().add(lblNewLabel_2);
+				frame.repaint();
+				
+				JComboBox addClasse = new JComboBox();
+				addClasse.setBounds(100, 383, 180, 20);
+				frame.getContentPane().add(addClasse);
+				frame.repaint();
+				try {
+					java.sql.Statement stm= connexion.createStatement();
+		  			
+		  			ResultSet resultat= stm.executeQuery("SELECT libelle FROM classe");
+		  			while(resultat.next()) {
+		  				 addClasse.addItem(resultat.getString("libelle"));
+					}
+				}
+				catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+				
+				JButton btnNewButton_4 = new JButton("Enregistrer");
+				btnNewButton_4.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String prenomEleve = addPrenom.getText();
+						String nomEleve = addNom.getText();
+						String classe = (String) addClasse.getSelectedItem();
+						
+						Eleve eleve = new Eleve(nomEleve, prenomEleve, classe);
+						a.addEleve(eleve);
+						frame.dispose();
+					}
+				});
+				btnNewButton_4.setBounds(191, 410, 146, 27);
+				frame.getContentPane().add(btnNewButton_4);
+				frame.repaint();
 			}
 		});
 		btnNewButton.setBounds(10, 221, 161, 43);

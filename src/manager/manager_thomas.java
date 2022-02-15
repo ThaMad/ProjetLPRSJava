@@ -12,10 +12,13 @@ import java.sql.Statement;
 import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
 import model.DemandeStockFournisseur;
+import model.Eleve;
 import model.Stock;
 import model.User;
 import view.accueil;
 import view.actionStock;
+import view.gestionAdministrative;
+import view.gestionEleveAdmin;
 import view.gestionprofil;
 import view.gestionstock;
 import view.inscription;
@@ -218,9 +221,15 @@ public class manager_thomas {
    		this.dbh=  bdd();
 		 try {
       			java.sql.Statement stm= this.dbh.createStatement();
+      			ResultSet resultat= stm.executeQuery("SELECT idDemande FROM demande_fournisseur");
+ 			     int id = 0;
+				   while(resultat.next()) {
+ 				       id=resultat.getInt("idDemande");
+ 					   id++;
+ 			   }
       			
 				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
-    	int insert =stm.executeUpdate("INSERT INTO demande_fournisseur VALUES('"+d.getIdFourni()+"','"+d.getIdUser()+"','"+d.getNbrStock()+"','"+0+"','"+d.getIdStock()+"')");
+    	int insert =stm.executeUpdate("INSERT INTO demande_fournisseur VALUES('"+id+"','"+d.getIdFourni()+"','"+d.getIdUser()+"','"+d.getNbrStock()+"','"+0+"','"+d.getIdStock()+"')");
   		if(insert == 1) {
   			gestionstock gestionstock = new gestionstock();
 			gestionstock.run();
@@ -232,5 +241,36 @@ public class manager_thomas {
   		catch(SQLException e1) {
   			e1.printStackTrace();
   		}
+	}
+	
+	public void addEleve(Eleve a) {
+   		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			
+  			ResultSet resultat= stm.executeQuery("SELECT idEleve FROM eleve");
+  			     int id = 0;
+				   while(resultat.next()) {
+  				       id=resultat.getInt("idEleve");
+  					   id++;
+  			   }
+		    ResultSet resultat1= stm.executeQuery("SELECT idClasse FROM classe WHERE libelle =('"+a.getClasse()+"')"); 
+		    if(resultat1.next()) {
+			int idClasse = resultat1.getInt("idClasse");
+			int insert =stm.executeUpdate("INSERT INTO eleve VALUES('"+id+"','"+a.getNom()+"','"+a.getPrenom()+"','"+idClasse+"')");
+			if(insert == 1) {
+				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+				gestionAdministrative.run();
+			}
+			else {
+				gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+				gestionEleveAdmin.run();
+			}
+		    }
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
 	}
 }

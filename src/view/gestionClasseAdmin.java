@@ -20,11 +20,14 @@ import javax.swing.UIManager;
 
 import manager.manager_thomas;
 import model.User;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class gestionClasseAdmin {
 
 	private JFrame frame;
 	private Connection connexion;
+	private JTextField addClasse;
 
 
 	/**
@@ -115,6 +118,31 @@ public class gestionClasseAdmin {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JLabel lblNewLabel = new JLabel("Libelle classe:");
+				lblNewLabel.setBounds(10, 303, 99, 20);
+				frame.getContentPane().add(lblNewLabel);
+				frame.repaint();
+				
+				addClasse = new JTextField();
+				addClasse.setBounds(97, 304, 180, 20);
+				frame.getContentPane().add(addClasse);
+				addClasse.setColumns(10);
+				frame.repaint();
+				
+				JLabel lblNewLabel_1 = new JLabel("Professeur principale");
+				lblNewLabel_1.setBounds(10, 343, 99, 20);
+				frame.getContentPane().add(lblNewLabel_1);
+				frame.repaint();
+				
+				JComboBox addPP = new JComboBox();
+				addPP.setBounds(96, 343, 180, 20);
+				frame.getContentPane().add(addPP);
+				frame.repaint();
+				
+				JButton btnNewButton_4 = new JButton("Enregistrer");
+				btnNewButton_4.setBounds(191, 394, 146, 27);
+				frame.getContentPane().add(btnNewButton_4);
+				frame.repaint();
 			}
 		});
 		btnNewButton.setBounds(10, 221, 161, 43);
@@ -139,6 +167,7 @@ public class gestionClasseAdmin {
 		btnNewButton_3.setBounds(357, 469, 155, 34);
 		frame.getContentPane().add(btnNewButton_3);
 		
+		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -152,5 +181,4 @@ public class gestionClasseAdmin {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -114,6 +114,17 @@ public class gestionAdministrative {
 		btnNewButton_1.setBounds(267, 209, 228, 46);
 		frame.getContentPane().add(btnNewButton_1);
 		
+		JButton btnNewButton_2 = new JButton("Retour");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				profiladministratif profiladministratif = new profiladministratif();
+				profiladministratif.run();	
+			}
+		});
+		btnNewButton_2.setBounds(274, 347, 221, 36);
+		frame.getContentPane().add(btnNewButton_2);
+		
 		try {
 			java.sql.Statement stm= connexion.createStatement();
 		
