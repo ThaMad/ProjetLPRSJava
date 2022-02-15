@@ -31,9 +31,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost:8889/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="";
+	 	 	 String password="root";
 			
 
 	 	 	 try {
@@ -72,7 +72,7 @@ public class manager_thomas {
 			       md.update(mdp.getBytes());
 			       byte byteData[] = md.digest();
 
-			        //convertir le tableau de bits en une format hexadécimal - méthode 1
+			        //convertir le tableau de bits en une format hexadï¿½cimal - mï¿½thode 1
 			        sb = new StringBuffer();
 			        for (int i = 0; i < byteData.length; i++) {
 			         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
@@ -110,7 +110,7 @@ public class manager_thomas {
 	       md.update(mdp.getBytes());
 	       byte byteData[] = md.digest();
 
-	        //convertir le tableau de bits en une format hexadécimal - méthode 1
+	        //convertir le tableau de bits en une format hexadï¿½cimal - mï¿½thode 1
 	        sb = new StringBuffer();
 	        for (int i = 0; i < byteData.length; i++) {
 	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
@@ -152,7 +152,7 @@ public class manager_thomas {
 				   if(result.next()) {
 					    id1 = result.getInt("idUser");
 				   }
-				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
   			
   		int update =stm.executeUpdate("UPDATE user SET idUser='"+id1+"', nom='"+a.getNom()+"', prenom='"+a.getPrenom()+"', mail='"+a.getMail()+"' WHERE idUser=('"+id1+"')");
   		if(update == 1) {
@@ -201,7 +201,7 @@ public class manager_thomas {
 		 try {
       			java.sql.Statement stm= this.dbh.createStatement();
       			
-				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
   			
   		int update =stm.executeUpdate("UPDATE stock SET libelle='"+s.getLibelle()+"', nbrStock='"+s.getNbrStock()+"' WHERE idStock=('"+idStock+"')");
   		if(update == 1) {
@@ -228,7 +228,7 @@ public class manager_thomas {
  					   id++;
  			   }
       			
-				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
     	int insert =stm.executeUpdate("INSERT INTO demande_fournisseur VALUES('"+id+"','"+d.getIdFourni()+"','"+d.getIdUser()+"','"+d.getNbrStock()+"','"+0+"','"+d.getIdStock()+"')");
   		if(insert == 1) {
   			gestionstock gestionstock = new gestionstock();

@@ -128,7 +128,7 @@ public class gestionstock {
             Vector data = new Vector();
             Vector columnsNames = new Vector();
 			// requete pour recuperer les donnees des films
-			ResultSet resultat= stm.executeQuery("SELECT * FROM stock");
+			ResultSet resultat= stm.executeQuery("SELECT * FROM stock ");
 		    // R�cup�rer le titre des colonnes
             ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
            

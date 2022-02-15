@@ -18,6 +18,7 @@ import model.User;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 public class connexion {
