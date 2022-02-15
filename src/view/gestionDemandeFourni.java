@@ -1,11 +1,11 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Menu;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -18,25 +18,26 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import manager.manager_thomas;
 import model.User;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class gestionstock {
+public class gestionDemandeFourni {
 
-	private Connection connexion;
 	private JFrame frame;
+	private Connection connexion;
+	JButton button = new JButton();
+
 
 	/**
 	 * Launch the application.
@@ -45,7 +46,7 @@ public class gestionstock {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					gestionstock window = new gestionstock();
+					gestionDemandeFourni window = new gestionDemandeFourni();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,13 +55,61 @@ public class gestionstock {
 		});
 	}
 
-
 	/**
 	 * Create the application.
 	 */
-	public gestionstock() {
+	public gestionDemandeFourni() {
 		initialize();
 	}
+	public class ButtonRenderer extends JButton implements TableCellRenderer{
+
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocus, int row, int col) {
+	      //On écrit dans le bouton ce que contient la cellule
+	      setText("Valider");
+	      //On retourne notre bouton
+	      return this;
+
+	    }
+	  }
+	
+	class ButtonEditor extends DefaultCellEditor 
+	  {
+	    
+	    public ButtonEditor(JCheckBox checkBox)
+	    {
+	      super(checkBox);
+	    }
+	    public Component getTableCellEditorComponent(JTable table, Object value,
+	    boolean isSelected, int row, int column) 
+	    {
+	    	try {
+				java.sql.Statement stm= connexion.createStatement();
+			
+				// requete pour recuperer les donnees des films
+				ResultSet resultat= stm.executeQuery("SELECT demande_fournisseur.nbrStock, stock.nbrStock, libelle FROM demande_fournisseur INNER JOIN stock ON stock.idStock = demande_fournisseur.idStock WHERE idDemande = ('"+value+"')");
+				if(resultat.next()) {
+					String libelleStock = resultat.getString("libelle");
+					int stockDemande = Integer.parseInt(resultat.getString("demande_fournisseur.nbrStock"));
+					int stockActuel = Integer.parseInt(resultat.getString("stock.nbrStock"));
+					int newStock = stockDemande + stockActuel;
+			  		int update1 =stm.executeUpdate("UPDATE stock SET nbrStock='"+newStock+"' WHERE libelle=('"+libelleStock+"')");
+				}
+		  		int update =stm.executeUpdate("UPDATE demande_fournisseur SET valide='"+1+"' WHERE idDemande=('"+value+"')");
+				
+				if(update == 1 ) {
+					frame.dispose();
+					gestionDemandeFourni gestionDemandeFourni = new gestionDemandeFourni();
+					gestionDemandeFourni.run();
+				}
+				
+			} catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+			return button;
+	    }
+	   
+	  }
 
 	/**
 	 * Initialize the contents of the frame.
@@ -128,7 +177,7 @@ public class gestionstock {
             Vector data = new Vector();
             Vector columnsNames = new Vector();
 			// requete pour recuperer les donnees des films
-			ResultSet resultat= stm.executeQuery("SELECT * FROM stock");
+			ResultSet resultat= stm.executeQuery("SELECT idDemande, demande_fournisseur.nbrStock, nom, libelle FROM demande_fournisseur INNER JOIN fournisseur ON demande_fournisseur.idFourni = fournisseur.idFourni INNER JOIN stock ON stock.idStock = demande_fournisseur.idStock WHERE valide = ('"+0+"')");
 		    // Rï¿½cupï¿½rer le titre des colonnes
             ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
            
@@ -140,16 +189,19 @@ public class gestionstock {
                      Vector row = new Vector(columns);
                      for (int i = 1; i <= columns; i++)
                      {
-                             row.addElement( resultat.getString("idStock"));
+                             row.addElement( resultat.getString("idDemande"));
+                             row.addElement( resultat.getString("nom"));
                              row.addElement( resultat.getString("libelle"));
-                             row.addElement( resultat.getString("nbrStock"));
+                             row.addElement( resultat.getString("demande_fournisseur.nbrStock"));
                      }
                      data.addElement( row );
 					 }
                  // Tout fermer
                  columnsNames.addElement("ID");
-                 columnsNames.addElement("libelle");
-                 columnsNames.addElement("Nombre en stock");
+                 columnsNames.addElement("Nom Fournisseur");
+                 columnsNames.addElement("Libelle du produit");
+                 columnsNames.addElement("Nombre demande");
+                 columnsNames.addElement("Action");
 
                 JScrollPane scrollPane = new JScrollPane();
  				scrollPane.setBounds(42, 173, 453, 163);
@@ -157,79 +209,36 @@ public class gestionstock {
  				JTable table = new JTable(data,columnsNames);
  				scrollPane.setViewportView(table);
  				
- 				JButton btnNewButton = new JButton("Action sur stock");
+ 				JButton btnNewButton = new JButton("Retour");
  				btnNewButton.addActionListener(new ActionListener() {
  					public void actionPerformed(ActionEvent arg0) {
- 						actionStock actionStock = new actionStock();
- 						actionStock.run();
  						frame.dispose();
+ 						gestionstock gestionstock = new gestionstock();
+ 						gestionstock.run();
  					}
  				});
- 				btnNewButton.setBounds(58, 372, 179, 47);
+ 				btnNewButton.setBounds(296, 397, 172, 32);
  				frame.getContentPane().add(btnNewButton);
- 				
- 				JButton btnNewButton_1 = new JButton("Retour");
- 				btnNewButton_1.addActionListener(new ActionListener() {
- 					public void actionPerformed(ActionEvent arg0) {
- 						frame.dispose();
- 						profiladministratif profiladministratif = new profiladministratif();
-						profiladministratif.run();	
- 					}
- 				});
- 				btnNewButton_1.setBounds(343, 441, 152, 47);
- 				frame.getContentPane().add(btnNewButton_1);
- 				String alldemandeFourni = null;
- 				String alldemandeProf = null;
+ 				table.getColumn("Action").setCellRenderer(new ButtonRenderer());
+ 			    table.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox()));
+ 			    TableColumnModel columnModel = table.getColumnModel();
+ 			    columnModel.getColumn(0).setPreferredWidth(10);
+ 			    columnModel.getColumn(1).setPreferredWidth(100);
+ 			    columnModel.getColumn(2).setPreferredWidth(100);
+ 			    columnModel.getColumn(3).setPreferredWidth(100);
+ 			    columnModel.getColumn(4).setPreferredWidth(75);
+ 			    DefaultTableCellRenderer custom = new DefaultTableCellRenderer(); 
+ 			    custom.setHorizontalAlignment(JLabel.CENTER); 
+ 			    columnModel.getColumn(0).setCellRenderer(custom);
+ 			    columnModel.getColumn(1).setCellRenderer(custom);
+			    columnModel.getColumn(2).setCellRenderer(custom);
+			    columnModel.getColumn(3).setCellRenderer(custom);
 
- 				try { 				
- 					// requete pour recuperer les donnees des films
- 					ResultSet resultat2= stm.executeQuery("SELECT count(*) AS allDemandeFourni  FROM demande_fournisseur WHERE valide =('"+0+"')");
- 					if(resultat2.next()) {
- 						 alldemandeFourni = resultat2.getString("allDemandeFourni");
- 					}
- 					
- 				} catch(SQLException e1) {
- 			  			e1.printStackTrace();
- 			  			System.out.println("erreur dans l'ajout");	
- 			  	}
- 				
-				JButton btnNewButton_2 = new JButton("Demande fournisseur en cour : "+alldemandeFourni );
- 				btnNewButton_2.addActionListener(new ActionListener() {
- 					public void actionPerformed(ActionEvent arg0) {
- 						frame.dispose();
- 						gestionDemandeFourni gestionDemandeFourni = new gestionDemandeFourni();
- 						gestionDemandeFourni.run();
- 					}
- 				});
- 				btnNewButton_2.setBounds(58, 442, 260, 44);
- 				frame.getContentPane().add(btnNewButton_2);
- 				try { 				
- 					// requete pour recuperer les donnees des films
- 					ResultSet resultat3= stm.executeQuery("SELECT count(*) AS allDemandeProf  FROM demande_stock WHERE valide =('"+0+"')");
- 					if(resultat3.next()) {
-						 alldemandeProf = resultat3.getString("allDemandeProf");
-					}
- 					
- 				} catch(SQLException e1) {
- 			  			e1.printStackTrace();
- 			  			System.out.println("erreur dans l'ajout");	
- 			  	}
- 				JButton btnNewButton_2_1 = new JButton("Demande Professeur en cour : "+alldemandeProf);
- 				btnNewButton_2_1.addActionListener(new ActionListener() {
- 					public void actionPerformed(ActionEvent arg0) {
- 						frame.dispose();
- 						gestionDemandeProf gestionDemandeProf = new gestionDemandeProf();
- 						gestionDemandeProf.run();
- 					}
- 				});
- 				btnNewButton_2_1.setBounds(258, 372, 237, 47);
- 				frame.getContentPane().add(btnNewButton_2_1);
- 					  
-
-			} catch(SQLException e1) {
+		} catch(SQLException e1) {
 	  			e1.printStackTrace();
 	  			System.out.println("erreur dans l'ajout");	
 	  	}
+		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -237,7 +246,7 @@ public class gestionstock {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			gestionstock window = new gestionstock();
+			gestionDemandeFourni window = new gestionDemandeFourni();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();

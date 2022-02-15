@@ -126,12 +126,12 @@ public class profiladministratif {
 	btnplanning.setBounds(-13, 240, 573, 95);
 	frame.getContentPane().add(btnplanning);
 	
-	JButton btngestionclasse = new JButton("GESTION DES CLASSES");
+	JButton btngestionclasse = new JButton("GESTIONS ADMINISTRATIVES");
 	btngestionclasse.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			frame.dispose();
-			gestionclasses gestionclasses = new gestionclasses();
-			gestionclasses.run();
+			gestionAdministrative gestionAdministrative = new gestionAdministrative();
+			gestionAdministrative.run();
 		}
 	});
 	btngestionclasse.setForeground(Color.WHITE);
