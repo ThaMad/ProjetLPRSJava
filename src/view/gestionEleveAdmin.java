@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import manager.manager_thomas;
 import model.Eleve;
+import model.Stock;
 import model.User;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,6 +32,9 @@ public class gestionEleveAdmin {
 	private Connection connexion;
 	protected JTextField addNom;
 	protected JTextField addPrenom;
+	protected JTextField newPrenomEleve;
+	protected JTextField newNomEleve;
+
 
 
 	/**
@@ -180,18 +184,188 @@ public class gestionEleveAdmin {
 				btnNewButton_4.setBounds(191, 410, 146, 27);
 				frame.getContentPane().add(btnNewButton_4);
 				frame.repaint();
+				
+				JButton btnNewButton_5 = new JButton("Retour");
+				btnNewButton_5.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						frame.dispose();
+						gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+						gestionEleveAdmin.run();
+					}
+				});
+				btnNewButton_5.setBounds(10, 410, 146, 27);
+				frame.getContentPane().add(btnNewButton_5);
+				frame.repaint();
 			}
 		});
 		btnNewButton.setBounds(10, 221, 161, 43);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Supprimer");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JLabel lblNewLabel = new JLabel("Nom Eleve:");
+				lblNewLabel.setBounds(10, 303, 99, 20);
+				frame.getContentPane().add(lblNewLabel);
+				frame.repaint();
+				JComboBox suppEleve = new JComboBox();
+				suppEleve.setBounds(115, 303, 180, 20);
+				frame.getContentPane().add(suppEleve);
+				frame.repaint();
+				try {
+					java.sql.Statement stm= connexion.createStatement();
+		  			
+		  			ResultSet resultat= stm.executeQuery("SELECT nom FROM eleve");
+		  			while(resultat.next()) {
+		  				 suppEleve.addItem(resultat.getString("nom"));
+					}
+				}
+				catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+				
+				JButton saveSupp = new JButton("Enregistrer");
+				saveSupp.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String nomEleve = (String) suppEleve.getSelectedItem();
+						Eleve eleve = new Eleve(nomEleve);
+						a.suppEleve(eleve);
+						frame.dispose();
+					}
+				});
+				saveSupp.setBounds(180, 350, 146, 27);
+				frame.getContentPane().add(saveSupp);
+				frame.repaint();
+				
+				JButton btnNewButton_6 = new JButton("Retour");
+				btnNewButton_6.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						frame.dispose();
+						gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+						gestionEleveAdmin.run();
+					}
+				});
+				btnNewButton_6.setBounds(10, 350, 146, 27);
+				frame.getContentPane().add(btnNewButton_6);
+				frame.repaint();
+			}
+		});
 		btnNewButton_1.setBounds(181, 221, 166, 43);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Modifier");
-		btnNewButton_2.setBounds(357, 221, 155, 43);
-		frame.getContentPane().add(btnNewButton_2);
+		JButton modifier = new JButton("Modifier");
+		modifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JComboBox<String> modifEleve= new JComboBox();
+				modifEleve.setBounds(11, 250, 178 , 33);
+				frame.getContentPane().add(modifEleve);
+				try {
+					java.sql.Statement stm= connexion.createStatement();
+		  			
+		  			ResultSet resultat= stm.executeQuery("SELECT nom FROM eleve");
+		  			while(resultat.next()) {
+		  				modifEleve.addItem(resultat.getString("libelle"));
+					}
+				}
+				catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+				JButton choixStock = new JButton("Choisir");
+				choixStock.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String choix = (String) modifEleve.getSelectedItem();
+						try {
+							java.sql.Statement stm= connexion.createStatement();
+				  			
+				  			ResultSet resultat= stm.executeQuery("SELECT * FROM eleve WHERE nom = ('"+choix+"')");
+				  			if(resultat.next()) {
+				  				JLabel nomEleve = new JLabel(" :");
+				  				nomEleve.setBounds(11, 307, 111, 20);
+				  				frame.getContentPane().add(nomEleve);
+								frame.repaint();
+				  				
+				  				newNomEleve = new JTextField(resultat.getString("nom"));
+				  				newNomEleve.setBounds(159, 308, 206, 19);
+				  				frame.getContentPane().add(newNomEleve);
+				  				newNomEleve.setColumns(10);
+								frame.repaint();
+				  				
+				  				JLabel prenomEleve = new JLabel("Prenom Eleve");
+				  				prenomEleve.setBounds(11, 354, 111, 20);
+				  				frame.getContentPane().add(prenomEleve);
+								frame.repaint();
+				  				
+				  				newPrenomEleve = new JTextField(resultat.getString("prenom"));
+				  				newPrenomEleve.setColumns(10);
+				  				newPrenomEleve.setBounds(159, 355, 206, 19);
+				  				frame.getContentPane().add(newPrenomEleve);
+								frame.repaint();
+								
+								JComboBox<String> newClasseEleve= new JComboBox();
+								newClasseEleve.setBounds(11, 250, 178 , 33);
+								frame.getContentPane().add(newClasseEleve);
+				  			
+								try {
+						  			
+						  			ResultSet resultat1= stm.executeQuery("SELECT libelle FROM classe");
+						  			while(resultat1.next()) {
+						  				newClasseEleve.addItem(resultat.getString("libelle"));
+									}
+								}
+								catch(SQLException e1) {
+						  			e1.printStackTrace();
+						  			System.out.println("erreur dans l'ajout");	
+						  	}
+				  				
+				  				JButton saveModif = new JButton("Enregistrer");
+				  				saveModif.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {
+										int idEleve = 0;
+										try {
+											idEleve = Integer.parseInt(resultat.getString("idEleve"));
+										} catch (NumberFormatException | SQLException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										String newPrenom = newPrenomEleve.getText();
+						          		String newNom = newNomEleve.getText();
+										String newClasse = (String) newClasseEleve.getSelectedItem();
+						          								          		
+						          		Eleve eleve = new Eleve(newNom,newPrenom, newClasse);
+						          		a.modifEleve(eleve, idEleve);
+						          		frame.dispose();
+									}
+								});
+				  				saveModif.setBounds(66, 429, 132, 33);
+				  				frame.getContentPane().add(saveModif);
+								frame.repaint();
+				  				
+				  				JButton retour = new JButton("Retour");
+				  				retour.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {
+										actionStock actionStock = new actionStock();
+										actionStock.run();
+										frame.dispose();
+									}
+								});
+				  				retour.setBounds(233, 429, 132, 33);
+				  				frame.getContentPane().add(retour);
+								frame.repaint();
+				  			}
+				  			} catch (Exception e) {
+				  				e.printStackTrace();
+				  			}
+				  			}
+						});
+						choixStock.setBounds(200, 250, 178 , 33);
+						frame.getContentPane().add(choixStock);
+						frame.repaint();		
+			}
+		});
+		modifier.setBounds(357, 221, 155, 43);
+		frame.getContentPane().add(modifier);
 		
 		JButton btnNewButton_3 = new JButton("Retour");
 		btnNewButton_3.addActionListener(new ActionListener() {
@@ -217,5 +391,4 @@ public class gestionEleveAdmin {
 			e.printStackTrace();
 		}
 	}
-
 }

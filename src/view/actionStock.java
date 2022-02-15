@@ -353,6 +353,17 @@ public class actionStock {
 		btnNewButton_2_1.setBounds(398, 197, 178, 33);
 		frame.getContentPane().add(btnNewButton_2_1);
 		
+		JButton btnNewButton_2 = new JButton("Retour");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				gestionstock gestionstock = new gestionstock();
+				gestionstock.run();
+			}
+		});
+		btnNewButton_2.setBounds(398, 510, 178, 33);
+		frame.getContentPane().add(btnNewButton_2);
+		
 		
 		frame.setBounds(150, 150, 600, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -273,4 +273,48 @@ public class manager_thomas {
   			System.out.println("erreur dans l'ajout");	
   	}
 	}
+	
+	public void suppEleve(Eleve a) {
+   		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			
+		    int resultat = stm.executeUpdate("DELETE FROM eleve WHERE nom =('"+a.getNom()+"')"); 
+		    if(resultat == 1) {
+				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+				gestionAdministrative.run();
+			} else {
+				gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+				gestionEleveAdmin.run();
+			}
+		    } catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
+	public void modifEleve(Eleve s, int idEleve) {
+   		this.dbh=  bdd();
+		 try {
+      			java.sql.Statement stm= this.dbh.createStatement();
+      			
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+      			ResultSet resultat1= stm.executeQuery("SELECT idClasse FROM classe WHERE libelle =('"+s.getClasse()+"')"); 
+    		    if(resultat1.next()) {
+    			int idClasse = resultat1.getInt("idClasse");
+  		int update =stm.executeUpdate("UPDATE eleve SET nom='"+s.getNom()+"', prenom='"+s.getPrenom()+"',  classe='"+idClasse+"' WHERE idEleve=('"+idEleve+"')");
+  		if(update == 1) {
+  			gestionAdministrative gestionAdministrative = new gestionAdministrative();
+			gestionAdministrative.run();
+  		} else {
+  			gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+			gestionEleveAdmin.run();
+  		}
+  		}
+      		}
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  		}
+	}
+	
 }

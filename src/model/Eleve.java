@@ -10,6 +10,10 @@ public class Eleve {
 		this.classe = classe;
 		}
 	
+	public Eleve(String nom) {
+		this.nom=nom;
+		}
+	
 	public String getNom() {
 		return nom;
 	}
