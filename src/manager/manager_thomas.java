@@ -31,9 +31,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost:8889/lprs_java?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="root";
+	 	 	 String password="";
 			
 
 	 	 	 try {
@@ -302,14 +302,14 @@ public class manager_thomas {
       			ResultSet resultat1= stm.executeQuery("SELECT idClasse FROM classe WHERE libelle =('"+s.getClasse()+"')"); 
     		    if(resultat1.next()) {
     			int idClasse = resultat1.getInt("idClasse");
-  		int update =stm.executeUpdate("UPDATE eleve SET nom='"+s.getNom()+"', prenom='"+s.getPrenom()+"',  classe='"+idClasse+"' WHERE idEleve=('"+idEleve+"')");
-  		if(update == 1) {
-  			gestionAdministrative gestionAdministrative = new gestionAdministrative();
-			gestionAdministrative.run();
-  		} else {
-  			gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
-			gestionEleveAdmin.run();
-  		}
+    			int update =stm.executeUpdate("UPDATE eleve SET nom='"+s.getNom()+"', prenom='"+s.getPrenom()+"',  classe='"+idClasse+"' WHERE idEleve=('"+idEleve+"')");
+    			if(update == 1) {
+    				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+    				gestionAdministrative.run();
+    				} else {
+    					gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
+    					gestionEleveAdmin.run();
+    					}
   		}
       		}
   		catch(SQLException e1) {

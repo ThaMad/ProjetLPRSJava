@@ -6,12 +6,16 @@ import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -91,7 +95,65 @@ public class gestionAdministrative {
 		bienvenue.setFont(new Font("Heiti SC", Font.BOLD, 27));
 		bienvenue.setBounds(129, 0, 284, 43);
 		panel_1.add(bienvenue);
+		try {
+				java.sql.Statement stm= connexion.createStatement();
+			
+				// requete pour recuperer les donnees des films
+				ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+u.mail+"')");
+				
+				if(resultat.next()) {
+					JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
+					name.setHorizontalAlignment(SwingConstants.CENTER);
+					name.setForeground(new Color(255, 99, 71));
+					name.setFont(new Font("Heiti TC", Font.BOLD, 23));
+					name.setBounds(6, 46, 536, 43);
+					panel_1.add(name);
+				}
+		} catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
 		
+		try {
+			java.sql.Statement stm= connexion.createStatement();
+            Vector data = new Vector();
+            Vector columnsNames = new Vector();
+			// requete pour recuperer les donnees des films
+			ResultSet resultat= stm.executeQuery("SELECT nom,prenom,libelle FROM eleve INNER JOIN classe ON eleve.classe = classe.idClasse ORDER BY libelle ");
+		    // R�cup�rer le titre des colonnes
+            ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
+           
+            // R�cup�rer le nombre de colonne
+            int columns = md.getColumnCount();
+				 while (resultat.next())
+                 {
+                     Object nb = resultat.getRow();
+                     Vector row = new Vector(columns);
+                     for (int i = 1; i <= columns; i++)
+                     {
+                             row.addElement( resultat.getString("nom"));
+                             row.addElement( resultat.getString("prenom"));
+                             row.addElement( resultat.getString("libelle"));
+                     }
+                     data.addElement( row );
+					 }
+                 // Tout fermer
+                 columnsNames.addElement("Nom");
+                 columnsNames.addElement("prenom");
+                 columnsNames.addElement("Classe");
+
+                JScrollPane scrollPane = new JScrollPane();
+ 				scrollPane.setBounds(42, 173, 453, 163);
+ 				frame.getContentPane().add(scrollPane);
+ 				JTable table = new JTable(data,columnsNames);
+ 				scrollPane.setViewportView(table);
+ 					
+ 				} catch(SQLException e1) {
+ 			  			e1.printStackTrace();
+ 			  			System.out.println("erreur dans l'ajout");	
+ 			  	}
+ 				
+ 				
 		JButton btnNewButton = new JButton("Classes");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -100,7 +162,7 @@ public class gestionAdministrative {
 				gestionClasseAdmin.run();
 			}
 		});
-		btnNewButton.setBounds(21, 209, 221, 46);
+		btnNewButton.setBounds(21, 347, 221, 46);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Eleves");
@@ -111,7 +173,7 @@ public class gestionAdministrative {
 				gestionEleveAdmin.run();
 			}
 		});
-		btnNewButton_1.setBounds(267, 209, 228, 46);
+		btnNewButton_1.setBounds(267, 347, 228, 46);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Retour");
@@ -122,28 +184,10 @@ public class gestionAdministrative {
 				profiladministratif.run();	
 			}
 		});
-		btnNewButton_2.setBounds(274, 347, 221, 36);
+		btnNewButton_2.setBounds(274, 400, 221, 36);
 		frame.getContentPane().add(btnNewButton_2);
 		
-		try {
-			java.sql.Statement stm= connexion.createStatement();
 		
-			// requete pour recuperer les donnees des films
-			ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+u.mail+"')");
-			
-			if(resultat.next()) {
-				JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
-				name.setHorizontalAlignment(SwingConstants.CENTER);
-				name.setForeground(new Color(255, 99, 71));
-				name.setFont(new Font("Heiti TC", Font.BOLD, 23));
-				name.setBounds(6, 46, 536, 43);
-				panel_1.add(name);
-			}
-			
-		} catch(SQLException e1) {
-	  			e1.printStackTrace();
-	  			System.out.println("erreur dans l'ajout");	
-	  	}
 		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

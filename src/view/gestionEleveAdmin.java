@@ -258,14 +258,14 @@ public class gestionEleveAdmin {
 		modifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JComboBox<String> modifEleve= new JComboBox();
-				modifEleve.setBounds(11, 250, 178 , 33);
+				modifEleve.setBounds(11, 270, 178 , 33);
 				frame.getContentPane().add(modifEleve);
 				try {
 					java.sql.Statement stm= connexion.createStatement();
 		  			
 		  			ResultSet resultat= stm.executeQuery("SELECT nom FROM eleve");
 		  			while(resultat.next()) {
-		  				modifEleve.addItem(resultat.getString("libelle"));
+		  				modifEleve.addItem(resultat.getString("nom"));
 					}
 				}
 				catch(SQLException e1) {
@@ -281,37 +281,43 @@ public class gestionEleveAdmin {
 				  			
 				  			ResultSet resultat= stm.executeQuery("SELECT * FROM eleve WHERE nom = ('"+choix+"')");
 				  			if(resultat.next()) {
-				  				JLabel nomEleve = new JLabel(" :");
-				  				nomEleve.setBounds(11, 307, 111, 20);
+				  				int idEleve = Integer.parseInt(resultat.getString("idEleve"));
+				  				JLabel nomEleve = new JLabel("Nom Eleve :");
+				  				nomEleve.setBounds(11, 310, 111, 20);
 				  				frame.getContentPane().add(nomEleve);
 								frame.repaint();
 				  				
 				  				newNomEleve = new JTextField(resultat.getString("nom"));
-				  				newNomEleve.setBounds(159, 308, 206, 19);
+				  				newNomEleve.setBounds(159, 310, 206, 19);
 				  				frame.getContentPane().add(newNomEleve);
 				  				newNomEleve.setColumns(10);
 								frame.repaint();
 				  				
-				  				JLabel prenomEleve = new JLabel("Prenom Eleve");
-				  				prenomEleve.setBounds(11, 354, 111, 20);
+				  				JLabel prenomEleve = new JLabel("Prenom Eleve :");
+				  				prenomEleve.setBounds(11, 330, 111, 20);
 				  				frame.getContentPane().add(prenomEleve);
 								frame.repaint();
 				  				
 				  				newPrenomEleve = new JTextField(resultat.getString("prenom"));
 				  				newPrenomEleve.setColumns(10);
-				  				newPrenomEleve.setBounds(159, 355, 206, 19);
+				  				newPrenomEleve.setBounds(159, 330, 206, 19);
 				  				frame.getContentPane().add(newPrenomEleve);
 								frame.repaint();
 								
+								JLabel classeEleve = new JLabel("Classe Eleve :");
+				  				classeEleve.setBounds(11, 355, 111, 20);
+				  				frame.getContentPane().add(classeEleve);
+								frame.repaint();
+								
 								JComboBox<String> newClasseEleve= new JComboBox();
-								newClasseEleve.setBounds(11, 250, 178 , 33);
+								newClasseEleve.setBounds(159, 355, 178 , 33);
 								frame.getContentPane().add(newClasseEleve);
 				  			
 								try {
 						  			
 						  			ResultSet resultat1= stm.executeQuery("SELECT libelle FROM classe");
 						  			while(resultat1.next()) {
-						  				newClasseEleve.addItem(resultat.getString("libelle"));
+						  				newClasseEleve.addItem(resultat1.getString("libelle"));
 									}
 								}
 								catch(SQLException e1) {
@@ -322,23 +328,16 @@ public class gestionEleveAdmin {
 				  				JButton saveModif = new JButton("Enregistrer");
 				  				saveModif.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
-										int idEleve = 0;
-										try {
-											idEleve = Integer.parseInt(resultat.getString("idEleve"));
-										} catch (NumberFormatException | SQLException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
 										String newPrenom = newPrenomEleve.getText();
 						          		String newNom = newNomEleve.getText();
 										String newClasse = (String) newClasseEleve.getSelectedItem();
-						          								          		
+						          		
 						          		Eleve eleve = new Eleve(newNom,newPrenom, newClasse);
 						          		a.modifEleve(eleve, idEleve);
-						          		frame.dispose();
+										frame.dispose();
 									}
 								});
-				  				saveModif.setBounds(66, 429, 132, 33);
+				  				saveModif.setBounds(66, 395, 132, 33);
 				  				frame.getContentPane().add(saveModif);
 								frame.repaint();
 				  				
@@ -350,7 +349,7 @@ public class gestionEleveAdmin {
 										frame.dispose();
 									}
 								});
-				  				retour.setBounds(233, 429, 132, 33);
+				  				retour.setBounds(233, 395, 132, 33);
 				  				frame.getContentPane().add(retour);
 								frame.repaint();
 				  			}
@@ -359,7 +358,7 @@ public class gestionEleveAdmin {
 				  			}
 				  			}
 						});
-						choixStock.setBounds(200, 250, 178 , 33);
+						choixStock.setBounds(220, 270, 178 , 33);
 						frame.getContentPane().add(choixStock);
 						frame.repaint();		
 			}
