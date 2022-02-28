@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,9 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import manager.manager_thomas;
+import model.User;
+
 public class profilprof {
 
 	private JFrame frame;
+	private Connection connexion;
+
 
 	/**
 	 * Launch the application.
@@ -45,7 +53,11 @@ public class profilprof {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {frame = new JFrame();
+	private void initialize() {
+	manager_thomas a = new manager_thomas();
+	connexion =  (Connection) a.bdd();
+	User u = User.getInstanceVide();
+	frame = new JFrame();
 	frame.getContentPane().setBackground(Color.WHITE);
 	frame.getContentPane().setLayout(null);
 	ImageIcon monImage = new ImageIcon("C:\\Users\\MADAWALA_Th\\eclipse-workspace\\ProjetLPRSJava\\src\\demo\\logolprsjava.png"); 
@@ -84,8 +96,38 @@ public class profilprof {
 	name.setHorizontalAlignment(SwingConstants.CENTER);
 	name.setForeground(new Color(255, 99, 71));
 	name.setFont(new Font("Heiti TC", Font.BOLD, 23));
-	name.setBounds(6, 46, 536, 43);
+	name.setBounds(6, 42, 536, 43);
 	panel_1.add(name);
+	
+	try {
+		java.sql.Statement stm= connexion.createStatement();
+		
+		// requete pour recuperer les donnees des films
+		ResultSet resultat= stm.executeQuery("SELECT count(*) AS nbrClassePP FROM classe INNER JOIN user ON classe.id_prof_principale = user.idUser WHERE mail = ('"+u.mail+"')");
+		if(resultat.next()) {
+			int count = resultat.getInt("nbrClassePP");
+			if(count > 0) {
+				JButton btnRDV = new JButton("RENDEZ-VOUS");
+				btnRDV.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+						rendezvous rendezvous = new rendezvous();
+						rendezvous.run();
+					}
+				});
+				btnRDV.setForeground(new Color(255, 255, 255));
+				btnRDV.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+				btnRDV.setBackground(new Color(255, 70, 42));
+				btnRDV.setBounds(-13, 145, 573, 95);
+				frame.getContentPane().add(btnRDV);
+			}
+		}
+		
+	} catch(SQLException e1) {
+			e1.printStackTrace();
+			System.out.println("erreur dans l'ajout");	
+	}
+
 	
 	JButton btnplanning = new JButton("PLANNING");
 	btnplanning.addActionListener(new ActionListener() {
