@@ -34,6 +34,7 @@ import view.gestionEleveAdmin;
 import view.gestionprofil;
 import view.gestionstock;
 import view.inscription;
+import view.mdpOublier;
 import view.profiladministratif;
 import view.profilprof;
 
@@ -43,9 +44,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost:8889/lprs_java?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="root";
+	 	 	 String password="";
 			
 
 	 	 	 try {
@@ -448,5 +449,45 @@ public class manager_thomas {
   			e1.printStackTrace();
   		}
 	}
+	
+	public void newMdp(User u) throws Exception {
+		this.dbh=  bdd();
+   		StringBuffer sb = null;
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  		
+				   String mdp = u.getMdp();
+				   MessageDigest md = null;
+				try {
+				md = MessageDigest.getInstance("MD5");
+			       md.update(mdp.getBytes());
+			       byte byteData[] = md.digest();
+
+			        //convertir le tableau de bits en une format hexad�cimal - m�thode 1
+			        sb = new StringBuffer();
+			        for (int i = 0; i < byteData.length; i++) {
+			         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			        }
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			int update =stm.executeUpdate("UPDATE user SET mdp = ('"+sb.toString()+"') WHERE mail = ('"+u.getMail()+"') ");
+			if(update == 1) {
+				accueil accueil = new accueil();
+				accueil.run();
+				sendMessage("Nouveau Mail", "Vous avez changez de mail votre nouveau mail est :"+u.getMdp(), u.getMail());
+			}
+			else {
+				mdpOublier mdpOublier = new mdpOublier();
+				mdpOublier.run();
+			}
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
 	
 }

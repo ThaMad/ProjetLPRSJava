@@ -1,25 +1,30 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 
-import javax.swing.JFrame;
-import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import java.awt.Font;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import manager.manager_thomas;
+import model.User;
 
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class accueil {
+public class mdpOublier {
 
 	private JFrame frame;
+	private JTextField mail;
+	private JTextField mdp;
 
 	/**
 	 * Launch the application.
@@ -28,7 +33,7 @@ public class accueil {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					accueil window = new accueil();
+					mdpOublier window = new mdpOublier();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +45,7 @@ public class accueil {
 	/**
 	 * Create the application.
 	 */
-	public accueil() {
+	public mdpOublier() {
 		initialize();
 	}
 
@@ -104,46 +109,54 @@ public class accueil {
 		S.setBounds(269, 0, 27, 64);
 		panel_1.add(S);
 		
-		JButton btnconnexion = new JButton("CONNEXION");
-		btnconnexion.addActionListener(new ActionListener() {
+		JLabel lblNewLabel = new JLabel("Votre mail :");
+		lblNewLabel.setBounds(20, 212, 131, 21);
+		frame.getContentPane().add(lblNewLabel);
+		
+		mail = new JTextField();
+		mail.setBounds(169, 213, 272, 20);
+		frame.getContentPane().add(mail);
+		mail.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Nouveau mot de passe :");
+		lblNewLabel_1.setBounds(20, 269, 171, 13);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		mdp = new JTextField();
+		mdp.setBounds(201, 266, 272, 19);
+		frame.getContentPane().add(mdp);
+		mdp.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Retour");
+		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				connexion connexion = new connexion();
-				connexion.run();
+				accueil accueil = new accueil();
+				accueil.run();
 			}
 		});
-		btnconnexion.setBackground(new Color(153, 153, 255));
-		btnconnexion.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
-		btnconnexion.setForeground(Color.WHITE);
-		btnconnexion.setBounds(0, 189, 535, 90);
-		frame.getContentPane().add(btnconnexion);
+		btnNewButton.setBounds(67, 322, 146, 31);
+		frame.getContentPane().add(btnNewButton);
 		
-		JButton btninscription = new JButton("INSCRIPTION");
-		btninscription.addActionListener(new ActionListener() {
+		JButton btnNewButton_1 = new JButton("Enregistrer");
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-				inscription inscription = new inscription();
-				inscription.run();
+				String Mail = mail.getText();
+				String Mdp = mdp.getText();
+				
+				User u = User.getInstance1(Mail, Mdp);
+				manager_thomas m = new manager_thomas();
+				try {
+					frame.dispose();
+					m.newMdp(u);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
-		btninscription.setForeground(Color.WHITE);
-		btninscription.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
-		btninscription.setBackground(new Color(184, 184, 255));
-		btninscription.setBounds(0, 276, 535, 95);
-		frame.getContentPane().add(btninscription);
-		
-		JButton btnmdpoubli = new JButton("MOT DE PASSE OUBLIE");
-		btnmdpoubli.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mdpOublier mdpOublier = new mdpOublier();
-				mdpOublier.run();
-			}
-		});
-		btnmdpoubli.setForeground(Color.WHITE);
-		btnmdpoubli.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 15));
-		btnmdpoubli.setBackground(new Color(204, 204, 255));
-		btnmdpoubli.setBounds(0, 365, 535, 95);
-		frame.getContentPane().add(btnmdpoubli);
+		btnNewButton_1.setBounds(265, 322, 146, 31);
+		frame.getContentPane().add(btnNewButton_1);
 		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +165,7 @@ public class accueil {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			accueil window = new accueil();
+			mdpOublier window = new mdpOublier();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
