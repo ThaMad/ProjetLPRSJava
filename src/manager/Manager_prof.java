@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Classe;
+import model.Eleve;
 import model.User;
 
 public class Manager_prof {
@@ -34,6 +35,28 @@ public class Manager_prof {
 		}
 		
 		return classes;
+	}
+	
+	public ArrayList<Eleve> getElevesFromClasse(int idClasse) {
+		ArrayList<Eleve> eleves = new ArrayList<Eleve>();
+		Eleve eleve;
+		this.dbh= managerthomas.bdd();
+		String sql = "SELECT * FROM eleve WHERE classe="+idClasse+"";
+		PreparedStatement pstm;
+		try {
+			pstm = this.dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				eleve = new Eleve(rs.getInt("idEleve"),rs.getString("nom"),rs.getString("prenom"));
+				eleves.add(eleve);
+			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return eleves;
 	}
 
 }

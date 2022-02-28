@@ -1,9 +1,18 @@
 package model;
 
 public class Eleve {
+	public int idEleve, classeint;
 	
 	public String nom, prenom, classe;
 	
+	public Eleve(int idEleve,String nom,String prenom) {
+		this.idEleve=idEleve;
+		this.nom=nom;
+		this.prenom=prenom;
+		
+		}
+	
+
 	public Eleve(String nom,String prenom, String classe) {
 		this.nom=nom;
 		this.prenom=prenom;
