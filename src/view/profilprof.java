@@ -111,8 +111,8 @@ public class profilprof {
 				btnRDV.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						frame.dispose();
-						rendezvous rendezvous = new rendezvous();
-						rendezvous.run();
+						tableRdv tableRdv = new tableRdv();
+						tableRdv.run();
 					}
 				});
 				btnRDV.setForeground(new Color(255, 255, 255));

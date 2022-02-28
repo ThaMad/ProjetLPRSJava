@@ -6,8 +6,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,23 +18,17 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import manager.manager_thomas;
-import model.Rdv;
 import model.User;
-import com.toedter.calendar.JDayChooser;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import com.toedter.components.JSpinField;
 
-public class rendezvous {
+public class tableRdv {
 
 	private JFrame frame;
 	private Connection connexion;
-	private JTextField raison;
 
 
 	/**
@@ -43,7 +38,7 @@ public class rendezvous {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					rendezvous window = new rendezvous();
+					tableRdv window = new tableRdv();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +50,7 @@ public class rendezvous {
 	/**
 	 * Create the application.
 	 */
-	public rendezvous() {
+	public tableRdv() {
 		initialize();
 	}
 
@@ -108,113 +103,80 @@ public class rendezvous {
 		name.setBounds(6, 42, 536, 43);
 		panel_1.add(name);
 		
-		JLabel lblNewLabel = new JLabel("Date : ");
-		lblNewLabel.setBounds(10, 363, 134, 26);
-		frame.getContentPane().add(lblNewLabel);
-		
-		
-		JLabel lblNewLabel_1 = new JLabel("Nom du Parent :");
-		lblNewLabel_1.setBounds(10, 205, 134, 26);
-		frame.getContentPane().add(lblNewLabel_1);
-		
-		JComboBox nomParent = new JComboBox();
-		nomParent.setBounds(161, 208, 205, 21);
-		frame.getContentPane().add(nomParent);
 		try {
 			java.sql.Statement stm= connexion.createStatement();
-  			
-  			ResultSet resultat= stm.executeQuery("SELECT nom FROM parent");
-  			while(resultat.next()) {
-  				 nomParent.addItem(resultat.getString("nom"));
-			}
-		}
-		catch(SQLException e1) {
-  			e1.printStackTrace();
-  			System.out.println("erreur dans l'ajout");	
-  	}
-		
-		
-		JLabel lblNewLabel_2 = new JLabel("Raison : ");
-		lblNewLabel_2.setBounds(10, 289, 134, 26);
-		frame.getContentPane().add(lblNewLabel_2);
-		
-		raison = new JTextField();
-		raison.setBounds(161, 293, 215, 19);
-		frame.getContentPane().add(raison);
-		raison.setColumns(10);
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(161, 363, 215, 26);
-		frame.getContentPane().add(dateChooser);
-		
-		JLabel lblNewLabel_3 = new JLabel("Horaire : ");
-		lblNewLabel_3.setBounds(10, 429, 134, 26);
-		frame.getContentPane().add(lblNewLabel_3);
-		
-		JComboBox horaire = new JComboBox();
-		horaire.setBounds(161, 432, 205, 21);
-		frame.getContentPane().add(horaire);
-		try {
-			java.sql.Statement stm= connexion.createStatement();
-  			
-  			ResultSet resultat= stm.executeQuery("SELECT heure FROM horaire ORDER BY heure ASC");
-  			while(resultat.next()) {
-  				horaire.addItem(resultat.getString("heure"));
-			}
-		}
-		catch(SQLException e1) {
-  			e1.printStackTrace();
-  			System.out.println("erreur dans l'ajout");	
-  	}
-		
-		JButton btnNewButton_1 = new JButton("Enregistrer");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				String date = sdf.format(dateChooser.getDate());
-				System.out.println(date);
-				String nomDaron = (String) nomParent.getSelectedItem();
-				String lblRaison = raison.getText();
-				String heure = (String) horaire.getSelectedItem();
-				
-				Rdv rdv = new Rdv(lblRaison,nomDaron, heure, date, u.mail);
-				try {
-					frame.dispose();
-					a.addRdv(rdv);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-			}
-		});
-		btnNewButton_1.setBounds(308, 644, 196, 37);
-		frame.getContentPane().add(btnNewButton_1);
+            Vector data = new Vector();
+            Vector columnsNames = new Vector();
+			// requete pour recuperer les donnees des films
+			ResultSet resultat= stm.executeQuery("SELECT rdv.libelle, parent.nom, date, heure FROM rdv INNER JOIN parent ON rdv.id_parent = parent.idParent INNER JOIN horaire ON rdv.idHoraire = horaire.idHoraire INNER JOIN user ON rdv.id_prof_principale = user.idUser WHERE user.mail = ('"+u.mail+"')");
+		    // R�cup�rer le titre des colonnes
+            ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
+           
+            // R�cup�rer le nombre de colonne
+            int columns = md.getColumnCount();
+				 while (resultat.next())
+                 {
+                     Object nb = resultat.getRow();
+                     Vector row = new Vector(columns);
+                     for (int i = 1; i <= columns; i++)
+                     {
+                             row.addElement( resultat.getString("rdv.libelle"));
+                             row.addElement( resultat.getString("parent.nom"));
+                             row.addElement( resultat.getString("date"));
+                             row.addElement( resultat.getString("heure"));
+                     }
+                     data.addElement( row );
+					 }
+                 // Tout fermer
+                 columnsNames.addElement("Raison");
+                 columnsNames.addElement("Nom Parent");
+                 columnsNames.addElement("Date");
+                 columnsNames.addElement("Heure");
+
+            JScrollPane scrollPane = new JScrollPane();
+  			scrollPane.setBounds(42, 173, 453, 163);
+  			frame.getContentPane().add(scrollPane);
+  			JTable table = new JTable(data,columnsNames);
+  			scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("Retour");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				tableRdv tableRdv = new tableRdv();
-				tableRdv.run();
+				profilprof profilprof = new profilprof();
+				profilprof.run();
 			}
 		});
-		btnNewButton.setBounds(86, 644, 186, 37);
+		btnNewButton.setBounds(33, 400, 201, 44);
 		frame.getContentPane().add(btnNewButton);
 		
-		
-		frame.setBounds(100, 100, 549, 800);
+		JButton btnNewButton_1 = new JButton("Ajouter");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				rendezvous rendezvous = new rendezvous();
+				rendezvous.run();
+			}
+		});
+		btnNewButton_1.setBounds(278, 400, 209, 44);
+		frame.getContentPane().add(btnNewButton_1);
+		} catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
+		frame.setBounds(100, 100, 549, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			rendezvous window = new rendezvous();
+			tableRdv window = new tableRdv();
 			window.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
+
+	
