@@ -2,6 +2,7 @@ package model;
 
 public class Classe {
 	
+	public int idClasse;
 	public String libelle;
 	public String prof_principale;
 	
@@ -15,6 +16,20 @@ public class Classe {
 		this.libelle = libelle;
 		}
 	
+	
+	public Classe(int idClasse, String libelle, int id_prof_principale) {
+		this.idClasse = idClasse;
+		this.libelle = libelle;
+		this.id_prof_principale = id_prof_principale;
+		
+	}
+	public int getIdClasse() {
+		return idClasse;
+	}
+	public void setIdClasse(int idClasse) {
+		this.idClasse = idClasse;
+	}
+
 	
 	public String getLibelle() {
 		return libelle;
