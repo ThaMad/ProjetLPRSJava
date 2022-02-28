@@ -6,10 +6,13 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -21,16 +24,22 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import manager.Manager_prof;
 import manager.manager_thomas;
+import model.Classe;
 import model.User;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 public class gestionclasses {
+	private static String[] colMedHdr = { "id", "Libelle"};
+    private static DefaultTableModel tblModel = new DefaultTableModel(colMedHdr, 0);
+    private JTable table;
+    
+    
 	private Connection connexion;
 
 	private JFrame frame;
-	private JTable table;
 	DefaultTableModel model;
 	
 	/**
@@ -48,6 +57,7 @@ public class gestionclasses {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the application.
@@ -98,6 +108,90 @@ public class gestionclasses {
 			bienvenue.setBounds(129, 18, 284, 43);
 			panel_1.add(bienvenue);
 			
+			/* Debut code table modèle de M. Lemoine */
+			
+		
+		    /*private ReservationManager reservationManager = new ReservationManager();*/
+		    
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(37, 181, 482, 318);
+			frame.getContentPane().add(scrollPane);
+			
+			table = new JTable(tblModel){
+		         public boolean editCellAt(int row, int column, java.util.EventObject e) {
+		             return false;
+		         }
+		       };
+			table.setFocusable(false);
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent me) {
+		            if (me.getClickCount() == 2) {     // to detect double click events
+		                JTable target = (JTable)me.getSource();
+		                int row = target.getSelectedRow(); // select a row
+		                int idReservation = (int) target.getValueAt(row, 0); // select a column
+		                /*Reservation reservationSel = reservationManager.getReservation(idReservation);
+		                ReservationDetailView reservationDetailView = new ReservationDetailView(reservationSel,utilisateurConnecte);
+		                reservationDetailView.run();*/
+		             }
+				}
+			});
+			table.setBounds(0, 0, 286, 219);
+			scrollPane.setViewportView(table);
+			
+			JButton btnNewButton = new JButton("Ajouter");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					/*Reservation reservation = new Reservation(utilisateurConnecte);
+					ReservationForm reservationForm = new ReservationForm(reservation);
+					reservationForm.run();*/
+				}
+			});
+			btnNewButton.setBounds(529, 81, 117, 25);
+			frame.getContentPane().add(btnNewButton);
+			
+			JButton btnResume = new JButton("Resume");
+			btnResume.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					/*ResumeView resumeView = new ResumeView();
+					resumeView.run();*/
+				}
+			});
+			btnResume.setBounds(529, 128, 117, 25);
+			frame.getContentPane().add(btnResume);
+			populateTable();
+			frame.setBounds(100, 100, 549, 550);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+		
+		private void populateTable() {
+			Manager_prof managerProf = new Manager_prof();
+			ArrayList<Classe> classes = managerProf.getClasses();
+			System.out.println(classes.size());
+			for (Classe classe : classes) {
+				Object[] data = {classe.getIdClasse(),classe.getLibelle(),};
+				tblModel.addRow(data);
+			}
+			
+		}
+		public static void actualiseTableau(Classe classeSel) {
+			tblModel.getDataVector().removeAllElements();
+			
+			Manager_prof managerProf = new Manager_prof();
+			ArrayList<Classe> classes = managerProf.getClasses();
+			
+			for (Classe classe : classes) {
+				Object[] data = {classe.getIdClasse(),classe.getLibelle()};
+				tblModel.addRow(data);
+			}
+			tblModel.fireTableDataChanged();
+	        /*ReservationDetailView reservationDetailView = new ReservationDetailView(reservationSel,utilisateurConnecte);
+	        reservationDetailView.run();*/
+		}
+		  
+		    
+		    
+			/*
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(35, 408, 479, -205);
 			frame.getContentPane().add(scrollPane);
@@ -124,6 +218,7 @@ public class gestionclasses {
 	                     for (int i = 1; i <= columns; i++)
 	                     {
 	                             row.addElement( resultat.getString("libelle"));
+	                             
 	                     }
 	                     data.addElement( row );
 						 }
@@ -146,7 +241,7 @@ public class gestionclasses {
 			
 			
 			int x = 0;
-			
+			*/
 			
 			/* try {
 				java.sql.Statement stm = connexion.createStatement();
@@ -169,15 +264,11 @@ public class gestionclasses {
 			*/
 			
 			
-
-			frame.setBounds(100, 100, 549, 550);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
+			
 	public void run() {
 		try {
-			gestionclasses window = new gestionclasses();
-			window.frame.setVisible(true);
+			//gestionclasses window = new gestionclasses();
+			this.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

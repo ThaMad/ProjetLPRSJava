@@ -31,9 +31,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost:8889/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="";
+	 	 	 String password="root";
 			
 
 	 	 	 try {
@@ -229,7 +229,9 @@ public class manager_thomas {
  			   }
       			
 				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
+
     	int insert =stm.executeUpdate("INSERT INTO demande_fournisseur VALUES('"+id+"','"+d.getIdFourni()+"','"+d.getIdUser()+"','"+d.getNbrStock()+"','"+0+"','"+d.getIdStock()+"')");
+
   		if(insert == 1) {
   			gestionstock gestionstock = new gestionstock();
 			gestionstock.run();
@@ -298,7 +300,7 @@ public class manager_thomas {
 		 try {
       			java.sql.Statement stm= this.dbh.createStatement();
       			
-				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
       			ResultSet resultat1= stm.executeQuery("SELECT idClasse FROM classe WHERE libelle =('"+s.getClasse()+"')"); 
     		    if(resultat1.next()) {
     			int idClasse = resultat1.getInt("idClasse");
