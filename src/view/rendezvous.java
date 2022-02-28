@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import manager.manager_thomas;
+import model.Rdv;
 import model.User;
 import com.toedter.calendar.JDayChooser;
 import javax.swing.JTextField;
@@ -169,13 +170,20 @@ public class rendezvous {
 		JButton btnNewButton_1 = new JButton("Enregistrer");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String date = sdf.format(dateChooser.getDate());
+				System.out.println(date);
 				String nomDaron = (String) nomParent.getSelectedItem();
 				String lblRaison = raison.getText();
 				String heure = (String) horaire.getSelectedItem();
 				
-				
+				Rdv rdv = new Rdv(lblRaison,nomDaron, heure, date, u.mail);
+				try {
+					a.addRdv(rdv);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			}
 		});

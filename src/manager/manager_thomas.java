@@ -24,6 +24,7 @@ import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 import model.Classe;
 import model.DemandeStockFournisseur;
 import model.Eleve;
+import model.Rdv;
 import model.Stock;
 import model.User;
 import view.accueil;
@@ -37,6 +38,7 @@ import view.inscription;
 import view.mdpOublier;
 import view.profiladministratif;
 import view.profilprof;
+import view.rendezvous;
 
 public class manager_thomas {
 	
@@ -481,6 +483,52 @@ public class manager_thomas {
 			else {
 				mdpOublier mdpOublier = new mdpOublier();
 				mdpOublier.run();
+			}
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
+	public void addRdv(Rdv rdv) throws Exception {
+		this.dbh=  bdd();
+		int idProf = 0;
+		int idPadre = 0;
+		int idHoraire = 0;
+		String mailPadre = null;
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			ResultSet result= stm.executeQuery("SELECT idRdv FROM rdv ORDER BY idRdv ASC");
+			     int id = 0;
+			   while(result.next()) {
+				       id=result.getInt("idRdv");
+					   id++;
+			   }
+  			ResultSet resultat= stm.executeQuery("SELECT idUser FROM user WHERE mail =('"+rdv.getProf_principale()+"')"); 
+  			if(resultat.next()){
+  				idProf = resultat.getInt("idUser");
+  			}
+  			ResultSet resultat1= stm.executeQuery("SELECT idParent,mail FROM parent WHERE nom =('"+rdv.getParent()+"')"); 
+  			if(resultat1.next()) {
+  				idPadre = resultat1.getInt("idParent");
+  				mailPadre = resultat1.getString("mail");
+  			}
+  			ResultSet resultat2= stm.executeQuery("SELECT idHoraire FROM horaire WHERE heure =('"+rdv.getHoraire()+"')"); 
+  			if(resultat2.next()) {
+  				idHoraire = resultat2.getInt("idHoraire");
+  			}
+
+			int insert =stm.executeUpdate("INSERT INTO rdv VALUES('"+id+"','"+rdv.getLibelle()+"','"+rdv.getDate()+"','"+idPadre+"','"+idProf+"','"+idHoraire+"')");
+  		
+			if(insert == 1) {
+				profilprof profilprof = new profilprof();
+				profilprof.run();
+				sendMessage(rdv.getLibelle(), "Bonjour nous vous proposons une rendez vous pour le :"+rdv.getDate()+" à "+rdv.getHoraire()+" merci de nous repondre au plus vite de votre disponibilité.", mailPadre );
+			}
+			else {
+				rendezvous rendezvous = new rendezvous();
+				rendezvous.run();
 			}
   		  }
   		catch(SQLException e1) {
