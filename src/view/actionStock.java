@@ -32,6 +32,24 @@ public class actionStock {
 	private JTextField addLibelle;
 	private JTextField addNbrStock;
 	private JTextField demandeStock;
+	protected JLabel libelStock;
+	protected JLabel nbrStock;
+	protected JButton addStock;
+	protected JButton retour;
+	protected JComboBox<String> stockLibel;
+	protected JButton choixStock;
+	protected JLabel libelleStock;
+	protected JLabel nbreStock;
+	protected JButton saveModif;
+	protected JButton retour1;
+	protected JComboBox<String> fournisseur;
+	protected JButton choixFourni;
+	protected JComboBox<String> stockFourni;
+	protected JButton choixStock2;
+	protected JLabel demandeVoulu;
+	protected JButton saveDemande;
+	protected JButton retour3;
+
 
 
 	/**
@@ -102,8 +120,34 @@ public class actionStock {
 		JButton btnNewButton = new JButton("Nouveau");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			if(stockLibel != null) {
+				 stockLibel.setVisible(false);
+				 choixStock.setVisible(false);
+				 if(libelleStock != null) {
+					 newLibelle.setVisible(false);
+					 newNbrStock.setVisible(false);
+					 libelleStock.setVisible(false);
+					 nbreStock.setVisible(false);
+					 saveModif.setVisible(false);
+					 retour1.setVisible(false);
+				 }
+				}
+			if(fournisseur != null) {
+				fournisseur.setVisible(false);
+				choixFourni.setVisible(false);
+				if(stockFourni != null) {
+					stockFourni.setVisible(false);
+				    choixStock2.setVisible(false);
+				    if(demandeVoulu != null) {
+				    	demandeVoulu.setVisible(false);
+				    	demandeStock.setVisible(false);
+				        saveDemande.setVisible(false);
+				        retour3.setVisible(false);
+				        }
+				    }
+				}
 				
-				JLabel libelStock = new JLabel("Libelle du stock :");
+				libelStock = new JLabel("Libelle du stock :");
   				libelStock.setBounds(11, 307, 111, 20);
   				frame.getContentPane().add(libelStock);
 				frame.repaint();
@@ -114,7 +158,7 @@ public class actionStock {
   				addLibelle.setColumns(10);
 				frame.repaint();
   				
-  				JLabel nbrStock = new JLabel("Nombre en stock");
+  				nbrStock = new JLabel("Nombre en stock");
   				nbrStock.setBounds(11, 354, 111, 20);
   				frame.getContentPane().add(nbrStock);
 				frame.repaint();
@@ -125,7 +169,7 @@ public class actionStock {
   				frame.getContentPane().add(addNbrStock);
 				frame.repaint();
 				
-				JButton addStock = new JButton("Enregistrer");
+				addStock = new JButton("Enregistrer");
 				addStock.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String addLibel = addLibelle.getText();
@@ -141,7 +185,7 @@ public class actionStock {
   				frame.getContentPane().add(addStock);
 				frame.repaint();
   				
-  				JButton retour = new JButton("Retour");
+  				retour = new JButton("Retour");
   				retour.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						actionStock actionStock = new actionStock();
@@ -161,7 +205,29 @@ public class actionStock {
 		JButton btnNewButton_1 = new JButton("Modifié");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JComboBox<String> stockLibel= new JComboBox();
+				if(libelStock != null) {
+				 libelStock.setVisible(false);
+				 addLibelle.setVisible(false);
+				 addNbrStock.setVisible(false);
+				 nbrStock.setVisible(false);
+				 addStock.setVisible(false);
+				 retour.setVisible(false);
+				}
+				if(fournisseur != null) {
+					fournisseur.setVisible(false);
+					choixFourni.setVisible(false);
+					if(stockFourni != null) {
+						stockFourni.setVisible(false);
+					    choixStock2.setVisible(false);
+					    if(demandeVoulu != null) {
+					    	demandeVoulu.setVisible(false);
+					    	demandeStock.setVisible(false);
+					        saveDemande.setVisible(false);
+					        retour3.setVisible(false);
+					        }
+					    }
+					}
+				stockLibel= new JComboBox();
 				stockLibel.setBounds(11, 250, 178 , 33);
 				frame.getContentPane().add(stockLibel);
 				try {
@@ -176,7 +242,7 @@ public class actionStock {
 		  			e1.printStackTrace();
 		  			System.out.println("erreur dans l'ajout");	
 		  	}
-				JButton choixStock = new JButton("Choisir");
+				choixStock = new JButton("Choisir");
 				choixStock.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String choix = (String) stockLibel.getSelectedItem();
@@ -185,9 +251,9 @@ public class actionStock {
 				  			
 				  			ResultSet resultat= stm.executeQuery("SELECT * FROM stock WHERE libelle = ('"+choix+"')");
 				  			if(resultat.next()) {
-				  				JLabel libelStock = new JLabel("Libelle du stock :");
-				  				libelStock.setBounds(11, 307, 111, 20);
-				  				frame.getContentPane().add(libelStock);
+				  				libelleStock = new JLabel("Libelle du stock :");
+				  				libelleStock.setBounds(11, 307, 111, 20);
+				  				frame.getContentPane().add(libelleStock);
 								frame.repaint();
 				  				
 				  				newLibelle = new JTextField(resultat.getString("libelle"));
@@ -196,9 +262,9 @@ public class actionStock {
 				  				newLibelle.setColumns(10);
 								frame.repaint();
 				  				
-				  				JLabel nbrStock = new JLabel("Nombre en stock");
-				  				nbrStock.setBounds(11, 354, 111, 20);
-				  				frame.getContentPane().add(nbrStock);
+				  				nbreStock = new JLabel("Nombre en stock");
+				  				nbreStock.setBounds(11, 354, 111, 20);
+				  				frame.getContentPane().add(nbreStock);
 								frame.repaint();
 				  				
 				  				newNbrStock = new JTextField(resultat.getString("nbrStock"));
@@ -207,7 +273,7 @@ public class actionStock {
 				  				frame.getContentPane().add(newNbrStock);
 								frame.repaint();
 				  				
-				  				JButton saveModif = new JButton("Enregistrer");
+				  				saveModif = new JButton("Enregistrer");
 				  				saveModif.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										int idstock = 0;
@@ -229,16 +295,16 @@ public class actionStock {
 				  				frame.getContentPane().add(saveModif);
 								frame.repaint();
 				  				
-				  				JButton retour = new JButton("Retour");
-				  				retour.addActionListener(new ActionListener() {
+				  				retour1 = new JButton("Retour");
+				  				retour1.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										actionStock actionStock = new actionStock();
 										actionStock.run();
 										frame.dispose();
 									}
 								});
-				  				retour.setBounds(233, 429, 132, 33);
-				  				frame.getContentPane().add(retour);
+				  				retour1.setBounds(233, 429, 132, 33);
+				  				frame.getContentPane().add(retour1);
 								frame.repaint();
 							}
 						}
@@ -262,7 +328,27 @@ public class actionStock {
 		JButton btnNewButton_2_1 = new JButton("Demande fournisseur");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JComboBox<String> fournisseur = new JComboBox();
+				if(libelStock != null) {
+					 libelStock.setVisible(false);
+					 addLibelle.setVisible(false);
+					 addNbrStock.setVisible(false);
+					 nbrStock.setVisible(false);
+					 addStock.setVisible(false);
+					 retour.setVisible(false);
+					}
+				if(stockLibel != null) {
+					 stockLibel.setVisible(false);
+					 choixStock.setVisible(false);
+					 if(libelleStock != null) {
+						 newLibelle.setVisible(false);
+						 newNbrStock.setVisible(false);
+						 libelleStock.setVisible(false);
+						 nbreStock.setVisible(false);
+						 saveModif.setVisible(false);
+						 retour1.setVisible(false);
+					 }
+					}
+				fournisseur = new JComboBox();
 				fournisseur.setBounds(11, 250, 178 , 33);
 				frame.getContentPane().add(fournisseur);
 				try {
@@ -277,11 +363,11 @@ public class actionStock {
 		  			e1.printStackTrace();
 		  			System.out.println("erreur dans l'ajout");	
 		  	}
-				JButton choixFourni = new JButton("Choisir");
+				choixFourni = new JButton("Choisir");
 				choixFourni.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String fourniChoisi = (String) fournisseur.getSelectedItem();
-						JComboBox<String> stockFourni = new JComboBox();
+						stockFourni = new JComboBox();
 						stockFourni.setBounds(11, 285, 178 , 33);
 						frame.getContentPane().add(stockFourni);
 						frame.repaint();
@@ -297,11 +383,11 @@ public class actionStock {
 				  			e1.printStackTrace();
 				  			System.out.println("erreur dans l'ajout");	
 				  	}
-				  			JButton choixStock = new JButton("Choisir");
-				  			choixStock.addActionListener(new ActionListener() {
+				  			choixStock2 = new JButton("Choisir");
+				  			choixStock2.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
 								String stockChoisi = (String) stockFourni.getSelectedItem();
-				  				JLabel demandeVoulu = new JLabel("Nombre voulu :");
+				  				demandeVoulu = new JLabel("Nombre voulu :");
 				  				demandeVoulu.setBounds(11, 330, 111, 20);
 				  				frame.getContentPane().add(demandeVoulu);
 								frame.repaint();
@@ -312,7 +398,7 @@ public class actionStock {
 				  				demandeStock.setColumns(10);
 								frame.repaint();
 				  				
-				  				JButton saveDemande = new JButton("Enregistrer");
+				  				saveDemande = new JButton("Enregistrer");
 				  				saveDemande.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {	
 										
@@ -326,22 +412,22 @@ public class actionStock {
 				  				frame.getContentPane().add(saveDemande);
 								frame.repaint();
 				  				
-				  				JButton retour = new JButton("Retour");
-				  				retour.addActionListener(new ActionListener() {
+				  				retour3 = new JButton("Retour");
+				  				retour3.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										actionStock actionStock = new actionStock();
 										actionStock.run();
 										frame.dispose();
 									}
 								});
-				  				retour.setBounds(233, 429, 132, 33);
-				  				frame.getContentPane().add(retour);
+				  				retour3.setBounds(233, 429, 132, 33);
+				  				frame.getContentPane().add(retour3);
 								frame.repaint();
 						
 						}
 					});
-					choixStock.setBounds(200, 285, 178 , 33);
-					frame.getContentPane().add(choixStock);
+					choixStock2.setBounds(200, 285, 178 , 33);
+					frame.getContentPane().add(choixStock2);
 					frame.repaint();	
 					}
 				});

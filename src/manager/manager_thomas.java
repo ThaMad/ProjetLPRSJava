@@ -7,10 +7,21 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
 
+import model.Classe;
 import model.DemandeStockFournisseur;
 import model.Eleve;
 import model.Stock;
@@ -18,6 +29,7 @@ import model.User;
 import view.accueil;
 import view.actionStock;
 import view.gestionAdministrative;
+import view.gestionClasseAdmin;
 import view.gestionEleveAdmin;
 import view.gestionprofil;
 import view.gestionstock;
@@ -53,13 +65,51 @@ public class manager_thomas {
 	 	 	 return this.dbh;
 }
 	
-	public void inscription(User a) {
+	public static void sendMessage(String subject, String text, String destinataire) throws Exception {
+	    // 1 -> Création de la session
+	    Properties properties = new Properties();
+	    properties.setProperty("mail.smtp.auth", "true");
+	    properties.setProperty("mail.smtp.starttls.enable", "true");
+	    properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+	    properties.setProperty("mail.smtp.port", "587");
+
+	    String emailSender = "projet.php.lprs@gmail.com";
+	    String mdpSender = "wrgeauzunuomxpvo";
+
+	    Session session = Session.getInstance(properties, new Authenticator() {
+	    @Override
+	    protected PasswordAuthentication getPasswordAuthentication() {
+	    return new PasswordAuthentication(emailSender, mdpSender);
+	    }
+	    });
+
+	    Message message = prepareMessage(session, emailSender, destinataire, subject,text);
+
+	    Transport.send(message);
+	    }
+
+	    private static Message prepareMessage(Session session, String email, String destinataire, String subject, String text) {
+	    try {
+	    Message message = new MimeMessage(session);
+	    message.setFrom(new InternetAddress(email));
+	    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinataire));
+	    message.setSubject(subject);
+	    message.setText(text);
+	    return message;
+	    } catch (Exception e) {
+	    e.printStackTrace();
+	    }
+	    return null;
+	    }
+
+	
+	public void inscription(User a) throws Exception {
    		this.dbh=  bdd();
    		StringBuffer sb = null;
 		try {
   			java.sql.Statement stm= this.dbh.createStatement();
   			
-  			ResultSet resultat= stm.executeQuery("SELECT idUser FROM user");
+  			ResultSet resultat= stm.executeQuery("SELECT idUser FROM user ORDER BY idUser ASC");
   			     int id = 0;
 				   while(resultat.next()) {
   				       id=resultat.getInt("idUser");
@@ -85,6 +135,7 @@ public class manager_thomas {
 			if(insert == 1) {
 				accueil accueil = new accueil();
 				accueil.run();
+				sendMessage("Inscription", "Bienvenue au Lycee LPRS", a.getMail());
 			}
 			else {
 				inscription inscription = new inscription();
@@ -174,7 +225,7 @@ public class manager_thomas {
 		try {
   			java.sql.Statement stm= this.dbh.createStatement();
   			
-  			ResultSet resultat= stm.executeQuery("SELECT idStock FROM stock");
+  			ResultSet resultat= stm.executeQuery("SELECT idStock FROM stock ORDER BY idStock ASC");
   			     int id = 0;
 				   while(resultat.next()) {
   				       id=resultat.getInt("idStock");
@@ -248,7 +299,7 @@ public class manager_thomas {
 		try {
   			java.sql.Statement stm= this.dbh.createStatement();
   			
-  			ResultSet resultat= stm.executeQuery("SELECT idEleve FROM eleve");
+  			ResultSet resultat= stm.executeQuery("SELECT idEleve FROM eleve ORDER BY idEleve ASC");
   			     int id = 0;
 				   while(resultat.next()) {
   				       id=resultat.getInt("idEleve");
@@ -309,6 +360,85 @@ public class manager_thomas {
     				} else {
     					gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
     					gestionEleveAdmin.run();
+    					}
+  		}
+      		}
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  		}
+	}
+	
+	public void addNewClasse(Classe a) {
+   		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			
+  			ResultSet resultat= stm.executeQuery("SELECT idClasse FROM classe ORDER BY idClasse ASC");
+  			     int id = 0;
+				   while(resultat.next()) {
+  				       id=resultat.getInt("idClasse");
+  					   id++;
+  			   }
+		    ResultSet resultat1= stm.executeQuery("SELECT idUser FROM user WHERE nom =('"+a.getProfPrincipale()+"')"); 
+		    if(resultat1.next()) {
+			int idUser = resultat1.getInt("idUser");
+			int insert =stm.executeUpdate("INSERT INTO classe VALUES('"+id+"','"+a.getLibelle()+"','"+idUser+"')");
+			if(insert == 1) {
+				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+				gestionAdministrative.run();
+			}
+			else {
+				gestionClasseAdmin gestionClasseAdmin = new gestionClasseAdmin();
+				gestionClasseAdmin.run();
+			}
+		    }
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
+	public void suppClasse(Classe a) {
+   		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  			
+  			int update = stm.executeUpdate("UPDATE eleve INNER JOIN classe ON classe.idClasse = eleve.classe set classe = null WHERE libelle = ('"+a.getLibelle()+"')");
+		    ResultSet resultat1= stm.executeQuery("SELECT idClasse FROM classe WHERE libelle =('"+a.getLibelle()+"')"); 
+		    if(resultat1.next()) {
+  			int update2 = stm.executeUpdate("DELETE FROM profclasse WHERE Classe = ('"+resultat1.getInt("idClasse")+"')");
+		    }
+		    int resultat = stm.executeUpdate("DELETE FROM classe WHERE libelle =('"+a.getLibelle()+"')"); 
+		    if(resultat == 1) {
+				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+				gestionAdministrative.run();
+			} else {
+				gestionClasseAdmin gestionClasseAdmin = new gestionClasseAdmin();
+				gestionClasseAdmin.run();
+			}
+		    } catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
+	
+	public void modifClasse(Classe s, int idClasse) {
+   		this.dbh=  bdd();
+		 try {
+      			java.sql.Statement stm= this.dbh.createStatement();
+      			
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+      			ResultSet resultat1= stm.executeQuery("SELECT idUser FROM user WHERE nom =('"+s.getProfPrincipale()+"')"); 
+    		    if(resultat1.next()) {
+    			int idUser = resultat1.getInt("idUser");
+    			int update =stm.executeUpdate("UPDATE classe SET libelle='"+s.getLibelle()+"', id_prof_principale='"+idUser+"' WHERE idClasse=('"+idClasse+"')");
+    			if(update == 1) {
+    				gestionAdministrative gestionAdministrative = new gestionAdministrative();
+    				gestionAdministrative.run();
+    				} else {
+    					gestionClasseAdmin gestionClasseAdmin = new gestionClasseAdmin();
+    					gestionClasseAdmin.run();
     					}
   		}
       		}

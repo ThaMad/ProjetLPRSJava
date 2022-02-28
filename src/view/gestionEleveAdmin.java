@@ -34,6 +34,30 @@ public class gestionEleveAdmin {
 	protected JTextField addPrenom;
 	protected JTextField newPrenomEleve;
 	protected JTextField newNomEleve;
+	protected JComboBox addClasse;
+	protected JLabel lblNomadd;
+	protected JLabel lblPrenomadd;
+	protected JLabel lblClasseadd;
+	protected JButton saveAdd;
+	protected JButton retour1;
+	protected JLabel lblNomsupp;
+	protected JButton retour2;
+	protected JButton saveSupp;
+	protected JComboBox suppEleve;
+	protected JComboBox modifEleve;
+	protected JButton choixEleve;
+	protected JLabel nomEleve;
+	protected JLabel prenomEleve;
+	protected JLabel classeEleve;
+	protected JComboBox newClasseEleve;
+	protected JButton saveModif;
+	protected JButton retour;
+
+
+
+
+
+
 
 
 
@@ -125,9 +149,29 @@ public class gestionEleveAdmin {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JLabel lblNewLabel = new JLabel("Nom Eleve:");
-				lblNewLabel.setBounds(10, 303, 99, 20);
-				frame.getContentPane().add(lblNewLabel);
+				if(lblNomsupp != null) {
+				lblNomsupp.setVisible(false);
+				saveSupp.setVisible(false);
+				retour2.setVisible(false);
+				suppEleve.setVisible(false);
+				}
+				if(choixEleve != null) {
+					choixEleve.setVisible(false);
+					modifEleve.setVisible(false);
+				}
+				if(nomEleve != null) {
+				nomEleve.setVisible(false);
+				prenomEleve.setVisible(false);
+				classeEleve.setVisible(false);
+				newNomEleve.setVisible(false);
+				newPrenomEleve.setVisible(false);
+				newClasseEleve.setVisible(false);
+				saveModif.setVisible(false);
+				retour.setVisible(false);
+				}
+				lblNomadd = new JLabel("Nom Eleve:");
+				lblNomadd.setBounds(10, 303, 99, 20);
+				frame.getContentPane().add(lblNomadd);
 				frame.repaint();
 				
 				addNom = new JTextField();
@@ -136,9 +180,9 @@ public class gestionEleveAdmin {
 				addNom.setColumns(10);
 				frame.repaint();
 				
-				JLabel lblNewLabel_1 = new JLabel("Prenom Eleve:");
-				lblNewLabel_1.setBounds(10, 343, 99, 20);
-				frame.getContentPane().add(lblNewLabel_1);
+				lblPrenomadd = new JLabel("Prenom Eleve:");
+				lblPrenomadd.setBounds(10, 343, 99, 20);
+				frame.getContentPane().add(lblPrenomadd);
 				frame.repaint();
 				
 				addPrenom = new JTextField();
@@ -147,12 +191,12 @@ public class gestionEleveAdmin {
 				addPrenom.setColumns(10);
 				frame.repaint();
 				
-				JLabel lblNewLabel_2 = new JLabel("Classe affecter:");
-				lblNewLabel_2.setBounds(10, 383, 99, 20);
-				frame.getContentPane().add(lblNewLabel_2);
+				lblClasseadd = new JLabel("Classe affecter:");
+				lblClasseadd.setBounds(10, 383, 99, 20);
+				frame.getContentPane().add(lblClasseadd);
 				frame.repaint();
 				
-				JComboBox addClasse = new JComboBox();
+				addClasse = new JComboBox();
 				addClasse.setBounds(100, 383, 180, 20);
 				frame.getContentPane().add(addClasse);
 				frame.repaint();
@@ -169,8 +213,8 @@ public class gestionEleveAdmin {
 		  			System.out.println("erreur dans l'ajout");	
 		  	}
 				
-				JButton btnNewButton_4 = new JButton("Enregistrer");
-				btnNewButton_4.addActionListener(new ActionListener() {
+				saveAdd = new JButton("Enregistrer");
+				saveAdd.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String prenomEleve = addPrenom.getText();
 						String nomEleve = addNom.getText();
@@ -181,20 +225,20 @@ public class gestionEleveAdmin {
 						frame.dispose();
 					}
 				});
-				btnNewButton_4.setBounds(191, 410, 146, 27);
-				frame.getContentPane().add(btnNewButton_4);
+				saveAdd.setBounds(191, 410, 146, 27);
+				frame.getContentPane().add(saveAdd);
 				frame.repaint();
 				
-				JButton btnNewButton_5 = new JButton("Retour");
-				btnNewButton_5.addActionListener(new ActionListener() {
+				retour1 = new JButton("Retour");
+				retour1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						frame.dispose();
 						gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
 						gestionEleveAdmin.run();
 					}
 				});
-				btnNewButton_5.setBounds(10, 410, 146, 27);
-				frame.getContentPane().add(btnNewButton_5);
+				retour1.setBounds(10, 410, 146, 27);
+				frame.getContentPane().add(retour1);
 				frame.repaint();
 			}
 		});
@@ -204,11 +248,35 @@ public class gestionEleveAdmin {
 		JButton btnNewButton_1 = new JButton("Supprimer");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JLabel lblNewLabel = new JLabel("Nom Eleve:");
-				lblNewLabel.setBounds(10, 303, 99, 20);
-				frame.getContentPane().add(lblNewLabel);
+				if(addNom != null) {
+				addNom.setVisible(false);
+				addPrenom.setVisible(false);
+				addClasse.setVisible(false);
+				lblNomadd.setVisible(false);
+				lblPrenomadd.setVisible(false);
+				lblClasseadd.setVisible(false);
+				saveAdd.setVisible(false);
+				retour1.setVisible(false);
+				}
+				if(choixEleve != null) {
+					choixEleve.setVisible(false);
+					modifEleve.setVisible(false);
+				}
+				if(nomEleve != null) {
+				nomEleve.setVisible(false);
+				prenomEleve.setVisible(false);
+				classeEleve.setVisible(false);
+				newNomEleve.setVisible(false);
+				newPrenomEleve.setVisible(false);
+				newClasseEleve.setVisible(false);
+				saveModif.setVisible(false);
+				retour.setVisible(false);
+				}
+				lblNomsupp = new JLabel("Nom Eleve:");
+				lblNomsupp.setBounds(10, 303, 99, 20);
+				frame.getContentPane().add(lblNomsupp);
 				frame.repaint();
-				JComboBox suppEleve = new JComboBox();
+				suppEleve = new JComboBox();
 				suppEleve.setBounds(115, 303, 180, 20);
 				frame.getContentPane().add(suppEleve);
 				frame.repaint();
@@ -225,7 +293,7 @@ public class gestionEleveAdmin {
 		  			System.out.println("erreur dans l'ajout");	
 		  	}
 				
-				JButton saveSupp = new JButton("Enregistrer");
+				saveSupp = new JButton("Enregistrer");
 				saveSupp.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String nomEleve = (String) suppEleve.getSelectedItem();
@@ -238,16 +306,16 @@ public class gestionEleveAdmin {
 				frame.getContentPane().add(saveSupp);
 				frame.repaint();
 				
-				JButton btnNewButton_6 = new JButton("Retour");
-				btnNewButton_6.addActionListener(new ActionListener() {
+				retour2 = new JButton("Retour");
+				retour2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						frame.dispose();
 						gestionEleveAdmin gestionEleveAdmin = new gestionEleveAdmin();
 						gestionEleveAdmin.run();
 					}
 				});
-				btnNewButton_6.setBounds(10, 350, 146, 27);
-				frame.getContentPane().add(btnNewButton_6);
+				retour2.setBounds(10, 350, 146, 27);
+				frame.getContentPane().add(retour2);
 				frame.repaint();
 			}
 		});
@@ -257,7 +325,23 @@ public class gestionEleveAdmin {
 		JButton modifier = new JButton("Modifier");
 		modifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JComboBox<String> modifEleve= new JComboBox();
+				if(addNom != null) {
+				addNom.setVisible(false);
+				addPrenom.setVisible(false);
+				addClasse.setVisible(false);
+				lblNomadd.setVisible(false);
+				lblPrenomadd.setVisible(false);
+				lblClasseadd.setVisible(false);
+				saveAdd.setVisible(false);
+				retour1.setVisible(false);
+				}
+				if(lblNomsupp != null) {
+				lblNomsupp.setVisible(false);
+				saveSupp.setVisible(false);
+				retour2.setVisible(false);
+				suppEleve.setVisible(false);
+				}
+				modifEleve= new JComboBox();
 				modifEleve.setBounds(11, 270, 178 , 33);
 				frame.getContentPane().add(modifEleve);
 				try {
@@ -272,8 +356,8 @@ public class gestionEleveAdmin {
 		  			e1.printStackTrace();
 		  			System.out.println("erreur dans l'ajout");	
 		  	}
-				JButton choixStock = new JButton("Choisir");
-				choixStock.addActionListener(new ActionListener() {
+				choixEleve = new JButton("Choisir");
+				choixEleve.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String choix = (String) modifEleve.getSelectedItem();
 						try {
@@ -282,7 +366,7 @@ public class gestionEleveAdmin {
 				  			ResultSet resultat= stm.executeQuery("SELECT * FROM eleve WHERE nom = ('"+choix+"')");
 				  			if(resultat.next()) {
 				  				int idEleve = Integer.parseInt(resultat.getString("idEleve"));
-				  				JLabel nomEleve = new JLabel("Nom Eleve :");
+				  				nomEleve = new JLabel("Nom Eleve :");
 				  				nomEleve.setBounds(11, 310, 111, 20);
 				  				frame.getContentPane().add(nomEleve);
 								frame.repaint();
@@ -293,7 +377,7 @@ public class gestionEleveAdmin {
 				  				newNomEleve.setColumns(10);
 								frame.repaint();
 				  				
-				  				JLabel prenomEleve = new JLabel("Prenom Eleve :");
+				  				prenomEleve = new JLabel("Prenom Eleve :");
 				  				prenomEleve.setBounds(11, 330, 111, 20);
 				  				frame.getContentPane().add(prenomEleve);
 								frame.repaint();
@@ -304,12 +388,12 @@ public class gestionEleveAdmin {
 				  				frame.getContentPane().add(newPrenomEleve);
 								frame.repaint();
 								
-								JLabel classeEleve = new JLabel("Classe Eleve :");
+								classeEleve = new JLabel("Classe Eleve :");
 				  				classeEleve.setBounds(11, 355, 111, 20);
 				  				frame.getContentPane().add(classeEleve);
 								frame.repaint();
 								
-								JComboBox<String> newClasseEleve= new JComboBox();
+								newClasseEleve= new JComboBox();
 								newClasseEleve.setBounds(159, 355, 178 , 33);
 								frame.getContentPane().add(newClasseEleve);
 				  			
@@ -325,7 +409,7 @@ public class gestionEleveAdmin {
 						  			System.out.println("erreur dans l'ajout");	
 						  	}
 				  				
-				  				JButton saveModif = new JButton("Enregistrer");
+				  				saveModif = new JButton("Enregistrer");
 				  				saveModif.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										String newPrenom = newPrenomEleve.getText();
@@ -341,7 +425,7 @@ public class gestionEleveAdmin {
 				  				frame.getContentPane().add(saveModif);
 								frame.repaint();
 				  				
-				  				JButton retour = new JButton("Retour");
+				  				retour = new JButton("Retour");
 				  				retour.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										actionStock actionStock = new actionStock();
@@ -358,8 +442,8 @@ public class gestionEleveAdmin {
 				  			}
 				  			}
 						});
-						choixStock.setBounds(220, 270, 178 , 33);
-						frame.getContentPane().add(choixStock);
+				choixEleve.setBounds(220, 270, 178 , 33);
+						frame.getContentPane().add(choixEleve);
 						frame.repaint();		
 			}
 		});

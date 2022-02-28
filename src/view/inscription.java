@@ -186,8 +186,13 @@ public class inscription {
           		if(prenomUser !="" && nomUser != "" && mailUser != "" && mdpUser != "" && profilUser != "") {
           			User user = User.getInstance(prenomUser, nomUser, mailUser, mdpUser, profilUser);
           			manager_thomas b = new manager_thomas();
-          			b.inscription(user);
-    				frame.dispose();
+          			try {
+        				frame.dispose();
+						b.inscription(user);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
           		}
           		
 			}
