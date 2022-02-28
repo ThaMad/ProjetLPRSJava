@@ -2,22 +2,29 @@ package view.admin.gestionUser;
 
 import java.awt.EventQueue;
 
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import manager.manager_ryan;
+import model.User;
 import view.admin.general.info;
+
 
 import java.awt.Font;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class modUser {
 	
 	private JFrame frame;
+	private User user;
 	private JTextField nom;
 	private JTextField mail;
 	private JTextField prenom;
@@ -25,24 +32,19 @@ public class modUser {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					modUser window = new modUser();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+					frame.setVisible(true);
+				} 
+			
 	/**
 	 * Create the application.
 	 */
-	public modUser() {
+	public modUser(User user) {
 		initialize();
+		this.user = user;
+		this.nom.setText(user.getNom());
+		this.prenom.setText(user.getPrenom());
+		this.mail.setText(user.getMail());
 	}
 
 	/**
@@ -98,13 +100,13 @@ public class modUser {
 		lblNewLabel_5.setBounds(70, 289, 61, 16);
 		frame.getContentPane().add(lblNewLabel_5);
 		
-		JRadioButton profP = new JRadioButton("Professeur principal");
-		profP.setBounds(180, 317, 157, 23);
-		frame.getContentPane().add(profP);
-		
 		JRadioButton administratif = new JRadioButton("Administratif");
-		administratif.setBounds(355, 317, 115, 23);
+		administratif.setBounds(217, 317, 115, 23);
 		frame.getContentPane().add(administratif);
+		
+		ButtonGroup profil = new ButtonGroup();
+        profil.add(prof);
+       profil.add(administratif);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Activé le compte");
 		chckbxNewCheckBox.setBounds(70, 380, 137, 23);
@@ -123,16 +125,40 @@ public class modUser {
 		});
 		Return.setBounds(70, 422, 85, 29);
 		frame.getContentPane().add(Return);
-	
-	}
+		
 
-	public void run() {
-		// TODO Auto-generated method stub
-		try {
-			modUser window = new modUser();
-			window.frame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		JButton save = new JButton("Sauvegarder");
+		save.setBounds(22, 202, 176, 25);
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				manager_ryan manRyan= new manager_ryan();
+				try {
+					user.setNom(nom.getText());
+					user.setPrenom(prenom.getText());
+					user.setMail(mail.getText());
+					
+					if(prof.isSelected()) {
+						user.setProfil(prof.getText());
+					}
+					
+					if(administratif.isSelected()) {
+						user.setProfil(administratif.getText());
+					}
+					
+					manRyan.sauvegarder(user);
+					info.actualiseTableau(user);
+					frame.setVisible(false);
+				} catch (SQLException e) {
+					System.out.println("Erreur");
+					//e.printStackTrace();
+				} catch (NumberFormatException e) {
+					//e.printStackTrace();
+					System.out.println("Erreur format");
+				}
+
+			}
+		});
+		frame.getContentPane().add(btnNewButton);
+		
 	}
 }

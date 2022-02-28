@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import manager.Manager_prof;
 import manager.manager_thomas;
 import model.Classe;
+import model.Eleve;
 import model.User;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -71,6 +72,7 @@ public class gestionclasses {
 	 */
 	private void initialize() {
 		manager_thomas a = new manager_thomas();
+		Manager_prof manprof = new Manager_prof();
 		connexion =  (Connection) a.bdd();
 		User me = User.getInstanceVide();
 		frame = new JFrame();
@@ -129,10 +131,10 @@ public class gestionclasses {
 		            if (me.getClickCount() == 2) {     // to detect double click events
 		                JTable target = (JTable)me.getSource();
 		                int row = target.getSelectedRow(); // select a row
-		                int idReservation = (int) target.getValueAt(row, 0); // select a column
-		                /*Reservation reservationSel = reservationManager.getReservation(idReservation);
-		                ReservationDetailView reservationDetailView = new ReservationDetailView(reservationSel,utilisateurConnecte);
-		                reservationDetailView.run();*/
+		                int idClasse = (int) target.getValueAt(row, 0); // select a column
+		                ArrayList<Eleve> classeSel = manprof.getElevesFromClasse(idClasse);
+		                ClasseDetail classeDetail = new ClasseDetail(classeSel);
+		                ClasseDetail.run();
 		             }
 				}
 			});
@@ -150,15 +152,6 @@ public class gestionclasses {
 			btnNewButton.setBounds(529, 81, 117, 25);
 			frame.getContentPane().add(btnNewButton);
 			
-			JButton btnResume = new JButton("Resume");
-			btnResume.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					/*ResumeView resumeView = new ResumeView();
-					resumeView.run();*/
-				}
-			});
-			btnResume.setBounds(529, 128, 117, 25);
-			frame.getContentPane().add(btnResume);
 			populateTable();
 			frame.setBounds(100, 100, 549, 550);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
