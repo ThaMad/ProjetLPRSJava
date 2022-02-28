@@ -2,8 +2,8 @@ package model;
 
 public class User {
 // TODO Auto-generated constructor stub
-		public String nom,prenom,mail,profil, mdp;
-		public int idUser;
+		public String nom,prenom,mail,profil, mdp, libelle;
+		public int idUser, idClasse;
 		private static User usr;
 		
 		public static User getInstanceVide() {
@@ -27,13 +27,13 @@ public class User {
 	        return usr;
 	    }
 		
-		// je cree les constructeurs 
+		// je cree les constructeurs
 		private User( String nom, String prenom, String mail,String mdp,String profil) {
 			this.nom=nom;
 			this.prenom=prenom;
 			this.mdp=mdp;
 			this.mail=mail;
-			this.profil=profil;			
+			this.profil=profil;
 		}
 		
 		private User(String mail,String mdp) {
@@ -50,6 +50,14 @@ public class User {
 		public User(int idUser, String mail) {
 			this.idUser=idUser;
 			this.mail=mail;
+		}
+		
+		public User(int idUser, String nom, String prenom, String mail, String profil) {
+			this.idUser=idUser;
+			this.nom=nom;
+			this.prenom=prenom;
+			this.mail=mail;
+			this.profil=profil;
 		}
 		
 		private User() {

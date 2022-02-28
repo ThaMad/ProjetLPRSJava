@@ -21,9 +21,9 @@ public class Classe {
 	public Classe(int idClasse, String libelle, int id_prof_principale) {
 		this.idClasse = idClasse;
 		this.libelle = libelle;
-		this.id_prof_principale = id_prof_principale;
-		
+		this.id_prof_principale = id_prof_principale;		
 	}
+	
 	public int getIdClasse() {
 		return idClasse;
 	}
