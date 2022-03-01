@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import manager.Manager_prof;
 import manager.manager_thomas;
+import model.Classe;
 import model.Eleve;
 import model.User;
 
@@ -37,17 +38,19 @@ public class ClasseDetail {
     private static String[] colMedHdr = { "id", "Nom", "Prenom" };
     private static DefaultTableModel tblModel = new DefaultTableModel(colMedHdr, 0);
     private Manager_prof manprof = new Manager_prof();
-	private JFrame frame;
+	private static JFrame frame;
 	private User utilisateurConnecte;
-	private static Eleve eleve;
+	private static ArrayList<Eleve> eleves;
 	private JTable table;
 	private Connection connexion;
+	private String libelleClasse;
+	private int idClasse;
 
 
 	/**
 	 * Launch the application.
 	 */
-	public void run() {
+	public static void run() {
 		try {
 			frame.setVisible(true);
 			} catch (Exception e) {
@@ -57,56 +60,66 @@ public class ClasseDetail {
 	/**
 	 * Create the application.
 	 */
-	public ClasseDetail(Eleve eleve) {
-		ClasseDetail.eleve = eleve;
-		initialize();
+	public ClasseDetail(int idClasse, String libelleClasse) {
+		this.idClasse = idClasse;
+		this.libelleClasse = libelleClasse;
+		initialize(idClasse, libelleClasse);
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(int idClasse, String libelleClasse) {
 		manager_thomas a = new manager_thomas();
 		Manager_prof manprof = new Manager_prof();
 		connexion = (Connection) a.bdd();
 		User me = User.getInstanceVide();
 		frame = new JFrame();
+		frame.setBounds(100, 100, 549, 550);
 		frame.getContentPane().setBackground(Color.WHITE);
-		frame.getContentPane().setLayout(null);
 		ImageIcon monImage = new ImageIcon("C:\\Users\\MADAWALA_Th\\eclipse-workspace\\ProjetLPRSJava\\src\\demo\\logolprsjava.png"); 
 		Image image = monImage.getImage(); // transform it 
 		Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-		ImageIcon monImagetrans = new ImageIcon(newimg);  // transform it back
+		ImageIcon monImagetrans = new ImageIcon(newimg);
+		frame.getContentPane().setLayout(null);
 		JPanel navbar = new JPanel();
-		navbar.setBackground(new Color(51, 153, 204));
 		navbar.setBounds(0, -15, 549, 74);
+		navbar.setBackground(new Color(51, 153, 204));
 		frame.getContentPane().add(navbar);
 		navbar.setLayout(null);
 		
 		JLabel navbarlogo = new JLabel(" Robert Schuman ");
+		navbarlogo.setBounds(23, 11, 234, 63);
 		navbarlogo.setForeground(UIManager.getColor("inactiveCaptionBorder"));
 		navbarlogo.setFont(new Font("Heiti TC", Font.BOLD, 16));
-		navbarlogo.setBounds(23, 11, 234, 63);
 		navbar.add(navbarlogo);
 		navbarlogo.setIcon(monImagetrans);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 71, 549, 95);
 		panel_1.setForeground(Color.WHITE);
 		panel_1.setBorder(null);
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(0, 71, 560, 95);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel bienvenue = new JLabel("Eleve de ");
+		bienvenue.setBounds(166, 21, 120, 43);
 		bienvenue.setForeground(new Color(255, 127, 80));
 		bienvenue.setHorizontalAlignment(SwingConstants.CENTER);
 		bienvenue.setFont(new Font("Heiti SC", Font.BOLD, 27));
-		bienvenue.setBounds(129, 18, 284, 43);
 		panel_1.add(bienvenue);
 		
+		JLabel nameclasse = new JLabel(""+libelleClasse+"");
+		nameclasse.setHorizontalAlignment(SwingConstants.CENTER);
+		nameclasse.setForeground(new Color(255, 127, 80));
+		nameclasse.setFont(new Font("Heiti SC", Font.BOLD, 27));
+		nameclasse.setBounds(285, 21, 120, 43);
+		panel_1.add(nameclasse);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 28, 482, 318);
+		scrollPane.setBounds(39, 175, 482, 318);
 		frame.getContentPane().add(scrollPane);
 		
 		/*
@@ -136,62 +149,40 @@ public class ClasseDetail {
 	            if (me.getClickCount() == 2) {     // to detect double click events
 	                JTable target = (JTable)me.getSource();
 	                int row = target.getSelectedRow(); // select a row
-	                int idReservationDetail = (int) target.getValueAt(row, 0); // select a column
-	               /*  Eleve Eleve= manprof.getEleveSanctions(idReservationDetail, reservation);
-	                ReservationDetailForm reservationDetailForm = new ReservationDetailForm(reservationDetailSel);
-	                reservationDetailForm.run(); */
+	                int idEleve = (int) target.getValueAt(row, 0); // select a column
+	                /*Eleve eleve= manprof.getEleveSanctions(idEleve);
+	                ReservationDetailForm reservationDetailForm = new ReservationDetailForm(eleve);
+	                reservationDetailForm.run();*/
 	             }
 			}
 		});
 		table.setBounds(0, 0, 286, 219);
 		scrollPane.setViewportView(table);
 	
-		
-		FilmManager filmManager = new FilmManager();
-		java.sql.Blob blob = filmManager.getImage(reservation.getFkSalle().getFkFilm().getIdFilm());
-		JLabel lblImage = new JLabel(reservation.getFkSalle().getFkFilm().getTitre());
-		lblImage.setBounds(566, 128, 120, 120);
-		if(blob !=null) {
-			InputStream in;
-			BufferedImage image = null ;
-			try {
-				in = blob.getBinaryStream();
-				image = ImageIO.read(in);
-			} catch (SQLException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			Image dimg = image.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(),
-			        Image.SCALE_SMOOTH);
-			lblImage.setIcon(new ImageIcon(dimg));
-			
-		}
-		frame.getContentPane().add(lblImage);
 		populateTable();
 	}
 	
 	private void populateTable() {
 		tblModel.getDataVector().removeAllElements();
-		ArrayList<ReservationDetail> reservationDetails = reservationDetailManager.getReservationDetails(reservation);
-		for (ReservationDetail reservationDetail : reservationDetails) {
-			Object[] data = {reservationDetail.getIdReservationDetail(),reservationDetail.getFkReservation().toString(), reservationDetail.getFkTarif().toString(),reservationDetail.getQuantite(), reservationDetail.getFkUserAjout().toString()};
+		ArrayList<Eleve> eleves = manprof.getElevesFromClasse(idClasse);
+		for (Eleve eleve : eleves) {
+			Object[] data = {eleve.getIdEleve(),eleve.getNom(),eleve.getPrenom()};
 			tblModel.addRow(data);
 		}
 		
 	}
-	public static void actualiseTableau() {
+	public void actualiseTableau() {
 		tblModel.getDataVector().removeAllElements();
 		
-		ReservationDetailManager reservationDetailManager = new ReservationDetailManager();
-		ArrayList<ReservationDetail> reservationDetails = reservationDetailManager.getReservationDetails(reservation);
+		Manager_prof managerProf = new Manager_prof();
+		ArrayList<Eleve> eleves = managerProf.getElevesFromClasse(idClasse);
 		
-		for (ReservationDetail reservationDetail : reservationDetails) {
-			Object[] data = {reservationDetail.getIdReservationDetail(),reservationDetail.getFkReservation().toString(), reservationDetail.getFkTarif().toString(),reservationDetail.getQuantite(), reservationDetail.getFkUserAjout().toString()};
+		for (Eleve eleve : eleves) {
+			Object[] data = {eleve.getIdEleve(),eleve.getNom(),eleve.getPrenom()};
 			tblModel.addRow(data);
-		}
+			
 		tblModel.fireTableDataChanged();
 	}
-		
 	}
 
 

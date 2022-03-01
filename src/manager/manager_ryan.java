@@ -10,9 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.Classe;
-import model.Client;
-import model.Reservation;
-import model.Salle;
 import model.User;
 import view.accueil;
 import view.inscription;
