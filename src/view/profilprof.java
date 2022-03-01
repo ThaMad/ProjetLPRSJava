@@ -132,6 +132,9 @@ public class profilprof {
 	JButton btnplanning = new JButton("PLANNING");
 	btnplanning.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			frame.dispose();
+			planning planning = new planning();
+			planning.run();
 		}
 	});
 	btnplanning.setForeground(new Color(255, 255, 255));
