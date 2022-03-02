@@ -4,17 +4,27 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import manager.manager_thomas;
 import model.User;
+import javax.swing.JComboBox;
 
 public class planningEquipe {
 
@@ -87,6 +97,83 @@ public class planningEquipe {
 		bienvenue.setBounds(129, 0, 284, 43);
 		panel_1.add(bienvenue);
 		
+		
+		JLabel lblNewLabel = new JLabel("Classe : ");
+		lblNewLabel.setBounds(10, 189, 111, 21);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(131, 189, 173, 21);
+		frame.getContentPane().add(comboBox);
+		
+		try {
+				java.sql.Statement stm1= connexion.createStatement();
+				
+				// requete pour recuperer les donnees des films
+				ResultSet resultat1= stm1.executeQuery("SELECT classe.libelle FROM classe INNER JOIN user ON classe.id_prof_principale = user.idUser WHERE mail = ('"+u.mail+"')");
+				while(resultat1.next()) {
+					comboBox.addItem(resultat1.getString("classe.libelle"));
+				}
+				
+			} catch(SQLException e1) {
+					e1.printStackTrace();
+					System.out.println("erreur dans l'ajout");	
+			}
+		JButton btnNewButton = new JButton("Choisir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String choixClasse = (String) comboBox.getSelectedItem();
+				try {
+					java.sql.Statement stm= connexion.createStatement();
+		            Vector data = new Vector();
+		            Vector columnsNames = new Vector();
+					// requete pour recuperer les donnees des films
+					ResultSet resultat= stm.executeQuery("SELECT matiere, classe.libelle, heureDebut.heure,heureFin.heure, semaine.libelle, user.nom FROM profclasse INNER JOIN classe ON classe.idClasse = profclasse.Classe INNER JOIN user ON user.idUser = profclasse.idProf "
+							+ "INNER JOIN horaire AS heureDebut ON heureDebut.idHoraire = profclasse.heureD  INNER JOIN horaire AS heureFin ON heureFin.idHoraire = profclasse.heureF  INNER JOIN semaine ON semaine.idJour = profclasse.jour WHERE classe.libelle = ('"+choixClasse+"') ");
+				    // R�cup�rer le titre des colonnes
+		            ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
+		           
+		            // R�cup�rer le nombre de colonne
+		            int columns = md.getColumnCount();
+						 while (resultat.next())
+		                 {
+					
+		                     Object nb = resultat.getRow();
+		                     Vector row = new Vector(columns);
+		                     for (int i = 1; i <= columns; i++)
+		                     {
+	                             	row.addElement(resultat.getString("user.nom"));
+		                            row.addElement(resultat.getString("classe.libelle"));
+		                            row.addElement(resultat.getString("matiere"));
+									row.addElement(resultat.getString("semaine.libelle") );
+		                            row.addElement(resultat.getString("heureDebut.heure"));
+		                            row.addElement(resultat.getString("heureFin.heure"));
+		                     }
+		                     data.addElement( row );
+							 }
+		                 // Tout fermer
+		                 columnsNames.addElement("Professeur");
+		                 columnsNames.addElement("Classe");
+		                 columnsNames.addElement("Matiere");
+		                 columnsNames.addElement("Jour");
+		                 columnsNames.addElement("Heure Debut");
+		                 columnsNames.addElement("Heure Fin");
+
+
+		                JScrollPane scrollPane = new JScrollPane();
+		 				scrollPane.setBounds(42, 250, 453, 163);
+		 				frame.getContentPane().add(scrollPane);
+		 				JTable table = new JTable(data,columnsNames);
+		 				scrollPane.setViewportView(table);
+				} catch(SQLException e1) {
+		  			e1.printStackTrace();
+		  			System.out.println("erreur dans l'ajout");	
+		  	}
+			}
+		});
+		btnNewButton.setBounds(314, 189, 144, 21);
+		frame.getContentPane().add(btnNewButton);
+		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -100,5 +187,4 @@ public class planningEquipe {
 			e.printStackTrace();
 		}
 	}
-
 }
