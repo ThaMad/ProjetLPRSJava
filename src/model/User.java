@@ -13,6 +13,11 @@ public class User {
 			return usr;
 	    }
 		
+		public static User getNew() {
+			usr = null;
+			return usr;
+	    }
+		
 		public static User getInstance(String nom, String prenom,String mail, String mdp, String profil) {
 			if (usr == null) {
 	            usr = new User(nom,prenom, mail, mdp, profil);

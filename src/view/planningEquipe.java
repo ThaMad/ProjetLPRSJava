@@ -174,6 +174,25 @@ public class planningEquipe {
 		btnNewButton.setBounds(314, 189, 144, 21);
 		frame.getContentPane().add(btnNewButton);
 		
+		JButton btnNewButton_1 = new JButton("Retour");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				planning planning = new planning();
+				planning.run();
+			}
+		});
+		btnNewButton_1.setBounds(10, 462, 164, 30);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("New button");
+		btnNewButton_1_1.setBounds(184, 462, 164, 30);
+		frame.getContentPane().add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_2 = new JButton("New button");
+		btnNewButton_1_2.setBounds(358, 462, 164, 30);
+		frame.getContentPane().add(btnNewButton_1_2);
+		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

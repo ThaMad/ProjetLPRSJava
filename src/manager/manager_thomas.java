@@ -46,9 +46,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost:8889/lprs_java?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="root";
+	 	 	 String password="";
 			
 
 	 	 	 try {
@@ -69,7 +69,7 @@ public class manager_thomas {
 }
 	
 	public static void sendMessage(String subject, String text, String destinataire) throws Exception {
-	    // 1 -> Crï¿½ation de la session
+	    // 1 -> Création de la session
 	    Properties properties = new Properties();
 	    properties.setProperty("mail.smtp.auth", "true");
 	    properties.setProperty("mail.smtp.starttls.enable", "true");
@@ -175,6 +175,7 @@ public class manager_thomas {
 		}
 		ResultSet resultat= stm.executeQuery("SELECT mail,profil FROM user WHERE mail =('"+a.getMail()+"') AND mdp =('"+sb.toString()+"')");
 		if (resultat.next()) {
+			System.out.println(resultat.getString("profil"));
 			co = "reussi";
 			if(resultat.getString("profil").equals("Professeur") ){
 				profilprof profilprof = new profilprof();
@@ -433,7 +434,7 @@ public class manager_thomas {
 		 try {
       			java.sql.Statement stm= this.dbh.createStatement();
       			
-				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
       			ResultSet resultat1= stm.executeQuery("SELECT idUser FROM user WHERE nom =('"+s.getProfPrincipale()+"')"); 
     		    if(resultat1.next()) {
     			int idUser = resultat1.getInt("idUser");
@@ -524,7 +525,7 @@ public class manager_thomas {
 			if(insert == 1) {
 				profilprof profilprof = new profilprof();
 				profilprof.run();
-				sendMessage(rdv.getLibelle(), "Bonjour nous vous proposons une rendez vous pour le :"+rdv.getDate()+" ï¿½ "+rdv.getHoraire()+" merci de nous repondre au plus vite de votre disponibilitï¿½.", mailPadre );
+				sendMessage(rdv.getLibelle(), "Bonjour nous vous proposons une rendez vous pour le :"+rdv.getDate()+" à "+rdv.getHoraire()+" merci de nous repondre au plus vite de votre disponibilité.", mailPadre );
 			}
 			else {
 				rendezvous rendezvous = new rendezvous();
@@ -537,5 +538,21 @@ public class manager_thomas {
   	}
 	}
 	
+	
+	public void deconnexion(User u) {
+		this.dbh=  bdd();
+		try {
+  			java.sql.Statement stm= this.dbh.createStatement();
+  		
+			u.getNew();
+			accueil accueil = new accueil();
+			accueil.run();
+			}
+		
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	}
 	
 }

@@ -25,6 +25,7 @@ public class profiladministratif {
 
 	private JFrame frame;
 	private Connection connexion;
+	private User u;
 
 	/**
 	 * Launch the application.
@@ -56,7 +57,7 @@ public class profiladministratif {
 	
 	manager_thomas a = new manager_thomas();
 	connexion =  (Connection) a.bdd();
-	User u = User.getInstanceVide();
+	u = User.getInstanceVide();
 	frame = new JFrame();
 	frame.getContentPane().setBackground(Color.WHITE);
 	frame.getContentPane().setLayout(null);
@@ -161,9 +162,8 @@ public class profiladministratif {
 	JButton btnNewButton = new JButton(icon);
 	btnNewButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			accueil accueil = new accueil();
-			accueil.run();
 			frame.dispose();
+			a.deconnexion(u);
 		}
 	});
 	btnNewButton.setBounds(10, 176, 96, 64);
