@@ -42,4 +42,13 @@ public class Eleve {
 		this.classe = classe;
 	}
 
+
+	public int getIdEleve() {
+		return idEleve;
+	}
+	
+	public void setIdEleve(int idEleve) {
+		this.idEleve=idEleve;
+	}
+
 }

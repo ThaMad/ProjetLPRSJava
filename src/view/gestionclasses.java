@@ -132,8 +132,8 @@ public class gestionclasses {
 		                JTable target = (JTable)me.getSource();
 		                int row = target.getSelectedRow(); // select a row
 		                int idClasse = (int) target.getValueAt(row, 0); // select a column
-		                ArrayList<Eleve> classeSel = manprof.getElevesFromClasse(idClasse);
-		                ClasseDetail classeDetail = new ClasseDetail(classeSel);
+		                String libelleClasse = (String) target.getValueAt(row, 1);
+		                ClasseDetail classeDetail = new ClasseDetail(idClasse, libelleClasse);
 		                ClasseDetail.run();
 		             }
 				}
