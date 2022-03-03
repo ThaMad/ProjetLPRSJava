@@ -59,4 +59,9 @@ public class Manager_prof {
 		return eleves;
 	}
 
+	public Eleve getEleveSanctions(int idEleve) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

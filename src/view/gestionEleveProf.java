@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -33,18 +34,20 @@ import model.Classe;
 import model.Eleve;
 import model.User;
 
-public class ClasseDetail {
+public class gestionEleveProf {
 
-    private static String[] colMedHdr = { "id", "Nom", "Prenom" };
-    private static DefaultTableModel tblModel = new DefaultTableModel(colMedHdr, 0);
+    private static String[] colMedHdr1 = { "idRetard", "Date", "Justificatif" };
+    private static DefaultTableModel tblModelRetard = new DefaultTableModel(colMedHdr1, 0);
+    private static String[] colMedHdr2 = { "idAbsence","libelle", "Du", "Au", "Justificatif" };
+    private static DefaultTableModel tblModelAbsence = new DefaultTableModel(colMedHdr2, 0);
+    private static String[] colMedHdr3 = { "idSanction", "Type","Date", "Commentaires" };
+    private static DefaultTableModel tblModelSanction = new DefaultTableModel(colMedHdr3, 0);
     private Manager_prof manprof = new Manager_prof();
 	private static JFrame frame;
-	private User utilisateurConnecte;
 	private static ArrayList<Eleve> eleves;
-	private JTable table;
+	private JTable tableRetard, tableAbsence, tableSanction;
 	private Connection connexion;
-	private String libelleClasse;
-	private int idClasse;
+	private int idEleve;
 
 
 	/**
@@ -60,17 +63,16 @@ public class ClasseDetail {
 	/**
 	 * Create the application.
 	 */
-	public ClasseDetail(int idClasse, String libelleClasse) {
-		this.idClasse = idClasse;
-		this.libelleClasse = libelleClasse;
-		initialize(idClasse, libelleClasse);
+	public gestionEleveProf(int idEleve) {
+		this.idEleve = idEleve;
+		initialize(idEleve);
 
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(int idClasse, String libelleClasse) {
+	private void initialize(int idEleve) {
 		manager_thomas a = new manager_thomas();
 		Manager_prof manprof = new Manager_prof();
 		connexion = (Connection) a.bdd();
@@ -104,85 +106,91 @@ public class ClasseDetail {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel bienvenue = new JLabel("Eleve de ");
-		bienvenue.setBounds(166, 21, 120, 43);
+		JLabel bienvenue = new JLabel("Absences, sanctions et retards de ");
+		bienvenue.setBounds(6, 6, 537, 43);
 		bienvenue.setForeground(new Color(255, 127, 80));
 		bienvenue.setHorizontalAlignment(SwingConstants.CENTER);
 		bienvenue.setFont(new Font("Heiti SC", Font.BOLD, 27));
 		panel_1.add(bienvenue);
 		
-		JLabel nameclasse = new JLabel(""+libelleClasse+"");
-		nameclasse.setHorizontalAlignment(SwingConstants.CENTER);
-		nameclasse.setForeground(new Color(255, 127, 80));
-		nameclasse.setFont(new Font("Heiti SC", Font.BOLD, 27));
-		nameclasse.setBounds(285, 21, 120, 43);
-		panel_1.add(nameclasse);
+
+		try {
+			java.sql.Statement stm= connexion.createStatement();
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(39, 175, 482, 318);
-		frame.getContentPane().add(scrollPane);
-		
-		/*
-		
-		JButton btnNewButton = new JButton("Ajouter");
-		btnNewButton.setBounds(548, 54, 117, 25);
-		frame.getContentPane().add(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ReservationDetail reservationDetail = new ReservationDetail(utilisateurConnecte,reservation);
-				ReservationDetailForm reservationDetailForm = new ReservationDetailForm(reservationDetail);
-				reservationDetailForm.run();
+			// requete pour recuperer le nom et le prenom de l'eleve
+			ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM eleve WHERE idEleve =('"+idEleve+"')");
+			
+			if(resultat.next()) {
+				JLabel nameeleve = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
+				nameeleve.setHorizontalAlignment(SwingConstants.CENTER);
+				nameeleve.setForeground(new Color(255, 127, 80));
+				nameeleve.setFont(new Font("Heiti SC", Font.BOLD, 23));
+				nameeleve.setBounds(6, 46, 536, 43);
+				panel_1.add(nameeleve);
 			}
-		});
+			
+		} catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
 		
-		*/ 
 		
-		table = new JTable(tblModel){
+		
+		JScrollPane scrollPaneRetard = new JScrollPane();
+		scrollPaneRetard.setBounds(0, 178, 190, 318);
+		frame.getContentPane().add(scrollPaneRetard);
+
+		
+		tableRetard = new JTable(tblModelRetard){
 	         public boolean editCellAt(int row, int column, java.util.EventObject e) {
 	             return false;
 	         }
 	       };
-		table.setFocusable(false);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     // to detect double click events
-	                JTable target = (JTable)me.getSource();
-	                int row = target.getSelectedRow(); // select a row
-	                int idEleve = (int) target.getValueAt(row, 0); // select a column
-	                gestionEleveProf gestionEleveProf = new gestionEleveProf(idEleve);
-	                gestionEleveProf.run();
-	             }
-			}
-		});
-		table.setBounds(0, 0, 286, 219);
-		scrollPane.setViewportView(table);
+		tableRetard.setFocusable(false);
+
+		tableRetard.setBounds(0, 0, 286, 219);
+		scrollPaneRetard.setViewportView(tableRetard);
+		
+		JScrollPane scrollPaneRetard_1 = new JScrollPane();
+		scrollPaneRetard_1.setBounds(202, 178, 192, 318);
+		frame.getContentPane().add(scrollPaneRetard_1);
 	
 		populateTable();
 	}
 	
 	private void populateTable() {
-		tblModel.getDataVector().removeAllElements();
-		ArrayList<Eleve> eleves = manprof.getElevesFromClasse(idClasse);
-		for (Eleve eleve : eleves) {
-			Object[] data = {eleve.getIdEleve(),eleve.getNom(),eleve.getPrenom()};
-			tblModel.addRow(data);
+		tblModelRetard.getDataVector().removeAllElements();
+		ArrayList<Retard> retards = manprof.getRetard(idEleve);
+		for (Retard retard : retards) {
+			Object[] data = {retard.getIdEleve(),retard.getNom(),retard.getPrenom()};
+			tblModelRetard.addRow(data);
+			
+		tblModelRetard.getDataVector().removeAllElements();
+		ArrayList<Retard> retards = manprof.getRetard(idEleve);
+		for (Retard retard : retards) {
+			Object[] data = {retard.getIdEleve(),retard.getNom(),retard.getPrenom()};
+			tblModelRetard.addRow(data);
+		
+		tblModelRetard.getDataVector().removeAllElements();
+		ArrayList<Retard> retards = manprof.getRetard(idEleve);
+		for (Retard retard : retards) {
+			Object[] data = {retard.getIdEleve(),retard.getNom(),retard.getPrenom()};
+			tblModelRetard.addRow(data);
+				
 		}
 		
 	}
 	public void actualiseTableau() {
-		tblModel.getDataVector().removeAllElements();
+		tblModelRetard.getDataVector().removeAllElements();
 		
 		Manager_prof managerProf = new Manager_prof();
-		ArrayList<Eleve> eleves = managerProf.getElevesFromClasse(idClasse);
+		ArrayList<Retard> retards = managerProf.getRetard(idEleve);
 		
-		for (Eleve eleve : eleves) {
-			Object[] data = {eleve.getIdEleve(),eleve.getNom(),eleve.getPrenom()};
-			tblModel.addRow(data);
+		for (Retard retard : retards) {
+			Object[] data = {retard.getIdEleve(),retard.getNom(),retard.getPrenom()};
+			tblModelRetard.addRow(data);
 			
-		tblModel.fireTableDataChanged();
+		tblModelRetard.fireTableDataChanged();
 	}
 	}
-
-
 }
