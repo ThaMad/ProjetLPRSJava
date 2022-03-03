@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 public class info {
 
-	private static String[] colMedHdr = {"id", "Classe", "Nom", "Prenom"};
+	private static String[] colMedHdr = {"id", "Classe", "Nom", "Prenom", "Profil"};
 	private static DefaultTableModel tblModel = new DefaultTableModel(colMedHdr, 0);
 	DefaultTableModel model;
 	private JFrame frame;
@@ -95,11 +95,9 @@ public class info {
 	         }
 	       };
 		table.setFocusable(false);
-		System.out.println("je test");
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				System.out.println("hello !");
 				manager_ryan manRyan = new manager_ryan();
 	            if (me.getClickCount() == 2) {     // to detect double click events
 	                JTable target = (JTable)me.getSource();
@@ -144,7 +142,7 @@ public class info {
 		ArrayList<User> users = manRyan.getUsers();
 		System.out.println(users.size());
 		for (User user : users) {
-			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getPrenom()};
+			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil()};
 			tblModel.addRow(data);
 		}
 		
@@ -156,100 +154,13 @@ public class info {
 		ArrayList<User> users = manRyan.getUsers();
 		
 		for (User user : users) {
-			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getPrenom()};
+			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil()};
 			tblModel.addRow(data);
 		}
 		tblModel.fireTableDataChanged();
         /*ReservationDetailView reservationDetailView = new ReservationDetailView(reservationSel,utilisateurConnecte);
         reservationDetailView.run();*/
 	}
-		
-		/*
-		try {
-			java.sql.Statement stm= connexion.createStatement();
-            Vector data = new Vector();
-            Vector columnsNames = new Vector();
-			// requete pour recuperer les donnees des eleves
-			ResultSet resultat= stm.executeQuery("SELECT idClasse, idEleve, libelle, nom, prenom FROM classe INNER JOIN eleve ON classe.idClasse = eleve.classe");
-		    // Recuperer le titre des colonnes
-            ResultSetMetaData md = (ResultSetMetaData) resultat.getMetaData();
-           
-            // Recuperer le nombre de colonnes
-            int columns = md.getColumnCount();
-				 while (resultat.next())
-                 {
-                     Object nb = resultat.getRow();
-                     Vector row = new Vector(columns);
-                     for (int i = 1; i <= columns; i++)
-                     {
-                             row.addElement( resultat.getString("libelle"));
-                             row.addElement( resultat.getString("nom"));
-                             row.addElement( resultat.getString("prenom"));
-                     }
-                     data.addElement( row );
-					 }
-                 // Tout fermer
-                 columnsNames.addElement("Classe");
-                 columnsNames.addElement("Nom");
-                 columnsNames.addElement("Prenom");
-                 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(70, 91, 410, 323);
-        frame.getContentPane().add(scrollPane);
-                 
-		table = new JTable(data, columnsNames);
-		scrollPane.setViewportView(table);
-		
-		
-		
-		JButton btnNewButton = new JButton("Retour");
-		btnNewButton.setBounds(67, 454, 82, 29);
-		frame.getContentPane().add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Ajouter");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addUser addUser = new addUser();
-				addUser.run();
-			}
-		});
-		btnNewButton_1.setBounds(250, 454, 90, 29);
-		frame.getContentPane().add(btnNewButton_1);
-		
-		
-		
-		JButton btnNewButton_2 = new JButton("Modifier");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				modUser modUser = new modUser();
-				modUser.run();
-			}
-		});
-		btnNewButton_2.setBounds(341, 454, 96, 29);
-		frame.getContentPane().add(btnNewButton_2);
-		
-		JButton btnNewButton_3 = new JButton("Supprimer");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-				java.sql.Statement stm= connexion.createStatement();
-				stm.execute("DELETE classe FROM classe INNER JOIN eleve ON classe.idClasse = eleve.classe WHERE libelle = libelle");
-				
-				}catch(SQLException e1) {
-					e1.printStackTrace();
-					System.out.println("erreur dans la suppression");
-				}
-			}
-		});
-		
-		btnNewButton_3.setBounds(436, 454, 108, 29);
-		frame.getContentPane().add(btnNewButton_3);
-	}catch(SQLException e1) {
-			e1.printStackTrace();
-			System.out.println("erreur dans l'ajout");
-		}
-	}*/
-
 
 	public void run() {
 		try {

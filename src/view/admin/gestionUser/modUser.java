@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ public class modUser {
 	private JTextField nom;
 	private JTextField mail;
 	private JTextField prenom;
+	private String profiluser;
 
 	/**
 	 * Launch the application.
@@ -40,17 +42,19 @@ public class modUser {
 	 * Create the application.
 	 */
 	public modUser(User user) {
-		initialize();
+		initialize(user.getProfil());
 		this.user = user;
 		this.nom.setText(user.getNom());
 		this.prenom.setText(user.getPrenom());
 		this.mail.setText(user.getMail());
+		this.profiluser = user.getProfil();
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String profilutil) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 550, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,26 +92,38 @@ public class modUser {
 		lblNewLabel_3.setBounds(346, 129, 47, 16);
 		frame.getContentPane().add(lblNewLabel_3);
 		
-		JButton btnNewButton = new JButton("Ajouter");
-		btnNewButton.setBounds(375, 422, 90, 29);
-		frame.getContentPane().add(btnNewButton);
-		
-		JRadioButton prof = new JRadioButton("Professeur");
-		prof.setBounds(70, 317, 98, 23);
-		frame.getContentPane().add(prof);
-		
 		JLabel lblNewLabel_5 = new JLabel("Profil");
 		lblNewLabel_5.setBounds(70, 289, 61, 16);
 		frame.getContentPane().add(lblNewLabel_5);
+		 System.out.println(profilutil);
+
+		JRadioButton prof = new JRadioButton("Professeur");
+		if (profilutil.equals("Professeur")) {
+        	prof.setSelected(true);
+        }
+		prof.setBounds(70, 317, 98, 23);
+		frame.getContentPane().add(prof);
+		
+			
 		
 		JRadioButton administratif = new JRadioButton("Administratif");
+		if (profilutil.equals("Administratif")) {
+        	administratif.setSelected(true);
+        }
 		administratif.setBounds(217, 317, 115, 23);
 		frame.getContentPane().add(administratif);
 		
-		ButtonGroup profil = new ButtonGroup();
-        profil.add(prof);
-       profil.add(administratif);
+		 
+			
+		ButtonGroup profiluser = new ButtonGroup();
+        profiluser.add(prof);
+        profiluser.add(administratif);
+        
+        
 		
+        
+        
+    
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Activé le compte");
 		chckbxNewCheckBox.setBounds(70, 380, 137, 23);
 		frame.getContentPane().add(chckbxNewCheckBox);
@@ -128,7 +144,7 @@ public class modUser {
 		
 
 		JButton save = new JButton("Sauvegarder");
-		save.setBounds(22, 202, 176, 25);
+		save.setBounds(346, 422, 117, 29);
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				manager_ryan manRyan= new manager_ryan();
@@ -138,11 +154,11 @@ public class modUser {
 					user.setMail(mail.getText());
 					
 					if(prof.isSelected()) {
-						user.setProfil(prof.getText());
+						user.setProfil("Professeur");
 					}
 					
 					if(administratif.isSelected()) {
-						user.setProfil(administratif.getText());
+						user.setProfil("Administratif");
 					}
 					
 					manRyan.sauvegarder(user);
@@ -158,7 +174,7 @@ public class modUser {
 
 			}
 		});
-		frame.getContentPane().add(btnNewButton);
+		frame.getContentPane().add(save);
 		
 	}
 }

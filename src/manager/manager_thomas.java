@@ -69,7 +69,7 @@ public class manager_thomas {
 }
 	
 	public static void sendMessage(String subject, String text, String destinataire) throws Exception {
-	    // 1 -> Création de la session
+	    // 1 -> Crï¿½ation de la session
 	    Properties properties = new Properties();
 	    properties.setProperty("mail.smtp.auth", "true");
 	    properties.setProperty("mail.smtp.starttls.enable", "true");
@@ -434,7 +434,7 @@ public class manager_thomas {
 		 try {
       			java.sql.Statement stm= this.dbh.createStatement();
       			
-				   // je modifie ma table client dans ma base de données en fonction du mail recuperer
+				   // je modifie ma table client dans ma base de donnï¿½es en fonction du mail recuperer
       			ResultSet resultat1= stm.executeQuery("SELECT idUser FROM user WHERE nom =('"+s.getProfPrincipale()+"')"); 
     		    if(resultat1.next()) {
     			int idUser = resultat1.getInt("idUser");
@@ -525,7 +525,7 @@ public class manager_thomas {
 			if(insert == 1) {
 				profilprof profilprof = new profilprof();
 				profilprof.run();
-				sendMessage(rdv.getLibelle(), "Bonjour nous vous proposons une rendez vous pour le :"+rdv.getDate()+" à "+rdv.getHoraire()+" merci de nous repondre au plus vite de votre disponibilité.", mailPadre );
+				sendMessage(rdv.getLibelle(), "Bonjour nous vous proposons une rendez vous pour le :"+rdv.getDate()+" ï¿½ "+rdv.getHoraire()+" merci de nous repondre au plus vite de votre disponibilitï¿½.", mailPadre );
 			}
 			else {
 				rendezvous rendezvous = new rendezvous();

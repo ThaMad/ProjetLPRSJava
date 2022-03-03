@@ -109,10 +109,13 @@ public class manager_ryan {
 
 	public User sauvegarder(User user) throws SQLException {
 		String sql;
+		this.dbh= manThoms.bdd();
 		PreparedStatement pstm;
+
 		//Update
-		if(user.getIdUser()>0) {
-			sql = "UPDATE `"+table+"` SET `nom`=?,`prenom`=?,`mail`=?, 'profil'=? WHERE idUser=?";
+		try {
+		if(user.getIdUser() > 0) {
+			sql = "UPDATE `"+table+"` SET `nom`=?,`prenom`=?,`mail`=?, profil=? WHERE idUser=?";
 			
 			pstm = dbh.prepareStatement(sql);
 			pstm.setString(1, user.getNom());
@@ -128,6 +131,11 @@ public class manager_ryan {
 			System.out.println("erreur dans la modification");
 
 		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		return user;
 	}
