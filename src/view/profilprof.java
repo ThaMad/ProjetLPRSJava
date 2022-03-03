@@ -92,12 +92,26 @@ public class profilprof {
 	bienvenue.setBounds(129, 0, 284, 43);
 	panel_1.add(bienvenue);
 	
-	JLabel name = new JLabel("S");
-	name.setHorizontalAlignment(SwingConstants.CENTER);
-	name.setForeground(new Color(255, 99, 71));
-	name.setFont(new Font("Heiti TC", Font.BOLD, 23));
-	name.setBounds(6, 42, 536, 43);
-	panel_1.add(name);
+	try {
+		java.sql.Statement stm= connexion.createStatement();
+	
+		// requete pour recuperer le nom et le prenom du professeur
+		ResultSet resultat= stm.executeQuery("SELECT nom,prenom FROM user WHERE mail =('"+u.mail+"')");
+		
+		if(resultat.next()) {
+			JLabel name = new JLabel(""+resultat.getString("nom")+ " "+resultat.getString("prenom"));
+			name.setHorizontalAlignment(SwingConstants.CENTER);
+			name.setForeground(new Color(255, 99, 71));
+			name.setFont(new Font("Heiti SC", Font.BOLD, 23));
+			name.setBounds(6, 46, 536, 43);
+			panel_1.add(name);
+		}
+		
+	} catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+	
 	
 	try {
 		java.sql.Statement stm= connexion.createStatement();
