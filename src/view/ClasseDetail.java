@@ -115,7 +115,7 @@ public class ClasseDetail {
 		nameclasse.setHorizontalAlignment(SwingConstants.CENTER);
 		nameclasse.setForeground(new Color(255, 127, 80));
 		nameclasse.setFont(new Font("Heiti SC", Font.BOLD, 27));
-		nameclasse.setBounds(285, 21, 120, 43);
+		nameclasse.setBounds(279, 21, 120, 43);
 		panel_1.add(nameclasse);
 		
 		JScrollPane scrollPane = new JScrollPane();
