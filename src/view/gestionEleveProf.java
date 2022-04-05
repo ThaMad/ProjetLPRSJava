@@ -276,6 +276,9 @@ public class gestionEleveProf {
 		JButton addAbsence = new JButton("Ajouter une absence");
 		addAbsence.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				addAbsence addAbsence = new addAbsence(idEleve);
+				addAbsence.run();
 			}
 		});
 		addAbsence.setFont(new Font("Heiti SC", Font.PLAIN, 13));

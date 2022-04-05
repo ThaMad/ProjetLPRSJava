@@ -28,19 +28,22 @@ import javax.swing.UIManager;
 import manager.Manager_prof;
 import manager.manager_ryan;
 import manager.manager_thomas;
+import model.Absence;
 import model.Retard;
 import model.User;
 import view.admin.general.info;
 import com.toedter.calendar.JDateChooser;
 
-public class addRetard {
+public class addAbsence{
 
 	private static JFrame frame;
 	private JTextField justificatif;
+	private JTextField libelle;
 	private int idEleve;
 	private Connection connexion;
-	private Retard retard;
+	private Absence absence;
 	private User me;
+	private JTextField textField;
 	
 
 	/**
@@ -52,7 +55,7 @@ public class addRetard {
 	/**
 	 * Create the application.
 	 */
-	public addRetard(int idEleve) {
+	public addAbsence(int idEleve) {
 		this.idEleve = idEleve;
 		initialize(idEleve);
 	}
@@ -95,7 +98,7 @@ public class addRetard {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel addlbl = new JLabel("Ajout d'un retard");
+		JLabel addlbl = new JLabel("Ajout d'une absence");
 		addlbl.setForeground(new Color(255, 127, 80));
 		addlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		addlbl.setFont(new Font("Heiti SC", Font.BOLD, 27));
@@ -104,7 +107,7 @@ public class addRetard {
 		
 		
 		justificatif = new JTextField();
-		justificatif.setBounds(55, 258, 191, 42);
+		justificatif.setBounds(55, 198, 191, 42);
 		frame.getContentPane().add(justificatif);
 		justificatif.setColumns(10);
 		
@@ -112,20 +115,43 @@ public class addRetard {
 		lblNewLabel_1.setForeground(new Color(255, 99, 71));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(55, 206, 83, 26);
+		lblNewLabel_1.setBounds(338, 153, 83, 26);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Date");
+		JLabel lblNewLabel_2 = new JLabel("Date de début");
 		lblNewLabel_2.setForeground(new Color(255, 99, 71));
 		lblNewLabel_2.setBackground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(347, 211, 43, 16);
+		lblNewLabel_2.setBounds(55, 290, 95, 16);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		
-		JDateChooser date = new JDateChooser();
-		date.setBounds(347, 258, 95, 26);
-		frame.getContentPane().add(date);
+		JDateChooser dateD = new JDateChooser();
+		dateD.setBounds(55, 322, 95, 26);
+		frame.getContentPane().add(dateD);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Libelle");
+		lblNewLabel_1_1.setForeground(new Color(255, 99, 71));
+		lblNewLabel_1_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		lblNewLabel_1_1.setBackground(Color.WHITE);
+		lblNewLabel_1_1.setBounds(55, 153, 83, 26);
+		frame.getContentPane().add(lblNewLabel_1_1);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(338, 198, 191, 42);
+		frame.getContentPane().add(textField);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Date de fin");
+		lblNewLabel_2_1.setForeground(new Color(255, 99, 71));
+		lblNewLabel_2_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		lblNewLabel_2_1.setBackground(Color.WHITE);
+		lblNewLabel_2_1.setBounds(338, 290, 95, 16);
+		frame.getContentPane().add(lblNewLabel_2_1);
+		
+		JDateChooser dateF = new JDateChooser();
+		dateF.setBounds(338, 322, 95, 26);
+		frame.getContentPane().add(dateF);
 		
 		
 		JButton btnSave = new JButton("Ajouter");
@@ -133,10 +159,15 @@ public class addRetard {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Manager_prof manprof = new Manager_prof();
-				String justificatifRetard = justificatif.getText();
+				String justificatifAbsence = justificatif.getText();
+				String libelleAbsence = libelle.getText();
+				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date test=date.getDate();
-				String dateRetard = sdf.format(test);
+				Date DateDformaté=dateD.getDate();
+				String dateDAbsence = sdf.format(DateDformaté);
+				
+				Date DateFformaté=dateF.getDate();
+				String dateFAbsence = sdf.format(DateFformaté);
 			
           		///Timestamp dateRetardf = Timestamp.valueOf(dateRetard);
 				
@@ -145,10 +176,10 @@ public class addRetard {
           		System.out.println(prof);
          
           		
-          		if(justificatifRetard !="" && dateRetard != "") {
-          			System.out.println(dateRetard);
-          			retard = new Retard(idEleve,justificatifRetard,dateRetard);
-          			manprof.addRetard(retard,prof);
+          		if(justificatifAbsence !="" && libelleAbsence !="" && dateDAbsence != "" && dateFAbsence != "") {
+          			
+          			absence = new Absence(idEleve,libelleAbsence,justificatifAbsence,dateDAbsence, dateFAbsence);
+          			manprof.addAbsence(absence,prof);
     				frame.dispose();
     				
     				
@@ -160,6 +191,8 @@ public class addRetard {
 		btnSave.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 		btnSave.setBounds(221, 412, 117, 29);
 		frame.getContentPane().add(btnSave);
+		
+		
 		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

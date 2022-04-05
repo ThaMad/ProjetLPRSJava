@@ -17,6 +17,16 @@ public class Absence {
 		this.dateF=dateF;
 	}
 	
+public Absence(int id_eleve,String libelle, String justificatif, String dateD, String dateF) {
+		
+		this.id_eleve = id_eleve;
+		this.libelle=libelle;
+		this.justificatif=justificatif;
+		this.dateD=dateD;
+		this.dateF=dateF;
+	}
+	
+	
 	public int getIdAbsence() {
 		return idAbsence;
 	}

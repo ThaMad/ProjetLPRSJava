@@ -12,6 +12,9 @@ import model.Eleve;
 import model.Retard;
 import model.Sanction;
 import model.User;
+import view.gestionAdministrative;
+import view.gestionEleveAdmin;
+import view.gestionEleveProf;
 
 public class Manager_prof {
 	private Connection dbh;
@@ -384,6 +387,55 @@ public class Manager_prof {
 		
 		
 		return sanction;
+	}
+	
+	public void addRetard(Retard retard,String prof) {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		int idProf = 0;
+		try {
+			java.sql.Statement stm= this.dbh.createStatement();
+
+			ResultSet resultat= stm.executeQuery("SELECT idRetard FROM retard ORDER BY idRetard ASC");
+			int id = 0;
+			while(resultat.next()) {
+				id=resultat.getInt("idRetard");
+				id++;
+			}
+			try {
+				java.sql.Statement stm2= this.dbh.createStatement();
+
+				ResultSet resultat2= stm.executeQuery("SELECT idUser FROM user WHERE mail=('"+prof+"')");
+				while (resultat2.next()) {
+					idProf = resultat2.getInt("idUser");
+				}
+				
+				}
+			
+	  		catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
+
+					System.out.println(retard.getDate());
+			int insert =stm.executeUpdate("INSERT INTO retard VALUES('"+id+"','"+retard.getIdEleve()+"','"+idProf+"','"+retard.getJustificatif()+"','"+retard.getDate()+"')");
+
+			int passagepage = retard.getIdEleve();
+			if(insert == 1) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+			else {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+		    
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+		
 	}
 	
 }

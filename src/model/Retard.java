@@ -1,8 +1,12 @@
 package model;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Retard {
 	public int idRetard, idEleve, idProf;
 	public String justificatif, date;
+	public Date datef;
 	
 
 	public Retard(int idRetard, int idEleve, int idProf, String justificatif, String date) {
@@ -12,7 +16,13 @@ public class Retard {
 		this.justificatif = justificatif;
 		this.date = date;
 	}
-	
+	public Retard(int idEleve, String justificatif, String date) {
+
+		this.idEleve = idEleve;
+
+		this.justificatif = justificatif;
+		this.date = date;
+	}
 	public int getIdRetard() {
 		return idRetard;
 	}
