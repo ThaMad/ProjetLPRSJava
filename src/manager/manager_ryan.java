@@ -140,4 +140,68 @@ public class manager_ryan {
 		return user;
 	}
 	
+	
+	public User supprimer(User user) throws SQLException {
+		String sql;
+		this.dbh= manThoms.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(user.getIdUser() > 0) {
+			
+			//System.out.println(user.getIdUser());
+			
+			sql = "DELETE FROM demande_fournisseur WHERE idUser=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM profclasse WHERE idProf=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM retard WHERE idProf=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM absence WHERE id_prof=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM sanction WHERE idProf=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM rdv WHERE id_prof_principale=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM classe WHERE id_prof_principale=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+			sql = "DELETE FROM demande_stock WHERE id_prof=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+
+			sql = "DELETE FROM`"+table+"` WHERE idUser=?";
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, user.getIdUser());
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("erreur dans la suppression");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
+
+
+	}
 }

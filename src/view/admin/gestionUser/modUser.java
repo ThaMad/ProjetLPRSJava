@@ -47,6 +47,23 @@ public class modUser {
 		this.nom.setText(user.getNom());
 		this.prenom.setText(user.getPrenom());
 		this.mail.setText(user.getMail());
+		
+		JButton suppr = new JButton("Supprimer");
+		suppr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				manager_ryan manRyan= new manager_ryan();
+				try {
+					manRyan.supprimer(user);
+					info.actualiseTableau(user);
+					frame.setVisible(false);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("Erreur dans la suppression");
+					}
+			}
+		});
+		suppr.setBounds(427, 422, 117, 29);
+		frame.getContentPane().add(suppr);
 		this.profiluser = user.getProfil();
 
 	}
@@ -144,7 +161,7 @@ public class modUser {
 		
 
 		JButton save = new JButton("Sauvegarder");
-		save.setBounds(346, 422, 117, 29);
+		save.setBounds(317, 422, 117, 29);
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				manager_ryan manRyan= new manager_ryan();
