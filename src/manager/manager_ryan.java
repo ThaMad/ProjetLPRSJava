@@ -55,6 +55,7 @@ public class manager_ryan {
 			if(insert == 1) {
 				info info = new info();
 				info.run();
+				info.actualiseTableau(a);
 			}
 			else {
 				addUser addUser = new addUser();

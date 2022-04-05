@@ -115,7 +115,6 @@ public class info {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
 				addUser addUser = new addUser();
 				addUser.run();
 			}
@@ -132,6 +131,10 @@ public class info {
 		});
 		btnResume.setBounds(295, 413, 117, 25);
 		frame.getContentPane().add(btnResume);
+		
+		JButton btnNewButton_1 = new JButton("Cliquez ici pour voir les informations concernant le stock");
+		btnNewButton_1.setBounds(71, 472, 406, 29);
+		frame.getContentPane().add(btnNewButton_1);
 		populateTable();
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

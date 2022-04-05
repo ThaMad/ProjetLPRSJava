@@ -112,9 +112,15 @@ public class addUser {
 		administratif.setBounds(355, 345, 115, 23);
 		frame.getContentPane().add(administratif);
 		
+		JRadioButton administrateur = new JRadioButton("Administrateur");
+		administrateur.setBounds(200, 345, 126, 23);
+		frame.getContentPane().add(administrateur);
+		
+		
 		ButtonGroup group = new ButtonGroup();
         group.add(prof);
         group.add(administratif);
+        group.add(administrateur);
 		
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -129,6 +135,9 @@ public class addUser {
           		}
           		if(administratif.isSelected()) {
           			profilUser = administratif.getText();
+          		}
+          		if(administrateur.isSelected()) {
+          			profilUser = administrateur.getText();
           		}
           		
           		
@@ -147,8 +156,7 @@ public class addUser {
 		JButton btnNewButton_1 = new JButton("Retour");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				info info = new info();
-				info.run();
+				frame.dispose();
 			}
 		});
 		btnNewButton_1.setBounds(70, 448, 85, 29);
