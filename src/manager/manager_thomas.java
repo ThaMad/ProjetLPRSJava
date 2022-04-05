@@ -39,6 +39,7 @@ import view.mdpOublier;
 import view.profiladministratif;
 import view.profilprof;
 import view.rendezvous;
+import view.admin.general.info;
 
 public class manager_thomas {
 	
@@ -184,6 +185,10 @@ public class manager_thomas {
 			if(resultat.getString("profil").equals("Administratif")) {
 				profiladministratif profiladministratif = new profiladministratif();
 				profiladministratif.run();
+			}
+			if(resultat.getString("profil").equals("Administrateur")) {
+				info info = new info();
+				info.run();
 			}
 		}
 	}

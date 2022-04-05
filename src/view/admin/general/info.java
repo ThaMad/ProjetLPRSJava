@@ -133,6 +133,7 @@ public class info {
 }
 	
 	private void populateTable() {
+		tblModel.getDataVector().removeAllElements();
 		manager_ryan manRyan = new manager_ryan();
 		ArrayList<User> users = manRyan.getUsers();
 		System.out.println(users.size());
