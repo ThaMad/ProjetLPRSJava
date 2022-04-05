@@ -52,6 +52,19 @@ public class modsuppRetard {
 		this.justificatif.setText(retard.getJustificatif());
 		this.date.setText(retard.getDate());
 		
+		JButton btnReturn = new JButton("Retour");
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(retardSel.getIdEleve());
+				gestionEleveProf.run();
+			}
+		});
+		btnReturn.setForeground(Color.RED);
+		btnReturn.setFont(new Font("Heiti SC", Font.BOLD | Font.ITALIC, 13));
+		btnReturn.setBackground(Color.WHITE);
+		btnReturn.setBounds(21, 459, 117, 36);
+		frame.getContentPane().add(btnReturn);
+		
 		
 	}
 

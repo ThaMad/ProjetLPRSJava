@@ -66,6 +66,19 @@ public class modsuppAbsence {
 		lblNewLabel_1_1_1.setBackground(Color.WHITE);
 		lblNewLabel_1_1_1.setBounds(335, 178, 181, 26);
 		frame.getContentPane().add(lblNewLabel_1_1_1);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(absence.getId_eleve());
+				gestionEleveProf.run();
+			}
+		});
+		btnRetour.setForeground(Color.RED);
+		btnRetour.setFont(new Font("Heiti SC", Font.BOLD | Font.ITALIC, 13));
+		btnRetour.setBackground(Color.WHITE);
+		btnRetour.setBounds(19, 459, 117, 36);
+		frame.getContentPane().add(btnRetour);
 	}
 
 	/**
@@ -205,6 +218,7 @@ public class modsuppAbsence {
 		btnDelete.setFont(new Font("Heiti SC", Font.BOLD | Font.ITALIC, 13));
 		btnDelete.setBounds(221, 459, 117, 36);
 		frame.getContentPane().add(btnDelete);
+		
 
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

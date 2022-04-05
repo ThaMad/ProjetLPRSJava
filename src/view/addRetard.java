@@ -161,6 +161,19 @@ public class addRetard {
 		btnSave.setBounds(221, 412, 117, 29);
 		frame.getContentPane().add(btnSave);
 		
+		JButton btnreturn = new JButton("Retour");
+		btnreturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(idEleve);
+				gestionEleveProf.run();
+			}
+		});
+		btnreturn.setForeground(new Color(255, 0, 0));
+		btnreturn.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		btnreturn.setBackground(Color.WHITE);
+		btnreturn.setBounds(6, 465, 117, 29);
+		frame.getContentPane().add(btnreturn);
+		
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	

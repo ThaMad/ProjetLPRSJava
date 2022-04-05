@@ -15,6 +15,16 @@ public class Sanction {
 		this.commentaire=commentaire;
 		this.date=date;
 	}
+	
+public Sanction(int idType,String commentaire,int idEleve, String date) {
+		
+
+		this.idType=idType;
+		this.commentaire=commentaire;
+		this.idEleve=idEleve;
+		this.date=date;
+	}
+
 	public int getIdSanction() {
 		return idSanction;
 	}

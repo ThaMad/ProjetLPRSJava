@@ -30,18 +30,18 @@ import manager.manager_ryan;
 import manager.manager_thomas;
 import model.Absence;
 import model.Retard;
+import model.Sanction;
 import model.User;
 import view.admin.general.info;
 import com.toedter.calendar.JDateChooser;
 
-public class addAbsence{
+public class addSanction{
 
 	private static JFrame frame;
-	private JTextField justificatif;
-	private JTextField libelle;
+	private JTextField commentaire;
 	private int idEleve;
 	private Connection connexion;
-	private Absence absence;
+	private Sanction sanction;
 	private User me;
 	private JTextField textField;
 	
@@ -55,7 +55,7 @@ public class addAbsence{
 	/**
 	 * Create the application.
 	 */
-	public addAbsence(int idEleve) {
+	public addSanction(int idEleve) {
 		this.idEleve = idEleve;
 		initialize(idEleve);
 	}
@@ -98,7 +98,7 @@ public class addAbsence{
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel addlbl = new JLabel("Ajout d'une absence");
+		JLabel addlbl = new JLabel("Ajout d'une sanction");
 		addlbl.setForeground(new Color(255, 127, 80));
 		addlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		addlbl.setFont(new Font("Heiti SC", Font.BOLD, 27));
@@ -106,52 +106,67 @@ public class addAbsence{
 		panel_1.add(addlbl);
 		
 		
-		justificatif = new JTextField();
-		justificatif.setBounds(55, 198, 191, 42);
-		frame.getContentPane().add(justificatif);
-		justificatif.setColumns(10);
+		commentaire = new JTextField();
+		commentaire.setBounds(55, 198, 191, 42);
+		frame.getContentPane().add(commentaire);
+		commentaire.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Justificatif");
+		JLabel lblNewLabel_1 = new JLabel("Commentaire");
 		lblNewLabel_1.setForeground(new Color(255, 99, 71));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(338, 153, 83, 26);
+		lblNewLabel_1.setBounds(55, 160, 169, 26);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Date de début");
+		JLabel lblNewLabel_2 = new JLabel("Date");
 		lblNewLabel_2.setForeground(new Color(255, 99, 71));
 		lblNewLabel_2.setBackground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(55, 290, 95, 16);
+		lblNewLabel_2.setBounds(351, 165, 95, 16);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		
-		JDateChooser dateD = new JDateChooser();
-		dateD.setBounds(55, 322, 95, 26);
-		frame.getContentPane().add(dateD);
+		JDateChooser date = new JDateChooser();
+		date.setBounds(351, 202, 95, 26);
+		frame.getContentPane().add(date);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Libelle");
-		lblNewLabel_1_1.setForeground(new Color(255, 99, 71));
-		lblNewLabel_1_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_1_1.setBackground(Color.WHITE);
-		lblNewLabel_1_1.setBounds(55, 153, 83, 26);
-		frame.getContentPane().add(lblNewLabel_1_1);
+		JRadioButton mot = new JRadioButton("Mot dans le carnet");
+		mot.setForeground(UIManager.getColor("Button.select"));
+		mot.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		mot.setBounds(55, 327, 169, 23);
+		frame.getContentPane().add(mot);
 		
-		libelle = new JTextField();
-		libelle.setColumns(10);
-		libelle.setBounds(338, 198, 191, 42);
-		frame.getContentPane().add(textField);
+		JLabel lblNewLabel_5 = new JLabel("Type de sanction");
+		lblNewLabel_5.setForeground(new Color(255, 99, 71));
+		lblNewLabel_5.setBackground(Color.WHITE);
+		lblNewLabel_5.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		lblNewLabel_5.setBounds(55, 285, 132, 16);
+		frame.getContentPane().add(lblNewLabel_5);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Date de fin");
-		lblNewLabel_2_1.setForeground(new Color(255, 99, 71));
-		lblNewLabel_2_1.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		lblNewLabel_2_1.setBackground(Color.WHITE);
-		lblNewLabel_2_1.setBounds(338, 290, 95, 16);
-		frame.getContentPane().add(lblNewLabel_2_1);
+		JRadioButton colle = new JRadioButton("Heure de colle");
+		colle.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		colle.setForeground(UIManager.getColor("CheckBox.select"));
+		colle.setBounds(308, 327, 148, 23);
+		frame.getContentPane().add(colle);
 		
-		JDateChooser dateF = new JDateChooser();
-		dateF.setBounds(338, 322, 95, 26);
-		frame.getContentPane().add(dateF);
+		JRadioButton exclucour = new JRadioButton("Exclusion de cours");
+		exclucour.setForeground(UIManager.getColor("CheckBox.select"));
+		exclucour.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		exclucour.setBounds(55, 378, 214, 23);
+		frame.getContentPane().add(exclucour);
+		
+		JRadioButton excluecole = new JRadioButton("Exclusion de l'école");
+		excluecole.setForeground(UIManager.getColor("CheckBox.select"));
+		excluecole.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		excluecole.setBounds(308, 378, 169, 23);
+		frame.getContentPane().add(excluecole);
+		
+		
+		ButtonGroup group = new ButtonGroup();
+        group.add(mot);
+        group.add(colle);
+        group.add(exclucour);
+        group.add(excluecole);
 		
 		
 		JButton btnSave = new JButton("Ajouter");
@@ -159,27 +174,34 @@ public class addAbsence{
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Manager_prof manprof = new Manager_prof();
-				String justificatifAbsence = justificatif.getText();
-				String libelleAbsence = libelle.getText();
+				String CommentaireSanction = commentaire.getText();
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date DateDformaté=dateD.getDate();
-				String dateDAbsence = sdf.format(DateDformaté);
-				
-				Date DateFformaté=dateF.getDate();
-				String dateFAbsence = sdf.format(DateFformaté);
-			
-          		///Timestamp dateRetardf = Timestamp.valueOf(dateRetard);
-				
+				Date Dateformaté=date.getDate();
+				String dateAbsence = sdf.format(Dateformaté);
           		
           		String prof= me.mail;
           		System.out.println(prof);
          
+          		int type = 0;
+          		if(mot.isSelected()) {
+          			type = 1;
+          		}
+          		if(colle.isSelected()) {
+          			type=2;
+          		}
+          		if(exclucour.isSelected()) {
+          			type=3;
+          		}
+          		if(excluecole.isSelected()) {
+          			type=4;
+          		} 
           		
-          		if(justificatifAbsence !="" && libelleAbsence !="" && dateDAbsence != "" && dateFAbsence != "") {
+          		
+          		if(CommentaireSanction !="" && type !=0) {
           			
-          			absence = new Absence(idEleve,libelleAbsence,justificatifAbsence,dateDAbsence, dateFAbsence);
-          			manprof.addAbsence(absence,prof);
+          			sanction = new Sanction(type,CommentaireSanction,idEleve,dateAbsence);
+          			manprof.addSanction(sanction,prof);
     				frame.dispose();
     				
     				
@@ -189,7 +211,7 @@ public class addAbsence{
 		btnSave.setBackground(Color.WHITE);
 		btnSave.setForeground(new Color(255, 69, 0));
 		btnSave.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		btnSave.setBounds(220, 428, 117, 29);
+		btnSave.setBounds(209, 443, 117, 29);
 		frame.getContentPane().add(btnSave);
 		
 		JButton btnreturn = new JButton("Retour");
@@ -203,7 +225,7 @@ public class addAbsence{
 		btnreturn.setForeground(Color.RED);
 		btnreturn.setFont(new Font("Heiti SC", Font.PLAIN, 13));
 		btnreturn.setBackground(Color.WHITE);
-		btnreturn.setBounds(33, 465, 117, 29);
+		btnreturn.setBounds(29, 475, 117, 29);
 		frame.getContentPane().add(btnreturn);
 		
 		

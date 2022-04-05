@@ -437,5 +437,102 @@ public class Manager_prof {
   	}
 		
 	}
+	public void addAbsence(Absence absence,String prof) {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		int idProf = 0;
+		try {
+			java.sql.Statement stm= this.dbh.createStatement();
+
+			ResultSet resultat= stm.executeQuery("SELECT idAbsence FROM absence ORDER BY idAbsence ASC");
+			int id = 0;
+			while(resultat.next()) {
+				id=resultat.getInt("idAbsence");
+				id++;
+			}
+			try {
+				java.sql.Statement stm2= this.dbh.createStatement();
+
+				ResultSet resultat2= stm.executeQuery("SELECT idUser FROM user WHERE mail=('"+prof+"')");
+				while (resultat2.next()) {
+					idProf = resultat2.getInt("idUser");
+				}
+				
+				}
+			
+	  		catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
+
+			
+			int insert =stm.executeUpdate("INSERT INTO absence VALUES('"+id+"','"+absence.getLibelle()+"','"+absence.getJustificatif()+"','"+absence.getId_eleve()+"','"+idProf+"','"+absence.getDateF()+"','"+absence.getDateD()+"')");
+
+			int passagepage = absence.getId_eleve();
+			if(insert == 1) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+			else {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+		    
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+		
+	}
+	
+	public void addSanction(Sanction sanction,String prof) {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		int idProf = 0;
+		try {
+			java.sql.Statement stm= this.dbh.createStatement();
+
+			ResultSet resultat= stm.executeQuery("SELECT idSanction FROM sanction ORDER BY idSanction ASC");
+			int id = 0;
+			while(resultat.next()) {
+				id=resultat.getInt("idSanction");
+				id++;
+			}
+			try {
+				java.sql.Statement stm2= this.dbh.createStatement();
+
+				ResultSet resultat2= stm.executeQuery("SELECT idUser FROM user WHERE mail=('"+prof+"')");
+				while (resultat2.next()) {
+					idProf = resultat2.getInt("idUser");
+				}
+				
+				}
+			
+	  		catch(SQLException e1) {
+	  			e1.printStackTrace();
+	  			System.out.println("erreur dans l'ajout");	
+	  	}
+
+			
+			int insert =stm.executeUpdate("INSERT INTO sanction VALUES('"+id+"','"+sanction.getIdType()+"','"+sanction.getCommentaire()+"','"+sanction.getIdEleve()+"','"+idProf+"','"+sanction.getDate()+"')");
+
+			int passagepage = sanction.getIdEleve();
+			if(insert == 1) {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+			else {
+				gestionEleveProf gestionEleveProf = new gestionEleveProf(passagepage);
+				gestionEleveProf.run();
+			}
+		    
+  		  }
+  		catch(SQLException e1) {
+  			e1.printStackTrace();
+  			System.out.println("erreur dans l'ajout");	
+  	}
+		
+	}
 	
 }

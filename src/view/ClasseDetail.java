@@ -157,7 +157,20 @@ public class ClasseDetail {
 		});
 		table.setBounds(0, 0, 286, 219);
 		scrollPane.setViewportView(table);
-	
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gestionclasses gestionclasses = new gestionclasses();
+				gestionclasses.run();
+			}
+		});
+		btnRetour.setForeground(Color.RED);
+		btnRetour.setFont(new Font("Heiti SC", Font.PLAIN, 10));
+		btnRetour.setBackground(Color.WHITE);
+		btnRetour.setBounds(6, 493, 70, 29);
+		frame.getContentPane().add(btnRetour);
+		tblModel.getDataVector().removeAllElements();
 		populateTable();
 	}
 	

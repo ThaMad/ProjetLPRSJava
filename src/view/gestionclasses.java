@@ -99,7 +99,7 @@ public class gestionclasses {
 			panel_1.setForeground(Color.WHITE);
 			panel_1.setBorder(null);
 			panel_1.setBackground(Color.WHITE);
-			panel_1.setBounds(0, 71, 560, 95);
+			panel_1.setBounds(0, 71, 560, 74);
 			frame.getContentPane().add(panel_1);
 			panel_1.setLayout(null);
 			
@@ -141,17 +141,20 @@ public class gestionclasses {
 			table.setBounds(0, 0, 286, 219);
 			scrollPane.setViewportView(table);
 			
-			JButton btnNewButton = new JButton("Ajouter");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					/*Reservation reservation = new Reservation(utilisateurConnecte);
-					ReservationForm reservationForm = new ReservationForm(reservation);
-					reservationForm.run();*/
+			JButton btnRetour = new JButton("Retour");
+			btnRetour.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					profilprof profilprof = new profilprof();
+					profilprof.run();
 				}
 			});
-			btnNewButton.setBounds(529, 81, 117, 25);
-			frame.getContentPane().add(btnNewButton);
+			btnRetour.setForeground(Color.RED);
+			btnRetour.setFont(new Font("Heiti SC", Font.PLAIN, 10));
+			btnRetour.setBackground(Color.WHITE);
+			btnRetour.setBounds(241, 151, 70, 29);
+			frame.getContentPane().add(btnRetour);
 			
+			tblModel.getDataVector().removeAllElements();
 			populateTable();
 			frame.setBounds(100, 100, 549, 550);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

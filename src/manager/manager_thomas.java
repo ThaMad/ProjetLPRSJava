@@ -47,9 +47,9 @@ public class manager_thomas {
 	
 	public Connection bdd(){
 	 	 this.dbh = null;
-	 	     String url="jdbc:mysql://localhost:8889/java_lprs?serverTimezone=UTC";
+	 	     String url="jdbc:mysql://localhost/lprs_java?serverTimezone=UTC";
 	 	 	 String user="root";
-	 	 	 String password="root";
+	 	 	 String password="";
 			
 
 	 	 	 try {

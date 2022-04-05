@@ -259,46 +259,54 @@ public class gestionEleveProf {
 		lblSanctions.setBounds(486, 143, 243, 36);
 		frame.getContentPane().add(lblSanctions);
 
-		JButton addRetard = new JButton("Ajouter un retard");
-		addRetard.addActionListener(new ActionListener() {
+		JButton addRetardbutton = new JButton("Ajouter un retard");
+		addRetardbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				addRetard addRetard = new addRetard(idEleve);
 				addRetard.run();	
 			}
 		});
-		addRetard.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		addRetard.setForeground(UIManager.getColor("CheckBox.select"));
-		addRetard.setBackground(new Color(255, 255, 255));
-		addRetard.setBounds(43, 464, 160, 29);
-		frame.getContentPane().add(addRetard);
+		addRetardbutton.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		addRetardbutton.setForeground(UIManager.getColor("CheckBox.select"));
+		addRetardbutton.setBackground(new Color(255, 255, 255));
+		addRetardbutton.setBounds(43, 464, 160, 29);
+		frame.getContentPane().add(addRetardbutton);
 
-		JButton addAbsence = new JButton("Ajouter une absence");
-		addAbsence.addActionListener(new ActionListener() {
+		JButton addAbsencebutton = new JButton("Ajouter une absence");
+		addAbsencebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				addAbsence addAbsence = new addAbsence(idEleve);
 				addAbsence.run();
 			}
 		});
-		addAbsence.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		addAbsence.setForeground(UIManager.getColor("Button.select"));
-		addAbsence.setBackground(Color.WHITE);
-		addAbsence.setBounds(297, 464, 160, 29);
-		frame.getContentPane().add(addAbsence);
+		addAbsencebutton.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		addAbsencebutton.setForeground(UIManager.getColor("Button.select"));
+		addAbsencebutton.setBackground(Color.WHITE);
+		addAbsencebutton.setBounds(297, 464, 160, 29);
+		frame.getContentPane().add(addAbsencebutton);
 
-		JButton addSanction = new JButton("Ajouter une sanction");
-		addSanction.addActionListener(new ActionListener() {
+		JButton addSanctionbutton = new JButton("Ajouter une sanction");
+		addSanctionbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				addSanction addSanction = new addSanction(idEleve);
+				addSanction.run();
 			}
 		});
-		addSanction.setFont(new Font("Heiti SC", Font.PLAIN, 13));
-		addSanction.setForeground(UIManager.getColor("Button.select"));
-		addSanction.setBackground(Color.WHITE);
-		addSanction.setBounds(540, 464, 160, 29);
-		frame.getContentPane().add(addSanction);
+		addSanctionbutton.setFont(new Font("Heiti SC", Font.PLAIN, 13));
+		addSanctionbutton.setForeground(UIManager.getColor("Button.select"));
+		addSanctionbutton.setBackground(Color.WHITE);
+		addSanctionbutton.setBounds(540, 464, 160, 29);
+		frame.getContentPane().add(addSanctionbutton);
 
 		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				gestionclasses gestionclasses = new gestionclasses();
+				gestionclasses.run();
+			}
+		});
 		btnRetour.setForeground(UIManager.getColor("InternalFrame.borderShadow"));
 		btnRetour.setFont(new Font("Heiti SC", Font.PLAIN, 10));
 		btnRetour.setBackground(Color.WHITE);
@@ -308,7 +316,9 @@ public class gestionEleveProf {
 
 
 		// On remplit les trois table avec la fonction populateTable definie après. 
-
+		tblModelRetard.getDataVector().removeAllElements();
+		tblModelAbsence.getDataVector().removeAllElements();
+		tblModelSanction.getDataVector().removeAllElements();
 		populateTable();
 	}
 
