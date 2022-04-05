@@ -1,6 +1,7 @@
 package model;
 
 public class Stock {
+	public int idStock;
 	public String libelle;
 	public int nbrStock;
 	private static Stock stck;
@@ -26,8 +27,18 @@ public class Stock {
 		this.nbrStock= nbrStock;
 	}
 	
+	public Stock(int idStock, String libelle,int nbrStock) {
+		this.idStock=idStock;
+		this.libelle=libelle;
+		this.nbrStock= nbrStock;
+	}
+	
 	public Stock() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public int getIdStock() {
+		return this.idStock=idStock;
 	}
 
 	public String getLibelle() {
@@ -38,6 +49,10 @@ public class Stock {
 		return this.nbrStock;
 	}
 	
+	public void setIdStock(int idStock) {
+		this.idStock = idStock;
+	}
+	
 	public void setLibelle(String libelle) {
 		this.libelle=libelle;
 	}
@@ -45,4 +60,5 @@ public class Stock {
 	public void setNbrStock(int nbrStock) {
 		this.nbrStock=nbrStock;
 	}
+	
 }

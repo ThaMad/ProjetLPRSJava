@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.Classe;
+import model.Stock;
 import model.User;
 import view.accueil;
 import view.inscription;
@@ -89,6 +90,28 @@ public class manager_ryan {
 		return users;
 	}
 	
+	public ArrayList<Stock> getStocks() {
+		ArrayList<Stock> stocks = new ArrayList<Stock>();
+		Stock stock;
+		this.dbh= manThoms.bdd();
+		String sql = "SELECT * FROM stock";
+		PreparedStatement pstm;
+		try {
+			pstm = this.dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				stock = new Stock(rs.getInt("idStock"), rs.getString("libelle"), rs.getInt("nbrStock"));
+				stocks.add(stock);			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Echec récupération stock");
+			e.printStackTrace();
+		}
+		
+		return stocks;
+	}
+	
 	public User getUser(int idUser) {
 		this.dbh= manThoms.bdd();
 		User user = null;
@@ -107,6 +130,26 @@ public class manager_ryan {
 		
 		return user;
 	}
+	/*
+	public Stock getStock(int idStock) {
+		this.dbh= manThoms.bdd();
+		Stock stock = null;
+		String sql = "SELECT * FROM stock WHERE idStock="+idStock+"";
+		PreparedStatement pstm;
+		try {
+			pstm = dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				stock = new Stock(rs.getInt("idStock"),rs.getString("libelle"),rs.getInt("nbrStock"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return stock;
+	}
+	*/
 
 	public User sauvegarder(User user) throws SQLException {
 		String sql;

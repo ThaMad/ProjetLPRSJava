@@ -80,11 +80,6 @@ public class info {
 		lblNewLabel.setBounds(141, 31, 268, 30);
 		frame.getContentPane().add(lblNewLabel);
 		
-		/* Debut code table modèle de M. Lemoine */
-		
-		
-	    /*private ReservationManager reservationManager = new ReservationManager();*/
-	    
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(33, 83, 482, 318);
 		frame.getContentPane().add(scrollPane);
@@ -112,32 +107,29 @@ public class info {
 		table.setBounds(0, 0, 286, 219);
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton = new JButton("Ajouter");
+		JButton btnNewButton = new JButton("Ajouter un utilisateur");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				addUser addUser = new addUser();
 				addUser.run();
 			}
 		});
-		btnNewButton.setBounds(88, 413, 117, 25);
+		btnNewButton.setBounds(185, 413, 178, 29);
 		frame.getContentPane().add(btnNewButton);
 		
-		JButton btnResume = new JButton("Resume");
-		btnResume.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*ResumeView resumeView = new ResumeView();
-				resumeView.run();*/
-			}
-		});
-		btnResume.setBounds(295, 413, 117, 25);
-		frame.getContentPane().add(btnResume);
-		
 		JButton btnNewButton_1 = new JButton("Cliquez ici pour voir les informations concernant le stock");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stock stock = new stock();
+				stock.run();
+				}
+		});
 		btnNewButton_1.setBounds(71, 472, 406, 29);
 		frame.getContentPane().add(btnNewButton_1);
 		populateTable();
 		frame.setBounds(100, 100, 549, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 }
 	
 	private void populateTable() {
@@ -161,8 +153,6 @@ public class info {
 			tblModel.addRow(data);
 		}
 		tblModel.fireTableDataChanged();
-        /*ReservationDetailView reservationDetailView = new ReservationDetailView(reservationSel,utilisateurConnecte);
-        reservationDetailView.run();*/
 	}
 
 	public void run() {
