@@ -3,7 +3,15 @@ package model;
 public class User {
 // TODO Auto-generated constructor stub
 		public String nom,prenom,mail,profil, mdp, libelle;
-		public int idUser, idClasse;
+		public int idUser, idClasse, active;
+		public int getActive() {
+			return active;
+		}
+
+		public void setActive(int active) {
+			this.active = active;
+		}
+
 		private static User usr;
 		
 		public static User getInstanceVide() {
@@ -41,6 +49,7 @@ public class User {
 			this.profil=profil;
 		}
 		
+		
 		private User(String mail,String mdp) {
 			this.mdp=mdp;
 			this.mail=mail;
@@ -57,12 +66,13 @@ public class User {
 			this.mail=mail;
 		}
 		
-		public User(int idUser, String nom, String prenom, String mail, String profil) {
+		public User(int idUser, String nom, String prenom, String mail, String profil, int active) {
 			this.idUser=idUser;
 			this.nom=nom;
 			this.prenom=prenom;
 			this.mail=mail;
 			this.profil=profil;
+			this.active=active;
 		}
 		
 		private User() {

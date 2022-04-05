@@ -51,7 +51,7 @@ public class manager_ryan {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			int insert =stm.executeUpdate("INSERT INTO user VALUES('"+id+"','"+a.getNom()+"','"+a.getPrenom()+"','"+a.getMail()+"','"+sb.toString()+"','"+a.getProfil()+"','"+0+"')");
+			int insert =stm.executeUpdate("INSERT INTO user VALUES('"+id+"','"+a.getNom()+"','"+a.getPrenom()+"','"+a.getMail()+"','"+sb.toString()+"','"+a.getProfil()+"','"+1+"')");
 			if(insert == 1) {
 				info info = new info();
 				info.run();
@@ -77,7 +77,7 @@ public class manager_ryan {
 			pstm = this.dbh.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
-				user = new User(rs.getInt("idUser"), rs.getString("nom"), rs.getString("prenom"), rs.getString("mail"), rs.getString("profil"));
+				user = new User(rs.getInt("idUser"), rs.getString("nom"), rs.getString("prenom"), rs.getString("mail"), rs.getString("profil"), rs.getInt("active"));
 				users.add(user);			
 			}
 		} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class manager_ryan {
 			pstm = dbh.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
-				user = new User(rs.getInt("idUser"),rs.getString("nom"),rs.getString("prenom"),rs.getString("mail"),rs.getString("profil"));
+				user = new User(rs.getInt("idUser"),rs.getString("nom"),rs.getString("prenom"),rs.getString("mail"),rs.getString("profil"),rs.getInt("active"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -115,14 +115,15 @@ public class manager_ryan {
 		//Update
 		try {
 		if(user.getIdUser() > 0) {
-			sql = "UPDATE `"+table+"` SET `nom`=?,`prenom`=?,`mail`=?, profil=? WHERE idUser=?";
+			sql = "UPDATE `"+table+"` SET `nom`=?,`prenom`=?,`mail`=?, profil=?, active=? WHERE idUser=?";
 			
 			pstm = dbh.prepareStatement(sql);
 			pstm.setString(1, user.getNom());
 			pstm.setString(2, user.getPrenom());
 			pstm.setString(3, user.getMail());
 			pstm.setString(4, user.getProfil());
-			pstm.setInt(5, user.getIdUser());
+			pstm.setInt(5, user.getActive());
+			pstm.setInt(6, user.getIdUser());
 			pstm.executeUpdate();
 		
 		}

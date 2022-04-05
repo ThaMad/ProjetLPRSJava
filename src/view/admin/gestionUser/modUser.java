@@ -30,6 +30,7 @@ public class modUser {
 	private JTextField mail;
 	private JTextField prenom;
 	private String profiluser;
+	private JCheckBox chckbxNewCheckBox;
 
 	/**
 	 * Launch the application.
@@ -48,6 +49,10 @@ public class modUser {
 		this.prenom.setText(user.getPrenom());
 		this.mail.setText(user.getMail());
 		
+		if(user.getActive() == 1) {
+			this.chckbxNewCheckBox.setSelected(true);
+		}
+		
 		JButton suppr = new JButton("Supprimer");
 		suppr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,7 +69,6 @@ public class modUser {
 		});
 		suppr.setBounds(427, 422, 117, 29);
 		frame.getContentPane().add(suppr);
-		this.profiluser = user.getProfil();
 
 	}
 
@@ -127,22 +131,24 @@ public class modUser {
 		if (profilutil.equals("Administratif")) {
         	administratif.setSelected(true);
         }
-		administratif.setBounds(217, 317, 115, 23);
+		administratif.setBounds(203, 317, 115, 23);
 		frame.getContentPane().add(administratif);
 		
-		 
+		JRadioButton administrateur = new JRadioButton("Administrateur");
+		if (profilutil.equals("Administrateur")) {
+        	administrateur.setSelected(true);
+        }
+		administrateur.setBounds(346, 317, 126, 23);
+		frame.getContentPane().add(administrateur);
 			
 		ButtonGroup profiluser = new ButtonGroup();
         profiluser.add(prof);
         profiluser.add(administratif);
-        
-        
-		
-        
+        profiluser.add(administrateur);
         
     
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Activé le compte");
-		chckbxNewCheckBox.setBounds(70, 380, 137, 23);
+		chckbxNewCheckBox = new JCheckBox("Activer le compte");
+		chckbxNewCheckBox.setBounds(70, 380, 142, 23);
 		frame.getContentPane().add(chckbxNewCheckBox);
 		
 		JLabel lblNewLabel_4 = new JLabel("Activation compte");
@@ -152,8 +158,8 @@ public class modUser {
 		JButton Return = new JButton("Retour");
 		Return.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				info info = new info();
-				info.run();
+				info.actualiseTableau(user);
+				frame.setVisible(false);
 			}
 		});
 		Return.setBounds(70, 422, 85, 29);
@@ -176,6 +182,14 @@ public class modUser {
 					
 					if(administratif.isSelected()) {
 						user.setProfil("Administratif");
+					}
+					
+					if(administrateur.isSelected()) {
+						user.setProfil("Administrateur");
+					}
+					
+					if(chckbxNewCheckBox.isSelected()) {
+						user.setActive(1);
 					}
 					
 					manRyan.sauvegarder(user);

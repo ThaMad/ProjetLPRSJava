@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 public class info {
 
-	private static String[] colMedHdr = {"id", "Classe", "Nom", "Prenom", "Profil"};
+	private static String[] colMedHdr = {"id", "Classe", "Nom", "Prenom", "Profil", "Active"};
 	private static DefaultTableModel tblModel = new DefaultTableModel(colMedHdr, 0);
 	DefaultTableModel model;
 	private JFrame frame;
@@ -115,9 +115,9 @@ public class info {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*Reservation reservation = new Reservation(utilisateurConnecte);
-				ReservationForm reservationForm = new ReservationForm(reservation);
-				reservationForm.run();*/
+				frame.dispose();
+				addUser addUser = new addUser();
+				addUser.run();
 			}
 		});
 		btnNewButton.setBounds(88, 413, 117, 25);
@@ -142,7 +142,7 @@ public class info {
 		ArrayList<User> users = manRyan.getUsers();
 		System.out.println(users.size());
 		for (User user : users) {
-			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil()};
+			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil(),user.getActive()};
 			tblModel.addRow(data);
 		}
 		
@@ -154,7 +154,7 @@ public class info {
 		ArrayList<User> users = manRyan.getUsers();
 		
 		for (User user : users) {
-			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil()};
+			Object[] data = {user.getIdUser(),user.getNom(),user.getPrenom(),user.getMail(),user.getProfil(),user.getActive()};
 			tblModel.addRow(data);
 		}
 		tblModel.fireTableDataChanged();

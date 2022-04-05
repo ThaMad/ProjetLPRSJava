@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class addUser {
 
@@ -104,19 +105,14 @@ public class addUser {
 		frame.getContentPane().add(prof);
 		
 		JLabel lblNewLabel_5 = new JLabel("Profil");
-		lblNewLabel_5.setBounds(70, 317, 61, 16);
+		lblNewLabel_5.setBounds(70, 317, 33, 16);
 		frame.getContentPane().add(lblNewLabel_5);
-		
-		JRadioButton profP = new JRadioButton("Professeur principal");
-		profP.setBounds(180, 345, 157, 23);
-		frame.getContentPane().add(profP);
 		
 		JRadioButton administratif = new JRadioButton("Administratif");
 		administratif.setBounds(355, 345, 115, 23);
 		frame.getContentPane().add(administratif);
 		
 		ButtonGroup group = new ButtonGroup();
-        group.add(profP);
         group.add(prof);
         group.add(administratif);
 		
@@ -128,15 +124,14 @@ public class addUser {
           		String mailUser = mail.getText();
           		String mdpUser = mdp.getText();
           		String profilUser = "";
-          		if(profP.isSelected()) {
-          			profilUser = profP.getText();
-          		}
           		if(prof.isSelected()) {
           			profilUser = prof.getText();
           		}
           		if(administratif.isSelected()) {
           			profilUser = administratif.getText();
           		}
+          		
+          		
           		
           		if(prenomUser !="" && nomUser != "" && mailUser != "" && mdpUser != "" && profilUser != "") {
           			User user = User.getInstance(prenomUser, nomUser, mailUser, mdpUser, profilUser);
@@ -146,7 +141,7 @@ public class addUser {
           		}
 			}
 		});
-		btnNewButton.setBounds(386, 422, 90, 29);
+		btnNewButton.setBounds(386, 448, 90, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Retour");
@@ -156,8 +151,16 @@ public class addUser {
 				info.run();
 			}
 		});
-		btnNewButton_1.setBounds(70, 422, 85, 29);
+		btnNewButton_1.setBounds(70, 448, 85, 29);
 		frame.getContentPane().add(btnNewButton_1);
+		
+		JCheckBox toggleAccount = new JCheckBox("Activer le compte");
+		toggleAccount.setBounds(70, 413, 142, 23);
+		frame.getContentPane().add(toggleAccount);
+		
+		JLabel lblNewLabel_6 = new JLabel("Voulez-vous activer le compte?");
+		lblNewLabel_6.setBounds(70, 389, 197, 16);
+		frame.getContentPane().add(lblNewLabel_6);
 		
 	}
 
