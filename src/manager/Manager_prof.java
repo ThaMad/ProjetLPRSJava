@@ -65,7 +65,7 @@ public class Manager_prof {
 	}
 
 	
-	public ArrayList<Retard> getRetard(int idEleve) {
+	public ArrayList<Retard> getRetards(int idEleve) {
 		ArrayList<Retard> retards = new ArrayList<Retard>();
 		Retard retard;
 		this.dbh= managerthomas.bdd();
@@ -87,7 +87,7 @@ public class Manager_prof {
 		return retards;
 	}
 	
-	public ArrayList<Absence> getAbsence(int idEleve) {
+	public ArrayList<Absence> getAbsences(int idEleve) {
 		ArrayList<Absence> absences = new ArrayList<Absence>();
 		Absence absence;
 		this.dbh= managerthomas.bdd();
@@ -109,7 +109,7 @@ public class Manager_prof {
 		return absences;
 	}
 	
-	public ArrayList<Sanction> getSanction(int idEleve) {
+	public ArrayList<Sanction> getSanctions(int idEleve) {
 		ArrayList<Sanction> sanctions = new ArrayList<Sanction>();
 		Sanction sanction;
 		this.dbh= managerthomas.bdd();
@@ -131,6 +131,259 @@ public class Manager_prof {
 		return sanctions;
 	}
 	
+	public Retard getRetard(int idRetard) {
+		this.dbh= managerthomas.bdd();
+		Retard retard = null;
+		String sql = "SELECT * FROM retard WHERE idRetard="+idRetard+"";
+		PreparedStatement pstm;
+		try {
+			pstm = dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				retard = new Retard(rs.getInt("idRetard"),rs.getInt("idEleve"),rs.getInt("idProf"), rs.getString("justificatif"), rs.getString("date"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return retard;
+	}
+
+	
+	public Absence getAbsence(int idAbsence) {
+		this.dbh= managerthomas.bdd();
+		Absence absence = null;
+		String sql = "SELECT * FROM absence WHERE idAbsence="+idAbsence+"";
+		PreparedStatement pstm;
+		try {
+			pstm = dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				absence = new Absence(rs.getInt("idAbsence"),rs.getInt("id_eleve"),rs.getInt("id_prof"),rs.getString("libelle"), rs.getString("justificatif"),rs.getString("dateD"),rs.getString("dateF"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return absence;
+	}
+	
+	
+	public Sanction getSanction(int idSanction) {
+		this.dbh= managerthomas.bdd();
+		Sanction sanction = null;
+		String sql = "SELECT * FROM sanction WHERE idSanction="+idSanction+"";
+		PreparedStatement pstm;
+		try {
+			pstm = dbh.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				sanction = new Sanction(rs.getInt("idSanction"),rs.getInt("idType"),rs.getInt("idEleve"),rs.getInt("idProf"),rs.getString("commentaire"), rs.getString("date"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sanction;
+	}
+
+
+	public Retard sauvegarderRetard(Retard retard) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(retard.getIdRetard() > 0) {
+			sql = "UPDATE `retard` SET `justificatif`=?,`date`=? WHERE idRetard=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setString(1, retard.getJustificatif());
+			pstm.setString(2, retard.getDate());
+			pstm.setInt(3, retard.getIdRetard());
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la modification");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return retard;
+	}
+		
+	public Absence sauvegarderAbsence(Absence absence) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(absence.getIdAbsence() > 0) {
+			sql = "UPDATE `absence` SET `libelle`=?,`dateD`=?,`dateF`=?,`justificatif`=?, WHERE idAbsence=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setString(1, absence.getLibelle());
+			pstm.setString(2, absence.getDateD());
+			pstm.setString(3, absence.getDateF());
+			pstm.setString(4, absence.getJustificatif());
+			pstm.setInt(5, absence.getIdAbsence());
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la modification");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return absence;
+	}
+	
+	public Sanction sauvegarderSanction(Sanction sanction) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(sanction.getIdSanction() > 0) {
+			sql = "UPDATE `sanction` SET `commentaire`=?,date`=?, WHERE idSanction=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setString(1, sanction.getCommentaire());
+			pstm.setString(2, sanction.getDate());
+			pstm.setInt(3, sanction.getIdSanction());
+			
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la modification");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sanction;
+	}
+	
+	
+	
+	public Retard deleteRetard(Retard retard) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(retard.getIdRetard() > 0) {
+			sql = "DELETE FROM `retard` WHERE idRetard=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, retard.getIdRetard());
+
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la suppression");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return retard;
+	}
+	
+	
+	public Absence deleteAbsence(Absence absence) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(absence.getIdAbsence() > 0) {
+			sql = "DELETE FROM `absence` WHERE idAbsence=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, absence.getIdAbsence());
+
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la suppression");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return absence;
+	}
+	
+	public Sanction deleteSanction(Sanction sanction) throws SQLException {
+		String sql;
+		this.dbh= managerthomas.bdd();
+		PreparedStatement pstm;
+
+		//Update
+		try {
+		if(sanction.getIdSanction() > 0) {
+			sql = "DELETE FROM `sanction` WHERE idSanction=?";
+			
+			pstm = dbh.prepareStatement(sql);
+			pstm.setInt(1, sanction.getIdSanction());
+
+		
+			pstm.executeUpdate();
+		
+		}
+		
+		else {
+			System.out.println("Erreur dans la suppression");
+
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sanction;
+	}
 	
 }
